@@ -8,7 +8,7 @@ package Edu.esprit;
 
 /**
  *
- * @author Touch media
+ * @author Elyes
  */
 public class Test {
 
