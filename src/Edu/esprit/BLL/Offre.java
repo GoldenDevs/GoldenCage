@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package Edu.esprit;
+package Edu.esprit.BLL;
 
 /**
  *
  * @author Touch media
  */
-public class TestBranch {
+public class Offre {
     
 }
