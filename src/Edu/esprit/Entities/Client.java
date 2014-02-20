@@ -7,6 +7,7 @@
 package Edu.esprit.Entities;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  *
@@ -14,7 +15,8 @@ import java.sql.Date;
  */
 public class Client extends User{
     private Date dateInscrit;
-
+    private List<Offre>panier;
+    
     public Date getDateInscrit() {
         return dateInscrit;
     }

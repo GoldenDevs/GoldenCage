@@ -10,6 +10,17 @@ package Edu.esprit.Entities;
  *
  * @author Touch media
  */
-public class Administrateur {
+public class Administrateur extends User{
+
+    public Administrateur(String login, String password, String nom, String prenom, String adresse, String email) {
+        super(login, password, nom, prenom, adresse, email);
+    }
+
+    public Administrateur(String login, String password, String email) {
+        super(login, password, email);
+    }
+
+    public Administrateur() {
+    }
     
 }
