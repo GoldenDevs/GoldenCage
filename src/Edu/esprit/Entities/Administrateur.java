@@ -26,5 +26,11 @@ public class Administrateur extends User{
 
     public Administrateur() {
     }
+
+    @Override
+    public String toString() {
+        return "Info Administrateur :\nLogin : "+getLogin()+"\nPassword : "+getPassword()+"\nE-mail : "+getEmail()
+                +"\n\nInfo Personnel :\nNom & Prenom : "+getNom()+" "+getPrenom()+"\nAdresse : "+getAdresse();
+    }
     
 }

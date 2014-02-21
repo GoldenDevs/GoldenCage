@@ -6,6 +6,9 @@
 
 package Edu.esprit.GUI;
 
+import Edu.esprit.DAO.AdministrateurDAO;
+import Edu.esprit.Entities.Administrateur;
+
 /**
  *
  * @author Touch media
@@ -31,8 +34,8 @@ public class Authentification extends javax.swing.JFrame {
         lbl_login = new javax.swing.JLabel();
         lbl_password = new javax.swing.JLabel();
         txtf_login = new javax.swing.JTextField();
-        txtf_password = new javax.swing.JTextField();
         btn_login = new javax.swing.JButton();
+        txtf_password = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -47,6 +50,11 @@ public class Authentification extends javax.swing.JFrame {
         });
 
         btn_login.setText("Login");
+        btn_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_loginActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -63,9 +71,9 @@ public class Authentification extends javax.swing.JFrame {
                         .addComponent(btn_login, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtf_login, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtf_login)
+                            .addComponent(txtf_password, javax.swing.GroupLayout.DEFAULT_SIZE, 145, Short.MAX_VALUE))))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -77,8 +85,8 @@ public class Authentification extends javax.swing.JFrame {
                     .addComponent(lbl_login))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lbl_password))
+                    .addComponent(lbl_password)
+                    .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(btn_login)
                 .addContainerGap(68, Short.MAX_VALUE))
@@ -90,6 +98,21 @@ public class Authentification extends javax.swing.JFrame {
     private void txtf_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_loginActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtf_loginActionPerformed
+
+    private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
+        AdministrateurDAO adminDAO = new AdministrateurDAO();
+        Administrateur admin = new Administrateur();
+        admin=adminDAO.findAdminByLogin(txtf_login.getText());
+        if(admin==null){
+            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password :)"); 
+        }
+        if(admin.getPassword().equals(txtf_password.getText())==false){
+            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password :)"); 
+        }
+        else{
+            javax.swing.JOptionPane.showMessageDialog(null,admin); 
+        }
+    }//GEN-LAST:event_btn_loginActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,12 +148,12 @@ public class Authentification extends javax.swing.JFrame {
             }
         });
     }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_login;
     private javax.swing.JLabel lbl_login;
     private javax.swing.JLabel lbl_password;
     private javax.swing.JTextField txtf_login;
-    private javax.swing.JTextField txtf_password;
+    private javax.swing.JPasswordField txtf_password;
     // End of variables declaration//GEN-END:variables
 }
