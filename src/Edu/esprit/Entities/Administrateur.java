@@ -6,12 +6,16 @@
 
 package Edu.esprit.Entities;
 
+import java.util.Date;
+
 /**
  *
  * @author Touch media
  */
 public class Administrateur extends User{
-
+    
+    private Date last_login;
+    
     public Administrateur(String login, String password, String nom, String prenom, String adresse, String email) {
         super(login, password, nom, prenom, adresse, email);
     }

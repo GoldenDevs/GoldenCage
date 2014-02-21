@@ -6,17 +6,18 @@
 
 package Edu.esprit.tests;
 
+import Edu.esprit.DAO.AdministrateurDAO;
+import Edu.esprit.Entities.Administrateur;
+
 /**
  *
- * @author Elyes
+ * @author Touch media
  */
-public class Test {
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
+public class TestFindLoginAdmin {
     
+    public static void main(String[] args) {
+        
+        AdministrateurDAO adminDAO = new AdministrateurDAO();
+        System.out.println(adminDAO.findAdminByLogin("Elyes"));
+    }
 }
