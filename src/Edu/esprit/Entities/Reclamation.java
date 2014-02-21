@@ -6,10 +6,15 @@
 
 package Edu.esprit.Entities;
 
+import java.util.Date;
+
 /**
  *
  * @author Touch media
  */
 public class Reclamation {
-    
+    private String rec_text;
+    private Date date_rec;
+    private String nomClient;
+    private String offre_rec;
 }
