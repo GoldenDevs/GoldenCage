@@ -17,4 +17,45 @@ public class Reclamation {
     private Date date_rec;
     private String nomClient;
     private String offre_rec;
+
+    public String getRec_text() {
+        return rec_text;
+    }
+
+    public void setRec_text(String rec_text) {
+        this.rec_text = rec_text;
+    }
+
+    public Date getDate_rec() {
+        return date_rec;
+    }
+
+    public void setDate_rec(Date date_rec) {
+        this.date_rec = date_rec;
+    }
+
+    public String getNomClient() {
+        return nomClient;
+    }
+
+    public void setNomClient(String nomClient) {
+        this.nomClient = nomClient;
+    }
+
+    public String getOffre_rec() {
+        return offre_rec;
+    }
+
+    public void setOffre_rec(String offre_rec) {
+        this.offre_rec = offre_rec;
+    }
+
+    public Reclamation(String rec_text, Date date_rec, String nomClient, String offre_rec) {
+        this.rec_text = rec_text;
+        this.date_rec = date_rec;
+        this.nomClient = nomClient;
+        this.offre_rec = offre_rec;
+    }
+    
+    
 }

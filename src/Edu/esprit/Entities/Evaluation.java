@@ -40,6 +40,12 @@ public class Evaluation {
     public void setId_offre(int id_offre) {
         this.id_offre = id_offre;
     }
+
+    public Evaluation(int note, Date dateNote, int id_offre) {
+        this.note = note;
+        this.dateNote = dateNote;
+        this.id_offre = id_offre;
+    }
     
     
 }
