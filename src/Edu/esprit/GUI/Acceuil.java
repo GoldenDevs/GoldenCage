@@ -38,6 +38,9 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gprest = new javax.swing.JPanel();
         pnl_grecl = new javax.swing.JPanel();
         pnl_gstat = new javax.swing.JPanel();
+        pnl_admin_acceuil = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        lbl_lastconn_admin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bienvenu ");
@@ -137,20 +140,53 @@ public class Acceuil extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Statistique", pnl_gstat);
 
+        pnl_admin_acceuil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setText("Nouvelles :");
+
+        javax.swing.GroupLayout pnl_admin_acceuilLayout = new javax.swing.GroupLayout(pnl_admin_acceuil);
+        pnl_admin_acceuil.setLayout(pnl_admin_acceuilLayout);
+        pnl_admin_acceuilLayout.setHorizontalGroup(
+            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(168, Short.MAX_VALUE))
+        );
+        pnl_admin_acceuilLayout.setVerticalGroup(
+            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        lbl_lastconn_admin.setText("Derrnier Connexion :");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(251, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_lastconn_admin)
+                .addGap(114, 114, 114))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(79, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(lbl_lastconn_admin)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jTabbedPane1))
                 .addContainerGap())
         );
 
@@ -200,8 +236,11 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_user_ajout;
     private javax.swing.JButton btn_user_delete;
     private javax.swing.JButton btn_user_modif;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbl_lastconn_admin;
+    private javax.swing.JPanel pnl_admin_acceuil;
     private javax.swing.JPanel pnl_gprest;
     private javax.swing.JPanel pnl_grecl;
     private javax.swing.JPanel pnl_gstat;
