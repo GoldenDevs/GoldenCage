@@ -28,21 +28,138 @@ public class Acceuil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        pnl_gusers = new javax.swing.JPanel();
+        btn_user_ajout = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tab_users = new javax.swing.JTable();
+        btn_user_delete = new javax.swing.JButton();
+        btn_user_modif = new javax.swing.JButton();
+        pnl_gprest = new javax.swing.JPanel();
+        pnl_grecl = new javax.swing.JPanel();
+        pnl_gstat = new javax.swing.JPanel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Bienvenu ");
+
+        btn_user_ajout.setText("Ajouter");
+
+        tab_users.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tab_users);
+
+        btn_user_delete.setText("Supprimer");
+
+        btn_user_modif.setText("Modifier");
+        btn_user_modif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_user_modifActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_gusersLayout = new javax.swing.GroupLayout(pnl_gusers);
+        pnl_gusers.setLayout(pnl_gusersLayout);
+        pnl_gusersLayout.setHorizontalGroup(
+            pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_gusersLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
+                .addContainerGap())
+            .addGroup(pnl_gusersLayout.createSequentialGroup()
+                .addGap(187, 187, 187)
+                .addComponent(btn_user_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_user_delete)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_user_modif, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnl_gusersLayout.setVerticalGroup(
+            pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
+                .addContainerGap(169, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_user_delete)
+                    .addComponent(btn_user_ajout)
+                    .addComponent(btn_user_modif))
+                .addGap(101, 101, 101))
+        );
+
+        jTabbedPane1.addTab("Gestion des utilisateurs", pnl_gusers);
+
+        javax.swing.GroupLayout pnl_gprestLayout = new javax.swing.GroupLayout(pnl_gprest);
+        pnl_gprest.setLayout(pnl_gprestLayout);
+        pnl_gprestLayout.setHorizontalGroup(
+            pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 640, Short.MAX_VALUE)
+        );
+        pnl_gprestLayout.setVerticalGroup(
+            pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Gestions des prestataires", pnl_gprest);
+
+        javax.swing.GroupLayout pnl_greclLayout = new javax.swing.GroupLayout(pnl_grecl);
+        pnl_grecl.setLayout(pnl_greclLayout);
+        pnl_greclLayout.setHorizontalGroup(
+            pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 640, Short.MAX_VALUE)
+        );
+        pnl_greclLayout.setVerticalGroup(
+            pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
+
+        javax.swing.GroupLayout pnl_gstatLayout = new javax.swing.GroupLayout(pnl_gstat);
+        pnl_gstat.setLayout(pnl_gstatLayout);
+        pnl_gstatLayout.setHorizontalGroup(
+            pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 640, Short.MAX_VALUE)
+        );
+        pnl_gstatLayout.setVerticalGroup(
+            pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 452, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Statistique", pnl_gstat);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(251, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(79, Short.MAX_VALUE)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 480, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_user_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_user_modifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_user_modifActionPerformed
 
     /**
      * @param args the command line arguments
@@ -80,5 +197,15 @@ public class Acceuil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_user_ajout;
+    private javax.swing.JButton btn_user_delete;
+    private javax.swing.JButton btn_user_modif;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JPanel pnl_gprest;
+    private javax.swing.JPanel pnl_grecl;
+    private javax.swing.JPanel pnl_gstat;
+    private javax.swing.JPanel pnl_gusers;
+    private javax.swing.JTable tab_users;
     // End of variables declaration//GEN-END:variables
 }
