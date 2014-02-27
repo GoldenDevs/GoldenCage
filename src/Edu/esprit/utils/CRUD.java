@@ -7,9 +7,7 @@
 package Edu.esprit.utils;
 
 import Edu.esprit.Entities.*;
-import com.mysql.jdbc.Connection;
-import edu.esprit.util.*;
-
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,14 +18,14 @@ import java.sql.SQLException;
  * @author Touch media
  */
 public class CRUD {
-    Connection connection=MyConnection.getInstance().getConnection();
+    Connection connection = edu.esprit.utils.MyConnection.getInstance().getConnection();
     
     public static boolean addUser(User a){
         
         String requete1 = "Insert into user(login,password,nom,prenom,email)values(?,?,?,?,?)";
-        
+       
         try {
-            PreparedStatement ps1=connection.prepareStatement(requete1);
+            PreparedStatement ps1 = connection.prepareStatement(requete1);
             ps1.setString(1, a.getLogin());
             ps1.setString(2, a.getPassword());
             ps1.setString(3, a.getNom());

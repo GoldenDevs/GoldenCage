@@ -8,25 +8,25 @@ package Edu.esprit.DAO;
 
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.utils.CRUD;
-import edu.esprit.util.*;
+import edu.esprit.utils.*;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 /**
  *
  * @author Elyes
  */
 public class AdministrateurDAO {
-    
+    Connection connection = MyConnection.getInstance().getConnection();
     public Administrateur findAdminByLogin(String login){
     
      Administrateur admin = new Administrateur();
      String requete = "select * from user where login=?";
         try {
-            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            PreparedStatement ps = connection.prepareStatement(requete);
             ps.setString(1, login);
             ResultSet resultat = ps.executeQuery();
             while (resultat.next())
@@ -54,7 +54,7 @@ public class AdministrateurDAO {
         String requete = "Insert into Administrateur(login)values(?)";
         try {           
             CRUD.addUser(a);
-            PreparedStatement ps2=MyConnection.getInstance().prepareStatement(requete);
+            PreparedStatement ps2=connection.prepareStatement(requete);
             ps2.setString(1, a.getLogin());
             ps2.executeUpdate();
             return true;
@@ -69,7 +69,7 @@ public class AdministrateurDAO {
         String requete="DELETE from Administrateur where login=?";
         
         try {
-            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            PreparedStatement ps=connection.prepareStatement(requete);
             ps.setString(1, a.getLogin());
             ps.executeUpdate();
             CRUD.deleteUser(a);
