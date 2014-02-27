@@ -7,10 +7,13 @@
 package Edu.esprit.DAO;
 
 import Edu.esprit.Entities.Administrateur;
-import edu.esprit.util.MyConnection;
+import Edu.esprit.utils.CRUD;
+import edu.esprit.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -21,7 +24,7 @@ public class AdministrateurDAO {
     public Administrateur findAdminByLogin(String login){
     
      Administrateur admin = new Administrateur();
-     String requete = "select * from Administrateur where login=?";
+     String requete = "select * from user where login=?";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, login);
@@ -42,6 +45,22 @@ public class AdministrateurDAO {
         } catch (SQLException ex) {
             System.out.println("erreur lors de la recherche du Login Administrateur "+ex.getMessage());
             return null;
+        }
+    }
+    
+    public boolean addAdmin(Administrateur a){
+        
+        
+        String requete = "Insert into Administrateur(login)values(?)";
+        try {           
+            CRUD.addUser(a);
+            PreparedStatement ps2=MyConnection.getInstance().prepareStatement(requete);
+            ps2.setString(1, a.getLogin());
+            ps2.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erreur d'ajout administrateur !");
+            return false;
         }
     }
 }
