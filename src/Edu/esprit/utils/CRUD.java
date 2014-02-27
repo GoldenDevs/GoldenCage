@@ -7,9 +7,12 @@
 package Edu.esprit.utils;
 
 import Edu.esprit.Entities.*;
+import edu.esprit.util.MyConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -34,15 +37,25 @@ public class CRUD {
             System.out.println("Ajout avec succes !");
             return true;
         } catch (SQLException ex) {
-            System.out.println("Erreur d'ajout ");
+            System.out.println("Erreur d'ajout "+ex.getMessage());
             return false;
         }
     }
     
     public static boolean deleteUser(User u){
+        String requete="DELETE from user where login=?";
         
-        
-        return false; 
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setString(1, u.getLogin());
+            ps.executeUpdate();
+                System.out.println("Suppression avec Succés !");
+                return true;
+            
+        } catch (SQLException ex) {
+            System.out.println("Erreur de Suppression !"+ex.getMessage());
+            return false;
+        }
     }
     
     public static boolean updateByLogin(User u){

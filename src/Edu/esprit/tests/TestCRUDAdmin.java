@@ -19,7 +19,7 @@ public class TestCRUDAdmin {
         Administrateur a=new Administrateur("Test3", "Test3", "Test3", "Test3", "Test3","Test3");
         AdministrateurDAO adminDAO= new AdministrateurDAO();
         
-        adminDAO.addAdmin(a);
-        
+        //adminDAO.addAdmin(a);
+        adminDAO.deleteAdmin(a);
     }
 }
