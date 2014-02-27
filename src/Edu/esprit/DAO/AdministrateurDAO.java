@@ -18,16 +18,14 @@ import java.sql.SQLException;
  *
  * @author Elyes
  */
-public class AdministrateurDAO {
-    Connection connection = MyConnection.getInstance();
-    
+public class AdministrateurDAO {   
     
     public Administrateur findAdminByLogin(String login){
     
      Administrateur admin = null;
-     String requete = "select * from user where login=?";
+     String requete = "select * from Administrateur where login=?";
         try {
-            PreparedStatement ps = connection.prepareStatement(requete);
+            PreparedStatement ps =MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, login);
             ResultSet resultat = ps.executeQuery();
             if (resultat.next())
@@ -48,7 +46,7 @@ public class AdministrateurDAO {
         String requete = "Insert into Administrateur(login)values(?)";
         try {           
             CRUD.addUser(a);
-            PreparedStatement ps2=connection.prepareStatement(requete);
+            PreparedStatement ps2=MyConnection.getInstance().prepareStatement(requete);
             ps2.setString(1, a.getLogin());
             ps2.executeUpdate();
             return true;
@@ -62,7 +60,7 @@ public class AdministrateurDAO {
         String requete="DELETE from Administrateur where login=?";
         
         try {
-            PreparedStatement ps=connection.prepareStatement(requete);
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, a.getLogin());
             ps.executeUpdate();
             CRUD.deleteUser(a);

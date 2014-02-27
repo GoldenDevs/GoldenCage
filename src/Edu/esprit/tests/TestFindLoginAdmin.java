@@ -18,6 +18,7 @@ public class TestFindLoginAdmin {
     public static void main(String[] args) {
         
         AdministrateurDAO adminDAO = new AdministrateurDAO();
-        System.out.println(adminDAO.findAdminByLogin("Elyes"));
+        Administrateur admin=new Administrateur();
+        admin=adminDAO.findAdminByLogin("Elyes");
     }
 }
