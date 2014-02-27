@@ -8,6 +8,7 @@ package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.Administrateur;
+import Edu.esprit.Entities.User;
 
 /**
  *
@@ -101,7 +102,7 @@ public class Authentification extends javax.swing.JFrame {
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         AdministrateurDAO adminDAO = new AdministrateurDAO();
-        Administrateur admin = new Administrateur();
+        User admin = new User();
         admin=adminDAO.findAdminByLogin(txtf_login.getText());
         if(admin==null){
             javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password :)"); 
