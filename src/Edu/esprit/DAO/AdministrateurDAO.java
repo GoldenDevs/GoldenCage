@@ -7,11 +7,10 @@
 package Edu.esprit.DAO;
 
 import Edu.esprit.Entities.*;
-import Edu.esprit.utils.*;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import Edu.esprit.utils.CRUD;
+import Edu.esprit.utils.MyConnection;
+import java.sql.*;
+
 
 
 /**
