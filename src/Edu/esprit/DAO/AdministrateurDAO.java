@@ -20,7 +20,7 @@ import java.sql.SQLException;
  * @author Elyes
  */
 public class AdministrateurDAO {
-    Connection connection = MyConnection.getInstance().getConnection();
+    Connection connection = MyConnection.getInstance();
     public Administrateur findAdminByLogin(String login){
     
      Administrateur admin = new Administrateur();
