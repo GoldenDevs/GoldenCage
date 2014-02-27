@@ -63,4 +63,28 @@ public class AdministrateurDAO {
             return false;
         }
     }
+    
+    
+    public boolean deleteAdmin(Administrateur a){
+        String requete="DELETE from Administrateur where login=?";
+        
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            ps.setString(1, a.getLogin());
+            ps.executeUpdate();
+            CRUD.deleteUser(a);
+                System.out.println("Suppression avec Succés !");
+                return true;
+            
+        } catch (SQLException ex) {
+            System.out.println("Erreur de Suppression !"+ex.getMessage());
+            return false;
+        }
+    }
+    
+    public boolean updateAdmin(Administrateur a){
+        
+        return false;
+    }
+   
 }
