@@ -61,17 +61,29 @@ public class CRUD {
         return false;
     }
     
-    public static User findUserByLogin(User u){
+    public static User findUserByLogin(String login){
         String requete="Select * from user where login=?";
-        User user=new User();
+        User user=null;
         ResultSet rs=null;
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, u.getLogin());
-            ps.executeQuery();
-            
+            ps.setString(1,login);
+            rs=ps.executeQuery();
+            if (rs.next())
+            {
+                if(rs.getString(1).equals(login)){
+                user.setLogin(login);
+                user.setPassword(rs.getString(2));
+                user.setNom(rs.getString(3));
+                user.setPrenom(rs.getString(4));
+                user.setEmail(rs.getString(5));
+                user.setAdresse(rs.getString(7));
+                }
+                
+            }
             return user;
-        } catch (SQLException ex) {
+            
+            } catch (SQLException ex) {
             System.out.println("Login n'existe pas.\n"+ex.getMessage());
             return null;
         }
