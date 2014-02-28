@@ -8,6 +8,10 @@ package Edu.esprit.GUI;
 
 import javax.swing.JTextField;
 import Edu.esprit.DAO.*;
+import Edu.esprit.Entities.Administrateur;
+import Edu.esprit.utils.CRUD;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
 
 /**
  *
@@ -21,8 +25,11 @@ public class Acceuil extends javax.swing.JFrame {
     
     public Acceuil() {
         initComponents();
+        
+         
          lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.log));
          lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.log);
+         AdministrateurDAO.upateTableAdmins(table_admins);
     }
 
    
@@ -40,7 +47,11 @@ public class Acceuil extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         pnl_gadmins = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        table_admins = new javax.swing.JTable();
+        btn_refresh = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btn_modif = new javax.swing.JButton();
         pnl_gusers = new javax.swing.JPanel();
         btn_user_ajout = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -91,7 +102,7 @@ public class Acceuil extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        table_admins.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -99,26 +110,73 @@ public class Acceuil extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Login", "Password","Nom", "Prenom","Email","Adresse"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        jScrollPane2.setViewportView(table_admins);
+
+        btn_refresh.setText("Actualiser");
+        btn_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refreshActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Supprimer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Ajouter");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        btn_modif.setText("Save");
+        btn_modif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modifActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnl_gadminsLayout = new javax.swing.GroupLayout(pnl_gadmins);
         pnl_gadmins.setLayout(pnl_gadminsLayout);
         pnl_gadminsLayout.setHorizontalGroup(
             pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE))
+                    .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(btn_modif)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         pnl_gadminsLayout.setVerticalGroup(
             pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(btn_modif))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_refresh)
+                .addContainerGap(63, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
@@ -168,8 +226,8 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gusersLayout.setVerticalGroup(
             pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
-                .addContainerGap(219, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_user_delete)
@@ -188,7 +246,7 @@ public class Acceuil extends javax.swing.JFrame {
         );
         pnl_gprestLayout.setVerticalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
@@ -201,7 +259,7 @@ public class Acceuil extends javax.swing.JFrame {
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -214,7 +272,7 @@ public class Acceuil extends javax.swing.JFrame {
         );
         pnl_gstatLayout.setVerticalGroup(
             pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 502, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Statistique", pnl_gstat);
@@ -277,7 +335,7 @@ public class Acceuil extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lbl_bnjr)
                     .addComponent(lbl_lastconn_admin))
-                .addGap(123, 123, 123))
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -317,6 +375,58 @@ public class Acceuil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
+    private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
+        AdministrateurDAO.upateTableAdmins(table_admins);
+    }//GEN-LAST:event_btn_refreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int ligne,colone;
+        
+        ligne=table_admins.getSelectedRow();
+        try{
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_admins.getValueAt(ligne, 0).toString());
+        if (conf==0){
+        if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.log)){
+            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
+        }else{
+        AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+        }
+        }
+        AdministrateurDAO.upateTableAdmins(table_admins);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       AddAdmin admin= new AddAdmin();
+       admin.setTitle("Ajouter Administrateur");
+       admin.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modifActionPerformed
+        String ch;
+        Administrateur admin=new Administrateur();
+        try{
+            
+            admin.setLogin(table_admins.getValueAt(table_admins.getSelectedRow(),0).toString());
+            admin.setPassword(table_admins.getValueAt(table_admins.getSelectedRow(),1).toString());
+            admin.setNom(table_admins.getValueAt(table_admins.getSelectedRow(),2).toString());
+            admin.setPrenom(table_admins.getValueAt(table_admins.getSelectedRow(),3).toString());
+            admin.setEmail(table_admins.getValueAt(table_admins.getSelectedRow(),4).toString());
+            admin.setAdresse(table_admins.getValueAt(table_admins.getSelectedRow(),5).toString());
+            
+            CRUD.updateUserByLogin(admin);
+            AdministrateurDAO.upateTableAdmins(table_admins);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Aucune Modification Effectuer ! ");
+        }
+       
+    }//GEN-LAST:event_btn_modifActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -353,9 +463,13 @@ public class Acceuil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_modif;
+    private javax.swing.JButton btn_refresh;
     private javax.swing.JButton btn_user_ajout;
     private javax.swing.JButton btn_user_delete;
     private javax.swing.JButton btn_user_modif;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
@@ -369,7 +483,6 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JLabel lbl_bnjr;
     private javax.swing.JLabel lbl_lastconn_admin;
     private javax.swing.JPanel pnl_admin_acceuil;
@@ -379,5 +492,6 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JPanel pnl_gstat;
     private javax.swing.JPanel pnl_gusers;
     private javax.swing.JTable tab_users;
+    private javax.swing.JTable table_admins;
     // End of variables declaration//GEN-END:variables
 }

@@ -12,9 +12,13 @@ import Edu.esprit.utils.MyConnection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+import net.proteanit.sql.DbUtils;
 
 
 
@@ -58,7 +62,7 @@ public class AdministrateurDAO {
     return null;
 }
      
-    public boolean addAdmin(Administrateur a){
+    public static boolean addAdmin(Administrateur a){
         
         
         String requete = "Insert into Administrateur(login)values(?)";
@@ -67,6 +71,7 @@ public class AdministrateurDAO {
             PreparedStatement ps2=MyConnection.getInstance().prepareStatement(requete);
             ps2.setString(1, a.getLogin());
             ps2.executeUpdate();
+            updateDateLoginAdmin(a.getLogin());
             return true;
         } catch (SQLException ex) {
             System.out.println("Erreur d'ajout administrateur !");
@@ -74,14 +79,14 @@ public class AdministrateurDAO {
         }
     }
     
-    public boolean deleteAdmin(Administrateur a){
+    public static boolean deleteAdmin(String login){
         String requete="DELETE from Administrateur where login=?";
         
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, a.getLogin());
+            ps.setString(1, login);
             ps.executeUpdate();
-            CRUD.deleteUser(a);
+            CRUD.deleteUser(login);
                 System.out.println("Suppression avec Succés !");
                 return true;
             
@@ -132,6 +137,39 @@ public class AdministrateurDAO {
         admin.setPassword(Password);
         CRUD.updateUserByLogin(admin);
         System.out.println(admin);
+    }
+    
+    public List<User>listUsers(){
+        String requete="Select * from User";
+        ResultSet rs=null;
+        User user=new User();
+        List<User>list=new ArrayList<User>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                user=CRUD.findUserByLogin(rs.getString(1));
+                list.add(user);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    public static void upateTableAdmins(javax.swing.JTable table_admins){
+        
+        String requete="Select * from User";
+        ResultSet rs=null;
+        try{
+        PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+        rs=ps.executeQuery();
+        table_admins.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
     }
     
     

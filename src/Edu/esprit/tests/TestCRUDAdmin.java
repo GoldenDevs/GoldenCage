@@ -19,10 +19,11 @@ import java.util.Date;
 public class TestCRUDAdmin {
     public static void main(String[] args) {
         
-
+        
         AdministrateurDAO adminDAO= new AdministrateurDAO();
-        Administrateur admin=new Administrateur();
-//        adminDAO.addAdmin(a);
+        //Administrateur admin=new Administrateur("test2", "123", "test 2", "tester2", "tester in esprit 2", "test2@PIDev.tn");
+        Administrateur admin=new Administrateur("test3", "123", "test 3", "tester3", "tester in esprit 3", "test3@PIDev.tn");
+        adminDAO.addAdmin(admin);
 //        System.out.println(CRUD.findUserByLogin("Elyes"));
 //        System.out.println(adminDAO.findAdminByLogin("Elyes"));
 //        User user=new User("Test", "Test", "Test@PIDev.tn");
@@ -34,8 +35,7 @@ public class TestCRUDAdmin {
 //        CRUD.updateUserByLogin(user);
 //        System.out.println(CRUD.findUserByLogin(user.getLogin()));
 //        adminDAO.deleteAdmin(a);
-            AdministrateurDAO.updateDateLoginAdmin("Test");
-            AdministrateurDAO.updateDateLoginAdmin("Test2");
+
 
     }
 }

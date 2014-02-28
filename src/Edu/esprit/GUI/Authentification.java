@@ -10,6 +10,7 @@ import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.Entities.User;
 import java.util.Date;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -104,19 +105,19 @@ public class Authentification extends javax.swing.JFrame {
         AdministrateurDAO adminDAO = new AdministrateurDAO();
         Administrateur admin = new Administrateur();
         admin=adminDAO.findAdminByLogin(txtf_login.getText());
+    
         if(admin==null||txtf_password.getText()==null){
-            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
-        }
-        if(admin.getPassword().equals(txtf_password.getText())==false||txtf_password.getText()==null){
-            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
-        }
-        else{
-            
+            JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
+        }else
+        if((admin.getPassword().equals(txtf_password.getText())==false)||txtf_password.getText()==null){
+            JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
+        }else
+        if((admin.getPassword().equals(txtf_password.getText())&&(txtf_login!=null))){
             this.setVisible(false);
             log=txtf_login.getText();
             new Acceuil().setVisible(true);
-            
-        }
+        }   
+        
     }//GEN-LAST:event_btn_loginActionPerformed
 
     /**

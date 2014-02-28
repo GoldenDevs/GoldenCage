@@ -14,6 +14,7 @@ import edu.esprit.utils.*;
 import Edu.esprit.utils.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -23,7 +24,7 @@ public class CRUD {
    
     public static boolean addUser(User a){
         
-        String requete1 = "Insert into user(login,password,nom,prenom,email)values(?,?,?,?,?)";
+        String requete1 = "Insert into user(login,password,nom,prenom,email,adresse)values(?,?,?,?,?,?)";
        
         try {
             PreparedStatement ps1=MyConnection.getInstance().prepareStatement(requete1);
@@ -32,6 +33,7 @@ public class CRUD {
             ps1.setString(3, a.getNom());
             ps1.setString(4, a.getPrenom());
             ps1.setString(5, a.getEmail());
+            ps1.setString(6, a.getAdresse());
             ps1.executeUpdate();
             
             System.out.println("Ajout avec succes !");
@@ -42,12 +44,12 @@ public class CRUD {
         }
     }
     
-    public static boolean deleteUser(User u){
+    public static boolean deleteUser(String login){
         String requete="DELETE from user where login=?";
         
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, u.getLogin());
+            ps.setString(1, login);
             ps.executeUpdate();
                 System.out.println("Suppression avec Succés !");
                 return true;
