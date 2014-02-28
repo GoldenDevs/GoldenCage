@@ -9,7 +9,13 @@ package Edu.esprit.DAO;
 import Edu.esprit.Entities.*;
 import Edu.esprit.utils.CRUD;
 import Edu.esprit.utils.MyConnection;
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import java.util.Date;
+import java.util.logging.Logger;
+
 
 
 
@@ -19,24 +25,37 @@ import java.sql.*;
  */
 public class AdministrateurDAO {   
     
-    public Administrateur findAdminByLogin(String login){
-    
-     Administrateur admin = null;
+    public static Administrateur findAdminByLogin(String login){
+     User user=new User();
+     if((user=CRUD.findUserByLogin(login))!=null){
+         
+     Administrateur admin = new Administrateur();
      String requete = "select * from Administrateur where login=?";
+     ResultSet rs;
         try {
-            PreparedStatement ps =MyConnection.getInstance().prepareStatement(requete);
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, login);
-            ResultSet resultat = ps.executeQuery();
-            if (resultat.next())
-            {
-                admin=(Administrateur)CRUD.findUserByLogin(login);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                if(rs.getString(1).equals(login)){
+                    admin.setLogin(login);
+                    admin.setPassword(user.getPassword());
+                    admin.setNom(user.getNom());
+                    admin.setPrenom(user.getPrenom());
+                    admin.setEmail(user.getEmail());
+                    
+                }
+                
             }
             return admin;
         } catch (SQLException ex) {
-            System.out.println("erreur lors de la recherche du Login Administrateur "+ex.getMessage());
+            
             return null;
         }
-       
+        
+    }
+     
+    return null;
 }
      
     public boolean addAdmin(Administrateur a){
@@ -72,9 +91,48 @@ public class AdministrateurDAO {
         }
     }
     
-    public boolean updateAdmin(Administrateur a){
-        
-        return false;
+    public static boolean updateDateLoginAdmin(String login){
+            
+           String requete="Update Administrateur set last_login=? where login=?";
+           Date date=new Date();
+           java.sql.Date sqlDate= new java.sql.Date(date.getTime());
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            ps.setDate(1, sqlDate);
+            ps.setString(2, login);
+            ps.executeUpdate();
+            return true;
+        } catch (SQLException ex) {
+            System.out.println("Erreur de mise a jour\n"+ex.getMessage());
+            return false;
+        }
     }
    
+    public static String getAdminLastLogin(String login){
+        String requete="Select last_login from Administrateur where login=?";
+        java.sql.Date sqlDate=null;
+         ResultSet rs;
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            ps.setString(1, login);
+            rs=ps.executeQuery();
+            if(rs.next()){
+                sqlDate=rs.getDate(1);
+            }
+            return sqlDate.toString();
+        } catch (SQLException ex) {
+            System.out.println("Erreur de mise a jour\n"+ex.getMessage());
+            return null;
+        }
+    }
+    
+    public static void setAdminPassword(String login,String Password){
+        Administrateur admin=new Administrateur();
+        admin=findAdminByLogin(login);
+        admin.setPassword(Password);
+        CRUD.updateUserByLogin(admin);
+        System.out.println(admin);
+    }
+    
+    
 }

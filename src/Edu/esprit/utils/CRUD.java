@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import edu.esprit.utils.*;
 import Edu.esprit.utils.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -56,32 +58,46 @@ public class CRUD {
         }
     }
     
-    public static boolean updateByLogin(User u){
-        
-        return false;
+    public static boolean updateUserByLogin(User u){
+            String requete="Update user set password=?,nom=?,prenom=?,email=? where login=?";           
+            try {
+                PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+                ps.setString(1, u.getPassword());
+                ps.setString(2, u.getNom());
+                ps.setString(3, u.getPrenom());
+                ps.setString(4, u.getEmail());
+                ps.setString(5, u.getLogin());    
+                ps.executeUpdate();
+                System.out.println("Mise à jour effectuée avec succès !");
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Erreur de Mise a jour !\n"+ex.getMessage());
+                return false;
+            }
     }
     
     public static User findUserByLogin(String login){
         String requete="Select * from user where login=?";
-        User user=null;
+        User user=new User();
         ResultSet rs=null;
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1,login);
             rs=ps.executeQuery();
-            if (rs.next())
+            while (rs.next())
             {
+                
                 if(rs.getString(1).equals(login)){
                 user.setLogin(login);
                 user.setPassword(rs.getString(2));
                 user.setNom(rs.getString(3));
                 user.setPrenom(rs.getString(4));
                 user.setEmail(rs.getString(5));
-                user.setAdresse(rs.getString(7));
+                return user;
                 }
                 
             }
-            return user;
+            return null;
             
             } catch (SQLException ex) {
             System.out.println("Login n'existe pas.\n"+ex.getMessage());

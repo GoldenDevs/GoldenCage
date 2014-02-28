@@ -9,6 +9,7 @@ package Edu.esprit.GUI;
 import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.Entities.User;
+import java.util.Date;
 
 /**
  *
@@ -16,9 +17,7 @@ import Edu.esprit.Entities.User;
  */
 public class Authentification extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Authentification
-     */
+    public static String log;
     public Authentification() {
         initComponents();
     }
@@ -79,8 +78,8 @@ public class Authentification extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(122, 122, 122)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(168, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtf_login, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lbl_login))
@@ -90,10 +89,11 @@ public class Authentification extends javax.swing.JFrame {
                     .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addComponent(btn_login)
-                .addContainerGap(68, Short.MAX_VALUE))
+                .addGap(54, 54, 54))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtf_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_loginActionPerformed
@@ -102,16 +102,20 @@ public class Authentification extends javax.swing.JFrame {
 
     private void btn_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_loginActionPerformed
         AdministrateurDAO adminDAO = new AdministrateurDAO();
-        User admin = new User();
+        Administrateur admin = new Administrateur();
         admin=adminDAO.findAdminByLogin(txtf_login.getText());
-        if(admin==null){
-            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password :)"); 
+        if(admin==null||txtf_password.getText()==null){
+            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
         }
-        if(admin.getPassword().equals(txtf_password.getText())==false){
-            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password :)"); 
+        if(admin.getPassword().equals(txtf_password.getText())==false||txtf_password.getText()==null){
+            javax.swing.JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
         }
         else{
-            javax.swing.JOptionPane.showMessageDialog(null,admin); 
+            
+            this.setVisible(false);
+            log=txtf_login.getText();
+            new Acceuil().setVisible(true);
+            
         }
     }//GEN-LAST:event_btn_loginActionPerformed
 

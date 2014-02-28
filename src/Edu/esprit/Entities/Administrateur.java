@@ -15,6 +15,14 @@ import java.util.Date;
 public class Administrateur extends User{
     
     private Date last_login;
+
+    public Date getLast_login() {
+        return last_login;
+    }
+
+    public void setLast_login(Date last_login) {
+        this.last_login = last_login;
+    }
     
     public Administrateur(String login, String password, String nom, String prenom, String adresse, String email) {
         super(login, password, nom, prenom, adresse, email);
