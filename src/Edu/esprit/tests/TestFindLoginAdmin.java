@@ -9,6 +9,7 @@ package Edu.esprit.tests;
 import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.Administrateur;
 
+
 /**
  *
  * @author Touch media
@@ -16,8 +17,11 @@ import Edu.esprit.Entities.Administrateur;
 public class TestFindLoginAdmin {
     
     public static void main(String[] args) {
-        
+    
         AdministrateurDAO adminDAO = new AdministrateurDAO();
-        System.out.println(adminDAO.findAdminByLogin("Elyes"));
-    }
+        Administrateur admin=new Administrateur();
+        admin=adminDAO.findAdminByLogin("Elyes");
+        
+            
+}
 }

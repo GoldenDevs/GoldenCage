@@ -15,7 +15,7 @@ import java.util.Date;
 public class Reclamation {
     private String rec_text;
     private Date date_rec;
-    private String nomClient;
+    private String idClient;
     private String offre_rec;
 
     public String getRec_text() {
@@ -34,12 +34,12 @@ public class Reclamation {
         this.date_rec = date_rec;
     }
 
-    public String getNomClient() {
-        return nomClient;
+    public String getidClient() {
+        return idClient;
     }
 
-    public void setNomClient(String nomClient) {
-        this.nomClient = nomClient;
+    public void setNomClient(String idClient) {
+        this.idClient = idClient;
     }
 
     public String getOffre_rec() {
@@ -53,7 +53,7 @@ public class Reclamation {
     public Reclamation(String rec_text, Date date_rec, String nomClient, String offre_rec) {
         this.rec_text = rec_text;
         this.date_rec = date_rec;
-        this.nomClient = nomClient;
+        this.idClient = nomClient;
         this.offre_rec = offre_rec;
     }
     

@@ -6,6 +6,13 @@
 
 package Edu.esprit.GUI;
 
+import javax.swing.JTextField;
+import Edu.esprit.DAO.*;
+import Edu.esprit.Entities.Administrateur;
+import Edu.esprit.utils.CRUD;
+import javax.swing.JOptionPane;
+import net.proteanit.sql.DbUtils;
+
 /**
  *
  * @author Elyes
@@ -15,10 +22,17 @@ public class Acceuil extends javax.swing.JFrame {
     /**
      * Creates new form Acceuil
      */
+    
     public Acceuil() {
         initComponents();
+        
+         
+         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.log));
+         lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.log);
+         AdministrateurDAO.upateTableAdmins(table_admins);
     }
 
+   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -28,7 +42,16 @@ public class Acceuil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        pnl_admin_acceuil = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        pnl_gadmins = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        table_admins = new javax.swing.JTable();
+        btn_refresh = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        btn_modif = new javax.swing.JButton();
         pnl_gusers = new javax.swing.JPanel();
         btn_user_ajout = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -38,12 +61,125 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gprest = new javax.swing.JPanel();
         pnl_grecl = new javax.swing.JPanel();
         pnl_gstat = new javax.swing.JPanel();
-        pnl_admin_acceuil = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
         lbl_lastconn_admin = new javax.swing.JLabel();
+        lbl_bnjr = new javax.swing.JLabel();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Bienvenu ");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
+
+        pnl_admin_acceuil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        jLabel1.setText("Nouvelles :");
+
+        javax.swing.GroupLayout pnl_admin_acceuilLayout = new javax.swing.GroupLayout(pnl_admin_acceuil);
+        pnl_admin_acceuil.setLayout(pnl_admin_acceuilLayout);
+        pnl_admin_acceuilLayout.setHorizontalGroup(
+            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(154, Short.MAX_VALUE))
+        );
+        pnl_admin_acceuilLayout.setVerticalGroup(
+            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        table_admins.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Login", "Password","Nom", "Prenom","Email","Adresse"
+            }
+        ));
+        jScrollPane2.setViewportView(table_admins);
+
+        btn_refresh.setText("Actualiser");
+        btn_refresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_refreshActionPerformed(evt);
+            }
+        });
+
+        jButton1.setText("Supprimer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Ajouter");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        btn_modif.setText("Save");
+        btn_modif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modifActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_gadminsLayout = new javax.swing.GroupLayout(pnl_gadmins);
+        pnl_gadmins.setLayout(pnl_gadminsLayout);
+        pnl_gadminsLayout.setHorizontalGroup(
+            pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE))
+                    .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                        .addGap(167, 167, 167)
+                        .addComponent(btn_modif)
+                        .addGap(18, 18, 18)
+                        .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton2)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        pnl_gadminsLayout.setVerticalGroup(
+            pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(btn_modif))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_refresh)
+                .addContainerGap(63, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
 
         btn_user_ajout.setText("Ajouter");
 
@@ -74,23 +210,24 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gusersLayout.setHorizontalGroup(
             pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gusersLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 620, Short.MAX_VALUE)
-                .addContainerGap())
-            .addGroup(pnl_gusersLayout.createSequentialGroup()
-                .addGap(187, 187, 187)
-                .addComponent(btn_user_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_user_delete)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btn_user_modif, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_gusersLayout.createSequentialGroup()
+                        .addGap(187, 187, 187)
+                        .addComponent(btn_user_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_user_delete)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_user_modif, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnl_gusersLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnl_gusersLayout.setVerticalGroup(
             pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
-                .addContainerGap(169, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_user_delete)
@@ -99,30 +236,30 @@ public class Acceuil extends javax.swing.JFrame {
                 .addGap(101, 101, 101))
         );
 
-        jTabbedPane1.addTab("Gestion des utilisateurs", pnl_gusers);
+        jTabbedPane1.addTab("Gestion des Clients", pnl_gusers);
 
         javax.swing.GroupLayout pnl_gprestLayout = new javax.swing.GroupLayout(pnl_gprest);
         pnl_gprest.setLayout(pnl_gprestLayout);
         pnl_gprestLayout.setHorizontalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 693, Short.MAX_VALUE)
         );
         pnl_gprestLayout.setVerticalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Gestions des prestataires", pnl_gprest);
+        jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
 
         javax.swing.GroupLayout pnl_greclLayout = new javax.swing.GroupLayout(pnl_grecl);
         pnl_grecl.setLayout(pnl_greclLayout);
         pnl_greclLayout.setHorizontalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 693, Short.MAX_VALUE)
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -131,37 +268,57 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gstat.setLayout(pnl_gstatLayout);
         pnl_gstatLayout.setHorizontalGroup(
             pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 640, Short.MAX_VALUE)
+            .addGap(0, 693, Short.MAX_VALUE)
         );
         pnl_gstatLayout.setVerticalGroup(
             pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 452, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Statistique", pnl_gstat);
 
-        pnl_admin_acceuil.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lbl_lastconn_admin.setText("Derniere Connexion :");
 
-        jLabel1.setText("Nouvelles :");
+        lbl_bnjr.setText("Bonjour , ");
 
-        javax.swing.GroupLayout pnl_admin_acceuilLayout = new javax.swing.GroupLayout(pnl_admin_acceuil);
-        pnl_admin_acceuil.setLayout(pnl_admin_acceuilLayout);
-        pnl_admin_acceuilLayout.setHorizontalGroup(
-            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(168, Short.MAX_VALUE))
-        );
-        pnl_admin_acceuilLayout.setVerticalGroup(
-            pnl_admin_acceuilLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnl_admin_acceuilLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+        jMenu1.setText("Fichier");
 
-        lbl_lastconn_admin.setText("Derrnier Connexion :");
+        jMenuItem2.setText("Changer mot de passe");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+        jMenu1.add(jSeparator2);
+
+        jMenuItem3.setText("Exit");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem3);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu4.setText("Aide");
+
+        jMenuItem5.setText("Ticket Support");
+        jMenu4.add(jMenuItem5);
+        jMenu4.add(jSeparator3);
+
+        jMenuItem1.setText("Contact");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu4);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -169,21 +326,25 @@ public class Acceuil extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 645, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTabbedPane1)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lbl_lastconn_admin)
-                .addGap(114, 114, 114))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_bnjr)
+                    .addComponent(lbl_lastconn_admin))
+                .addGap(45, 45, 45))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(lbl_lastconn_admin)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_bnjr)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTabbedPane1))
@@ -191,11 +352,80 @@ public class Acceuil extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_user_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_user_modifActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_user_modifActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        AdministrateurDAO.updateDateLoginAdmin(Authentification.log);
+    }//GEN-LAST:event_formWindowClosing
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       new AdminPasswordChange().setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
+        AdministrateurDAO.upateTableAdmins(table_admins);
+    }//GEN-LAST:event_btn_refreshActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        int ligne,colone;
+        
+        ligne=table_admins.getSelectedRow();
+        try{
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_admins.getValueAt(ligne, 0).toString());
+        if (conf==0){
+        if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.log)){
+            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
+        }else{
+        AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+        }
+        }
+        AdministrateurDAO.upateTableAdmins(table_admins);
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+       AddAdmin admin= new AddAdmin();
+       admin.setTitle("Ajouter Administrateur");
+       admin.setVisible(true);
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void btn_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modifActionPerformed
+        String ch;
+        Administrateur admin=new Administrateur();
+        try{
+            
+            admin.setLogin(table_admins.getValueAt(table_admins.getSelectedRow(),0).toString());
+            admin.setPassword(table_admins.getValueAt(table_admins.getSelectedRow(),1).toString());
+            admin.setNom(table_admins.getValueAt(table_admins.getSelectedRow(),2).toString());
+            admin.setPrenom(table_admins.getValueAt(table_admins.getSelectedRow(),3).toString());
+            admin.setEmail(table_admins.getValueAt(table_admins.getSelectedRow(),4).toString());
+            admin.setAdresse(table_admins.getValueAt(table_admins.getSelectedRow(),5).toString());
+            
+            CRUD.updateUserByLogin(admin);
+            AdministrateurDAO.upateTableAdmins(table_admins);
+            
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(null, "Aucune Modification Effectuer ! ");
+        }
+       
+    }//GEN-LAST:event_btn_modifActionPerformed
 
     /**
      * @param args the command line arguments
@@ -233,18 +463,35 @@ public class Acceuil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_modif;
+    private javax.swing.JButton btn_refresh;
     private javax.swing.JButton btn_user_ajout;
     private javax.swing.JButton btn_user_delete;
     private javax.swing.JButton btn_user_modif;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbl_bnjr;
     private javax.swing.JLabel lbl_lastconn_admin;
     private javax.swing.JPanel pnl_admin_acceuil;
+    private javax.swing.JPanel pnl_gadmins;
     private javax.swing.JPanel pnl_gprest;
     private javax.swing.JPanel pnl_grecl;
     private javax.swing.JPanel pnl_gstat;
     private javax.swing.JPanel pnl_gusers;
     private javax.swing.JTable tab_users;
+    private javax.swing.JTable table_admins;
     // End of variables declaration//GEN-END:variables
 }

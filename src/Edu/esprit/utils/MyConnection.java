@@ -1,4 +1,4 @@
-package edu.esprit.util;
+package Edu.esprit.utils;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,8 +6,9 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Karray
+ * @author Elyes
  */
+
 public class MyConnection {
 
    private static final  String driver = "com.mysql.jdbc.Driver";
