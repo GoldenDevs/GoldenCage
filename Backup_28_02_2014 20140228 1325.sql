@@ -39,9 +39,10 @@ CREATE TABLE `administrateur` (
 
 /*!40000 ALTER TABLE `administrateur` DISABLE KEYS */;
 INSERT INTO `administrateur` (`login`,`last_login`) VALUES 
- ('elyes','2014-02-28 00:00:00'),
- ('test','2014-02-28 00:00:00'),
- ('test2','2014-02-28 00:00:00');
+ ('elyes','2014-03-02 00:00:00'),
+ ('elyes1','2014-03-06 00:00:00'),
+ ('test','2014-03-06 00:00:00'),
+ ('test3','2014-03-02 00:00:00');
 /*!40000 ALTER TABLE `administrateur` ENABLE KEYS */;
 
 
@@ -52,6 +53,8 @@ INSERT INTO `administrateur` (`login`,`last_login`) VALUES
 DROP TABLE IF EXISTS `client`;
 CREATE TABLE `client` (
   `login` varchar(20) NOT NULL,
+  `etat` tinyint(1) NOT NULL default '1',
+  `date_naiss` datetime default NULL,
   PRIMARY KEY  (`login`),
   CONSTRAINT `FK_client_1` FOREIGN KEY (`login`) REFERENCES `user` (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -61,6 +64,14 @@ CREATE TABLE `client` (
 --
 
 /*!40000 ALTER TABLE `client` DISABLE KEYS */;
+INSERT INTO `client` (`login`,`etat`,`date_naiss`) VALUES 
+ ('5liyon',1,NULL),
+ ('aaerazr',1,'2014-03-04 00:00:00'),
+ ('aegae',0,'2014-03-01 00:00:00'),
+ ('Client1',0,'2014-03-05 00:00:00'),
+ ('Client5',1,'1994-03-05 00:00:00'),
+ ('ohlaega',1,'1904-03-15 00:00:00'),
+ ('Said',1,'1990-03-06 00:00:00');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 
 
@@ -124,11 +135,11 @@ DROP TABLE IF EXISTS `offre`;
 CREATE TABLE `offre` (
   `ID_offre` int(10) unsigned NOT NULL auto_increment,
   `Libelle_offre` varchar(45) NOT NULL,
-  `Dispo` tinyint(1) NOT NULL,
-  `date_Post` datetime NOT NULL,
+  `Dispo` tinyint(1) default '1',
+  `date_Post` datetime default NULL,
   `ID_prest` varchar(45) NOT NULL,
-  `note` int(10) unsigned NOT NULL default '0',
-  `prix` float(10,3) NOT NULL,
+  `note` float(2,1) default '0.0',
+  `prix` float(10,3) default '0.000',
   PRIMARY KEY  (`ID_offre`),
   KEY `FK_id_prest` (`ID_prest`),
   CONSTRAINT `FK_id_prest` FOREIGN KEY (`ID_prest`) REFERENCES `prestataire` (`login`)
@@ -139,6 +150,8 @@ CREATE TABLE `offre` (
 --
 
 /*!40000 ALTER TABLE `offre` DISABLE KEYS */;
+INSERT INTO `offre` (`ID_offre`,`Libelle_offre`,`Dispo`,`date_Post`,`ID_prest`,`note`,`prix`) VALUES 
+ (1,'Cat',1,'2014-04-09 00:00:00','Microsoft',0.0,195.000);
 /*!40000 ALTER TABLE `offre` ENABLE KEYS */;
 
 
@@ -160,6 +173,10 @@ CREATE TABLE `prestataire` (
 --
 
 /*!40000 ALTER TABLE `prestataire` DISABLE KEYS */;
+INSERT INTO `prestataire` (`login`,`debutAb`,`finAb`) VALUES 
+ ('haha','2014-03-01 00:00:00','2015-03-06 00:00:00'),
+ ('Microsoft','2014-03-02 00:00:00','2014-03-02 00:00:00'),
+ ('Microsoft2','2014-03-06 00:00:00','2014-03-06 00:00:00');
 /*!40000 ALTER TABLE `prestataire` ENABLE KEYS */;
 
 
@@ -174,6 +191,7 @@ CREATE TABLE `reclamation` (
   `rec_text` varchar(500) NOT NULL,
   `id_client` varchar(45) NOT NULL,
   `id_offre` int(10) unsigned NOT NULL,
+  `date_post` datetime NOT NULL,
   PRIMARY KEY  (`id_reclamation`),
   KEY `FK_rec_id_client` (`id_client`),
   KEY `FK_rec_id_offre` (`id_offre`),
@@ -186,6 +204,8 @@ CREATE TABLE `reclamation` (
 --
 
 /*!40000 ALTER TABLE `reclamation` DISABLE KEYS */;
+INSERT INTO `reclamation` (`id_reclamation`,`rec_sujet`,`rec_text`,`id_client`,`id_offre`,`date_post`) VALUES 
+ (1,'jnnkgnegkzng','gnrgnerngjrgnrjgn','5liyon',1,'1990-01-01 00:00:00');
 /*!40000 ALTER TABLE `reclamation` ENABLE KEYS */;
 
 
@@ -227,6 +247,7 @@ CREATE TABLE `user` (
   `prenom` varchar(45) default NULL,
   `email` varchar(45) default NULL,
   `adresse` varchar(45) default NULL,
+  `date_inscrit` datetime default NULL,
   PRIMARY KEY  (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -235,10 +256,22 @@ CREATE TABLE `user` (
 --
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (`login`,`password`,`nom`,`prenom`,`email`,`adresse`) VALUES 
- ('elyes','123','Elyes','Ben Salah','Elyes.bensalah@esprit.tn',NULL),
- ('test','a','test','tester','test@PIDev.tn','tester in esprit'),
- ('test2','test2','test2','test2','test2@hola.fr','test2');
+INSERT INTO `user` (`login`,`password`,`nom`,`prenom`,`email`,`adresse`,`date_inscrit`) VALUES 
+ ('5liyon','123','Said','Saiid','Said@saiid.tn','Rue hahaha',NULL),
+ ('aaerazr','aer','aerae','aera','aeraer','aerae',NULL),
+ ('aegae','gaegaega','egaegaeg','aegaeg','aegaeg','aeg',NULL),
+ ('Client1','123','Said','Saiid','Said@saiid.tn','Rue hahaha',NULL),
+ ('Client5','123','Said','Saiid','Said@saiid.tn','Rue hahaha',NULL),
+ ('elyes','123','Elyes','Ben Salah','Elyes.bensalah@esprit.tn',NULL,NULL),
+ ('elyes1','123456','hola','Prenom','darkee@esprit.tn','aegaeg',NULL),
+ ('elyes2','123','aeg','aeg','Moula','kasa',NULL),
+ ('haha','eg','aeg','aeg','aeg','aeg',NULL),
+ ('Microsoft','123','Microsoft','Blabla','Bla@esprit.Tn','Rue fagaebaebaea',NULL),
+ ('Microsoft2','123','Microsoft','Blabla','Bla@esprit.Tn','Rue fagaebaebaea',NULL),
+ ('ohlaega','aegaeg','aega','aegaeg','daegae','aeg',NULL),
+ ('Said','hahaha','Elyes','Salah','aegaeg','aegaeg','1990-03-06 00:00:00'),
+ ('test','a','test','tester','test@PIDev.tn','tester in esprit','1900-08-07 00:00:00'),
+ ('test3','123','test 3','tester3','test3@PIDev.tn','tester in esprit 3',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 
