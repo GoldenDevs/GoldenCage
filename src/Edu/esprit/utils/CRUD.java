@@ -6,12 +6,14 @@
 
 package Edu.esprit.utils;
 
+import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import edu.esprit.utils.*;
 import Edu.esprit.utils.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -103,6 +105,26 @@ public class CRUD {
             
             } catch (SQLException ex) {
             System.out.println("Login n'existe pas.\n"+ex.getMessage());
+            return null;
+        }
+    }
+    
+    
+    public static List<User>listUsers(){
+        String requete="Select * from User";
+        ResultSet rs=null;
+        User user=new User();
+        List<User>list=new ArrayList<User>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                user=CRUD.findUserByLogin(rs.getString(1));
+                list.add(user);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
     }

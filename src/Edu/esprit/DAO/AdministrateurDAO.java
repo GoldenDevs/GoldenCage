@@ -29,37 +29,38 @@ import net.proteanit.sql.DbUtils;
  */
 public class AdministrateurDAO {   
     
-    public static Administrateur findAdminByLogin(String login){
-     User user=new User();
-     if((user=CRUD.findUserByLogin(login))!=null){
-         
-     Administrateur admin = new Administrateur();
-     String requete = "select * from Administrateur where login=?";
+public static Administrateur findAdminByLogin(String login){
+     
+     Administrateur admin=null;
+     String requete = "SELECT * FROM goldencage.administrateur a,goldencage.user u where a.login=u.login and a.login=?";
      ResultSet rs;
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, login);
             rs=ps.executeQuery();
             while(rs.next()){
-                if(rs.getString(1).equals(login)){
-                    admin.setLogin(login);
-                    admin.setPassword(user.getPassword());
-                    admin.setNom(user.getNom());
-                    admin.setPrenom(user.getPrenom());
-                    admin.setEmail(user.getEmail());
+                    if(rs.getString(1).equals(login)){
+                        User user=new User(); 
+                            if((user=CRUD.findUserByLogin(login))!=null){
+                                admin=new Administrateur();
+                                admin.setLogin(login);
+                                admin.setPassword(user.getPassword());
+                                admin.setNom(user.getNom());
+                                admin.setPrenom(user.getPrenom());
+                                admin.setEmail(user.getEmail());
+                                
+                            }
+                            else{
+                                return null;
+                            }
+                    }
                     
-                }
-                
-            }
+            }  
             return admin;
-        } catch (SQLException ex) {
-            
+        } 
+        catch (SQLException ex) {
             return null;
         }
-        
-    }
-     
-    return null;
 }
      
     public static boolean addAdmin(Administrateur a){
@@ -96,6 +97,21 @@ public class AdministrateurDAO {
         }
     }
     
+    public static boolean updateAdminByLogin(Administrateur a,String login){
+            String requete="Update administrateur set login=? where login=?";           
+            try {
+                CRUD.updateUserByLogin(a);
+                PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);  
+                ps.setString(1, a.getLogin());
+                ps.setString(2, login); 
+                ps.executeUpdate();
+                System.out.println("Mise à jour effectuée avec succès !");
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Erreur de Mise a jour !\n"+ex.getMessage());
+                return false;
+            }
+    }
     public static boolean updateDateLoginAdmin(String login){
             
            String requete="Update Administrateur set last_login=? where login=?";
@@ -139,8 +155,8 @@ public class AdministrateurDAO {
         System.out.println(admin);
     }
     
-    public List<User>listUsers(){
-        String requete="Select * from User";
+    public List<User>listAdministrateur(){
+        String requete="Select * from goldencage.user u,goldencage.administrateur a where u.login=a.login";
         ResultSet rs=null;
         User user=new User();
         List<User>list=new ArrayList<User>();
@@ -159,7 +175,7 @@ public class AdministrateurDAO {
     }
     public static void upateTableAdmins(javax.swing.JTable table_admins){
         
-        String requete="Select * from User";
+        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.administrateur a,goldencage.user u where a.login=u.login";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);

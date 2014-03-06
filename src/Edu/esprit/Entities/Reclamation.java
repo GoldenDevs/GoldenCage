@@ -13,10 +13,28 @@ import java.util.Date;
  * @author Touch media
  */
 public class Reclamation {
+    private int id_rec;
     private String rec_text;
+    private String rec_sujet;
     private Date date_rec;
     private String idClient;
-    private String offre_rec;
+    private int offre_rec;
+    
+     public int getId_rec() {
+        return id_rec;
+    }
+
+    public Reclamation() {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    public String getRec_sujet() {
+        return rec_sujet;
+    }
+
+    public void setRec_sujet(String rec_sujet) {
+        this.rec_sujet = rec_sujet;
+    }
 
     public String getRec_text() {
         return rec_text;
@@ -42,19 +60,25 @@ public class Reclamation {
         this.idClient = idClient;
     }
 
-    public String getOffre_rec() {
+    public int getOffre_rec() {
         return offre_rec;
     }
 
-    public void setOffre_rec(String offre_rec) {
+    public void setOffre_rec(int offre_rec) {
         this.offre_rec = offre_rec;
     }
 
-    public Reclamation(String rec_text, Date date_rec, String nomClient, String offre_rec) {
+    public Reclamation(String rec_text, Date date_rec, String nomClient, int offre_rec,String rec_sujet) {
         this.rec_text = rec_text;
         this.date_rec = date_rec;
         this.idClient = nomClient;
         this.offre_rec = offre_rec;
+        this.rec_sujet=rec_sujet;
+    }
+
+    public void setId_rec(int id_reclamtion) {
+        id_rec=id_reclamtion;
+        
     }
     
     

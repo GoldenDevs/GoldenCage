@@ -6,7 +6,7 @@
 
 package Edu.esprit.Entities;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -17,11 +17,29 @@ public class Offre {
     private int id_Offre;
     private String libelle_off;
     private boolean stat_offre;
+    private float prix;
+
+    public float getPrix() {
+        return prix;
+    }
+
+    public void setPrix(float prix) {
+        this.prix = prix;
+    }
+  
     private Date date_Post;
     private String nomPrest;
-    private List<Evaluation>noteOffre;
+    private float noteOffre;
     private List<Commentaire>listCommentaires;
 
+    
+      public float getNoteOffre() {
+        return noteOffre;
+    }
+
+    public void setNoteOffre(float noteOffre) {
+        this.noteOffre = noteOffre;
+    }
     public int getId_Offre() {
         return id_Offre;
     }
@@ -38,11 +56,11 @@ public class Offre {
         this.libelle_off = libelle_off;
     }
 
-    public boolean isStat_offre() {
+    public boolean getEtatoffre() {
         return stat_offre;
     }
 
-    public void setStat_offre(boolean stat_offre) {
+    public void setEtat_offre(boolean stat_offre) {
         this.stat_offre = stat_offre;
     }
 
@@ -62,13 +80,7 @@ public class Offre {
         this.nomPrest = nomPrest;
     }
 
-    public List<Evaluation> getNoteOffre() {
-        return noteOffre;
-    }
-
-    public void setNoteOffre(List<Evaluation> noteOffre) {
-        this.noteOffre = noteOffre;
-    }
+    
 
     public List<Commentaire> getListCommentaires() {
         return listCommentaires;

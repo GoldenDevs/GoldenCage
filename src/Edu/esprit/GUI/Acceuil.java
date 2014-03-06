@@ -27,9 +27,16 @@ public class Acceuil extends javax.swing.JFrame {
         initComponents();
         
          
-         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.log));
-         lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.log);
+         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
+         lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.login);
+         
          AdministrateurDAO.upateTableAdmins(table_admins);
+         PrestDAO.upateTablePrest(table_prest);
+         ClientDAO.upateTableClient(table_clients);
+         btn_supp_prest.setEnabled(false);
+         btn_supp_admin.setEnabled(false);
+         btn_supp_client.setEnabled(false);
+         btn_supp_offre.setEnabled(true);
     }
 
    
@@ -48,25 +55,35 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gadmins = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         table_admins = new javax.swing.JTable();
-        btn_refresh = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btn_supp_admin = new javax.swing.JButton();
+        btn_add_admin = new javax.swing.JButton();
         btn_modif = new javax.swing.JButton();
         pnl_gusers = new javax.swing.JPanel();
-        btn_user_ajout = new javax.swing.JButton();
+        btn_ajout_client = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tab_users = new javax.swing.JTable();
-        btn_user_delete = new javax.swing.JButton();
+        table_clients = new javax.swing.JTable();
+        btn_supp_client = new javax.swing.JButton();
         btn_user_modif = new javax.swing.JButton();
         pnl_gprest = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        table_prest = new javax.swing.JTable();
+        btn_save_modif = new javax.swing.JButton();
+        btn_supp_prest = new javax.swing.JButton();
+        btn_ajout_prest = new javax.swing.JButton();
         pnl_grecl = new javax.swing.JPanel();
-        pnl_gstat = new javax.swing.JPanel();
+        pnl_goffres = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        liste_offres = new javax.swing.JTable();
+        btn_add_offre = new javax.swing.JButton();
+        btn_supp_offre = new javax.swing.JButton();
+        btn_modif_offre = new javax.swing.JButton();
         lbl_lastconn_admin = new javax.swing.JLabel();
         lbl_bnjr = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        Deconnexion = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -113,30 +130,28 @@ public class Acceuil extends javax.swing.JFrame {
                 "Login", "Password","Nom", "Prenom","Email","Adresse"
             }
         ));
+        table_admins.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_adminsMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(table_admins);
 
-        btn_refresh.setText("Actualiser");
-        btn_refresh.addActionListener(new java.awt.event.ActionListener() {
+        btn_supp_admin.setText("Supprimer");
+        btn_supp_admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_refreshActionPerformed(evt);
+                btn_supp_adminActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Supprimer");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_add_admin.setText("Ajouter");
+        btn_add_admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_add_adminActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Ajouter");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        btn_modif.setText("Save");
+        btn_modif.setText("Sauvgarder");
         btn_modif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_modifActionPerformed(evt);
@@ -148,19 +163,15 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gadminsLayout.setHorizontalGroup(
             pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                     .addGroup(pnl_gadminsLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE))
-                    .addGroup(pnl_gadminsLayout.createSequentialGroup()
-                        .addGap(167, 167, 167)
+                        .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_supp_admin)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_modif)
-                        .addGap(18, 18, 18)
-                        .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_refresh, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(33, 33, 33)
-                        .addComponent(jButton2)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -168,22 +179,25 @@ public class Acceuil extends javax.swing.JFrame {
             pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 380, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(9, 9, 9)
-                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(btn_modif))
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_refresh)
-                .addContainerGap(63, Short.MAX_VALUE))
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_modif)
+                    .addComponent(btn_add_admin)
+                    .addComponent(btn_supp_admin))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
 
-        btn_user_ajout.setText("Ajouter");
+        btn_ajout_client.setText("Ajouter");
+        btn_ajout_client.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ajout_clientActionPerformed(evt);
+            }
+        });
 
-        tab_users.setModel(new javax.swing.table.DefaultTableModel(
+        table_clients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -194,11 +208,21 @@ public class Acceuil extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(tab_users);
+        table_clients.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_clientsMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(table_clients);
 
-        btn_user_delete.setText("Supprimer");
+        btn_supp_client.setText("Supprimer");
+        btn_supp_client.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_supp_clientActionPerformed(evt);
+            }
+        });
 
-        btn_user_modif.setText("Modifier");
+        btn_user_modif.setText("Sauvgarder");
         btn_user_modif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_user_modifActionPerformed(evt);
@@ -210,43 +234,102 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_gusersLayout.setHorizontalGroup(
             pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gusersLayout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
-                        .addGap(187, 187, 187)
-                        .addComponent(btn_user_ajout, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_user_delete)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btn_user_modif, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(pnl_gusersLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(btn_ajout_client, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_supp_client)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_user_modif)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnl_gusersLayout.setVerticalGroup(
             pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_user_delete)
-                    .addComponent(btn_user_ajout)
-                    .addComponent(btn_user_modif))
-                .addGap(101, 101, 101))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_user_modif)
+                    .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_ajout_client)
+                        .addComponent(btn_supp_client)))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Clients", pnl_gusers);
+
+        table_prest.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Login", "Debut Abonnement", "Fin Abonnement"
+            }
+        ));
+        table_prest.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_prestMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(table_prest);
+
+        btn_save_modif.setText("Sauvgarder");
+        btn_save_modif.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_save_modifActionPerformed(evt);
+            }
+        });
+
+        btn_supp_prest.setText("Supprimer");
+        btn_supp_prest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_supp_prestActionPerformed(evt);
+            }
+        });
+
+        btn_ajout_prest.setText("Ajouter");
+        btn_ajout_prest.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ajout_prestActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnl_gprestLayout = new javax.swing.GroupLayout(pnl_gprest);
         pnl_gprest.setLayout(pnl_gprestLayout);
         pnl_gprestLayout.setHorizontalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
+            .addGroup(pnl_gprestLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gprestLayout.createSequentialGroup()
+                        .addComponent(btn_ajout_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_supp_prest)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_save_modif)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnl_gprestLayout.setVerticalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
+            .addGroup(pnl_gprestLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btn_save_modif)
+                    .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_ajout_prest)
+                        .addComponent(btn_supp_prest)))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
@@ -259,23 +342,73 @@ public class Acceuil extends javax.swing.JFrame {
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
+            .addGap(0, 570, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
 
-        javax.swing.GroupLayout pnl_gstatLayout = new javax.swing.GroupLayout(pnl_gstat);
-        pnl_gstat.setLayout(pnl_gstatLayout);
-        pnl_gstatLayout.setHorizontalGroup(
-            pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
+        liste_offres.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane4.setViewportView(liste_offres);
+
+        btn_add_offre.setText("Ajouter");
+        btn_add_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_add_offreActionPerformed(evt);
+            }
+        });
+
+        btn_supp_offre.setText("Supprimer");
+        btn_supp_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_supp_offreActionPerformed(evt);
+            }
+        });
+
+        btn_modif_offre.setText("Sauvgarder");
+        btn_modif_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_modif_offreActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout pnl_goffresLayout = new javax.swing.GroupLayout(pnl_goffres);
+        pnl_goffres.setLayout(pnl_goffresLayout);
+        pnl_goffresLayout.setHorizontalGroup(
+            pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_goffresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addGroup(pnl_goffresLayout.createSequentialGroup()
+                        .addComponent(btn_add_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_supp_offre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_modif_offre)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
-        pnl_gstatLayout.setVerticalGroup(
-            pnl_gstatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 520, Short.MAX_VALUE)
+        pnl_goffresLayout.setVerticalGroup(
+            pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_goffresLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_modif_offre)
+                    .addComponent(btn_add_offre)
+                    .addComponent(btn_supp_offre))
+                .addContainerGap(225, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Statistique", pnl_gstat);
+        jTabbedPane1.addTab("Gestion des Offres", pnl_goffres);
 
         lbl_lastconn_admin.setText("Derniere Connexion :");
 
@@ -292,6 +425,14 @@ public class Acceuil extends javax.swing.JFrame {
         jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator2);
 
+        Deconnexion.setText("Deconnexion");
+        Deconnexion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                DeconnexionActionPerformed(evt);
+            }
+        });
+        jMenu1.add(Deconnexion);
+
         jMenuItem3.setText("Exit");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -305,6 +446,11 @@ public class Acceuil extends javax.swing.JFrame {
         jMenu4.setText("Aide");
 
         jMenuItem5.setText("Ticket Support");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
         jMenu4.add(jMenuItem5);
         jMenu4.add(jSeparator3);
 
@@ -355,12 +501,8 @@ public class Acceuil extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btn_user_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_user_modifActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_user_modifActionPerformed
-
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
-        AdministrateurDAO.updateDateLoginAdmin(Authentification.log);
+        AdministrateurDAO.updateDateLoginAdmin(Authentification.login);
     }//GEN-LAST:event_formWindowClosing
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
@@ -372,39 +514,35 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
+        new ContactSupport().setVisible(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void btn_refreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_refreshActionPerformed
-        AdministrateurDAO.upateTableAdmins(table_admins);
-    }//GEN-LAST:event_btn_refreshActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_supp_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_adminActionPerformed
         int ligne,colone;
         
         ligne=table_admins.getSelectedRow();
         try{
         int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_admins.getValueAt(ligne, 0).toString());
         if (conf==0){
-        if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.log)){
+        if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.login)){
             JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
         }else{
-        AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+            AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
         }
         }
-        AdministrateurDAO.upateTableAdmins(table_admins);
+            AdministrateurDAO.upateTableAdmins(table_admins);
         }
         catch(Exception ex){
             JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_supp_adminActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_add_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_adminActionPerformed
        AddAdmin admin= new AddAdmin();
        admin.setTitle("Ajouter Administrateur");
        admin.setVisible(true);
         
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_add_adminActionPerformed
 
     private void btn_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modifActionPerformed
         String ch;
@@ -426,6 +564,96 @@ public class Acceuil extends javax.swing.JFrame {
         }
        
     }//GEN-LAST:event_btn_modifActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+            
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void btn_user_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_user_modifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_user_modifActionPerformed
+
+    private void btn_ajout_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_clientActionPerformed
+        new AddClient().setVisible(true);
+    }//GEN-LAST:event_btn_ajout_clientActionPerformed
+
+    private void btn_save_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_save_modifActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_save_modifActionPerformed
+
+    private void btn_ajout_prestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_prestActionPerformed
+        new AddPrest().setVisible(true);
+    }//GEN-LAST:event_btn_ajout_prestActionPerformed
+
+    private void DeconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeconnexionActionPerformed
+        dispose();
+        new Authentification().setVisible(true);
+    }//GEN-LAST:event_DeconnexionActionPerformed
+
+    private void btn_supp_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_clientActionPerformed
+        int ligne,colone;
+        
+        ligne=table_clients.getSelectedRow();
+        try{
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_clients.getValueAt(ligne, 0).toString());
+        if (conf==0){
+            ClientDAO.deleteClient(table_clients.getValueAt(ligne, 0).toString());
+            ClientDAO.upateTableClient(table_clients);
+            }
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
+        }
+    }//GEN-LAST:event_btn_supp_clientActionPerformed
+
+    private void btn_supp_prestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_prestActionPerformed
+        int ligne,colone;
+        table_prest.getSelectedRow();
+        
+        ligne=table_prest.getSelectedRow();
+        try{
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_prest.getValueAt(ligne, 0).toString());
+        if (conf==0){
+            PrestDAO.deletePrest(table_prest.getValueAt(ligne, 0).toString());
+            PrestDAO.upateTablePrest(table_prest);
+            }
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Selectionner un Prestataire");
+        }
+    }//GEN-LAST:event_btn_supp_prestActionPerformed
+
+    private void table_prestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_prestMouseClicked
+        if(table_prest.getSelectedRow()!=-1){
+            btn_supp_prest.setEnabled(true);
+        }
+    }//GEN-LAST:event_table_prestMouseClicked
+
+    private void table_clientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_clientsMouseClicked
+         if(table_clients.getSelectedRow()!=-1){
+            btn_supp_client.setEnabled(true);
+        }
+    }//GEN-LAST:event_table_clientsMouseClicked
+
+    private void table_adminsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_adminsMouseClicked
+        if(table_admins.getSelectedRow()!=-1){
+            btn_supp_admin.setEnabled(true);
+        }
+    }//GEN-LAST:event_table_adminsMouseClicked
+
+    private void btn_add_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_offreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_add_offreActionPerformed
+
+    private void btn_supp_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_offreActionPerformed
+        if(table_admins.getSelectedRow()!=-1){
+            btn_supp_admin.setEnabled(true);
+        }
+    }//GEN-LAST:event_btn_supp_offreActionPerformed
+
+    private void btn_modif_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modif_offreActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_modif_offreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -463,13 +691,19 @@ public class Acceuil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Deconnexion;
+    private javax.swing.JButton btn_add_admin;
+    private javax.swing.JButton btn_add_offre;
+    private javax.swing.JButton btn_ajout_client;
+    private javax.swing.JButton btn_ajout_prest;
     private javax.swing.JButton btn_modif;
-    private javax.swing.JButton btn_refresh;
-    private javax.swing.JButton btn_user_ajout;
-    private javax.swing.JButton btn_user_delete;
+    private javax.swing.JButton btn_modif_offre;
+    private javax.swing.JButton btn_save_modif;
+    private javax.swing.JButton btn_supp_admin;
+    private javax.swing.JButton btn_supp_client;
+    private javax.swing.JButton btn_supp_offre;
+    private javax.swing.JButton btn_supp_prest;
     private javax.swing.JButton btn_user_modif;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
@@ -480,18 +714,22 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel lbl_bnjr;
     private javax.swing.JLabel lbl_lastconn_admin;
+    private javax.swing.JTable liste_offres;
     private javax.swing.JPanel pnl_admin_acceuil;
     private javax.swing.JPanel pnl_gadmins;
+    private javax.swing.JPanel pnl_goffres;
     private javax.swing.JPanel pnl_gprest;
     private javax.swing.JPanel pnl_grecl;
-    private javax.swing.JPanel pnl_gstat;
     private javax.swing.JPanel pnl_gusers;
-    private javax.swing.JTable tab_users;
     private javax.swing.JTable table_admins;
+    private javax.swing.JTable table_clients;
+    private javax.swing.JTable table_prest;
     // End of variables declaration//GEN-END:variables
 }

@@ -6,7 +6,7 @@
 
 package Edu.esprit.Entities;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -58,6 +58,8 @@ public class Prestataire extends User{
         this.debut_Abonnement = debut_Abonnement;
         this.fin_Abonnement = fin_Abonnement;
     }
+    
+    public Prestataire(){}
     
     
 }

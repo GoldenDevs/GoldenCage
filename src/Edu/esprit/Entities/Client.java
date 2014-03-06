@@ -6,7 +6,7 @@
 
 package Edu.esprit.Entities;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -15,6 +15,15 @@ import java.util.List;
  */
 public class Client extends User{
     private Date dateInscrit;
+    private Date dateNaiss;
+
+    public Date getDateNaiss() {
+        return dateNaiss;
+    }
+
+    public void setDateNaiss(Date dateNaiss) {
+        this.dateNaiss = dateNaiss;
+    }
     private List<Offre>panier;
     
     public Date getDateInscrit() {
@@ -25,14 +34,17 @@ public class Client extends User{
         this.dateInscrit = dateInscrit;
     }
 
-    public Client(Date dateInscrit, String login, String password, String nom, String prenom, String adresse, String email) {
+    public Client(Date dateInscrit, String login, String password, String nom, String prenom, String adresse, String email,Date dateNaiss) {
         super(login, password, nom, prenom, adresse, email);
         this.dateInscrit = dateInscrit;
+        this.dateNaiss=dateNaiss;
     }
 
-    public Client(Date dateInscrit, String login, String password, String email) {
+    public Client(Date dateInscrit, String login, String password, String email,Date dateNaiss) {
         super(login, password, email);
         this.dateInscrit = dateInscrit;
+        this.dateNaiss=dateNaiss;
+
     }
 
     public Client() {

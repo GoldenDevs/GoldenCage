@@ -6,14 +6,12 @@
 
 package Edu.esprit.tests;
 
-import Edu.esprit.utils.mailSend;
-
 /**
  *
- * @author Touch media
+ * @author Elyes
  */
-public class TestEnvoiEmail {
+public class TestClient {
     public static void main(String[] args) {
-        mailSend.Send("goldencage2014@gmail.com", "Test", "Test daegaegaegaegaega egaegaeg");
+        
     }
 }

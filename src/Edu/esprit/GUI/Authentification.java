@@ -9,6 +9,7 @@ package Edu.esprit.GUI;
 import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.Entities.User;
+import java.awt.event.KeyEvent;
 import java.util.Date;
 import javax.swing.JOptionPane;
 
@@ -18,7 +19,7 @@ import javax.swing.JOptionPane;
  */
 public class Authentification extends javax.swing.JFrame {
 
-    public static String log;
+    public static String login;
     public Authentification() {
         initComponents();
     }
@@ -54,6 +55,11 @@ public class Authentification extends javax.swing.JFrame {
         btn_login.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_loginActionPerformed(evt);
+            }
+        });
+        btn_login.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_loginKeyPressed(evt);
             }
         });
 
@@ -114,11 +120,30 @@ public class Authentification extends javax.swing.JFrame {
         }else
         if((admin.getPassword().equals(txtf_password.getText())&&(txtf_login!=null))){
             this.setVisible(false);
-            log=txtf_login.getText();
+            login=txtf_login.getText();
             new Acceuil().setVisible(true);
         }   
         
     }//GEN-LAST:event_btn_loginActionPerformed
+
+    private void btn_loginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_loginKeyPressed
+           /* if(evt.getKeyCode()==KeyEvent.VK_ENTER){
+                AdministrateurDAO adminDAO = new AdministrateurDAO();
+        Administrateur admin = new Administrateur();
+        admin=adminDAO.findAdminByLogin(txtf_login.getText());
+    
+        if(admin==null||txtf_password.getText()==null){
+            JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
+        }else
+        if((admin.getPassword().equals(txtf_password.getText())==false)||txtf_password.getText()==null){
+            JOptionPane.showMessageDialog(null,"Incorrect User or Password"); 
+        }else
+        if((admin.getPassword().equals(txtf_password.getText())&&(txtf_login!=null))){
+            this.setVisible(false);
+            log=txtf_login.getText();
+            new Acceuil().setVisible(true);
+        }}*/
+    }//GEN-LAST:event_btn_loginKeyPressed
 
     /**
      * @param args the command line arguments

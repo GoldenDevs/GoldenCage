@@ -26,9 +26,9 @@ public class mailSend {
     public static void Send(String dest,String sujet,String Text ) {
       String to = dest;
 
-      String from = "bselyes@gmail.com";
-      final String username = "bselyes";
-      final String password = "o0e1zk2890";
+      String from = "goldencage2014@gmail.com";
+      final String username = "goldencage2014";
+      final String password = "123456789azert";
 
       
       String host = "smtp.gmail.com";

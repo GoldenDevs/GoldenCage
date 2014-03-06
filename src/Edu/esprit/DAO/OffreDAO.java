@@ -6,12 +6,9 @@
 
 package Edu.esprit.DAO;
 
-import Edu.esprit.Entities.Client;
-import Edu.esprit.Entities.Prestataire;
-import Edu.esprit.Entities.User;
+import Edu.esprit.Entities.*;
 import Edu.esprit.utils.CRUD;
 import Edu.esprit.utils.MyConnection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,50 +16,52 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 /**
  *
  * @author Elyes
  */
-public class ClientDAO {
-     public static Prestataire findClientByLogin(String login){
+public class OffreDAO {
+   public static Offre findOffreByPrest(String login){
      
-     Prestataire prest = new Prestataire();
-     String requete = "select * from Client where login=?";
+     Offre off = new Offre();
+     String requete = "select * from Offre where id_prest=?";
      ResultSet rs;
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, login);
             rs=ps.executeQuery();
             if(rs.next()){ 
-                    User user=new User(); 
-                    user=CRUD.findUserByLogin(login);
-                    prest.setLogin(login);
-                    prest.setPassword(user.getPassword());
-                    prest.setNom(user.getNom());
-                    prest.setPrenom(user.getPrenom());
-                    prest.setEmail(user.getEmail());  
+                off.setLibelle_off(rs.getString(1));
+                off.setDate_Post(rs.getDate(4));
+                off.setNomPrest(rs.getString(5));
+                off.setNoteOffre(rs.getFloat(6));
+                off.setEtat_offre(rs.getBoolean(3));
+                off.setPrix(rs.getFloat(7));
             }
-            return prest;
+            return off;
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             return null;
         }
 }
      
-    public static boolean addClient(Client c){
-        String requete = "Insert into Client(login,date_naiss)values(?,?)";
+    public static boolean addOffre(Offre o){
+        String requete = "Insert into Offre(Libelle_offre,dispo,date_Post,id_prest,prix)values(?,?,?,?,?)";
         
         try {           
-            CRUD.addUser(c);
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, c.getLogin());
-            ps.setDate(2, c.getDateNaiss());
-            
+            ps.setString(1, o.getLibelle_off());
+            ps.setBoolean(2, o.getEtatoffre());
+            ps.setDate(3, o.getDate_Post());
+            ps.setString(4, o.getNomPrest());
+            ps.setFloat(5, o.getPrix());
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
-            System.out.println("Erreur d'ajout Client !");
+            System.out.println("Erreur d'ajout d'Offre !");
             return false;
         }
     }
@@ -141,5 +140,5 @@ public class ClientDAO {
             Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
-    }
+    } 
 }

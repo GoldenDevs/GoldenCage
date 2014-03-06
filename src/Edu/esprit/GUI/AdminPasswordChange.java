@@ -126,7 +126,7 @@ public class AdminPasswordChange extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Administrateur admin=new Administrateur();
-        admin=findAdminByLogin(Authentification.log);
+        admin=findAdminByLogin(Authentification.login);
         if(!(txtf_old_pwd.getText().equals(admin.getPassword()))){
             javax.swing.JOptionPane.showMessageDialog(null,"Mot de Passe Incorrect!"); 
         }
@@ -135,7 +135,7 @@ public class AdminPasswordChange extends javax.swing.JFrame {
                 javax.swing.JOptionPane.showMessageDialog(null,"Nouvelle Mot de Passe n'ext pas verifier !"); 
             }
             else{
-                AdministrateurDAO.setAdminPassword(Authentification.log,txtf_new_pwd.getText());
+                AdministrateurDAO.setAdminPassword(Authentification.login,txtf_new_pwd.getText());
                 javax.swing.JOptionPane.showMessageDialog(null,"Mot de Passe modifier avec Succes !"); 
                 this.dispose();
             }
