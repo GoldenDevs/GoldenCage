@@ -10,6 +10,7 @@ import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.*;
 import java.sql.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -20,8 +21,15 @@ public class AddClient extends javax.swing.JFrame {
     /**
      * Creates new form AddAdmin
      */
+    JTable table;
     public AddClient() {
         initComponents();
+    }
+
+    AddClient(JTable table_clients) {
+        table=table_clients;
+        initComponents();
+        
     }
 
     /**
@@ -197,7 +205,7 @@ public class AddClient extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Erreur d'ajout");
         }
-            
+        ClientDAO.upateTableClient(table);
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

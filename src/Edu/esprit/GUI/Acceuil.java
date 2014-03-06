@@ -574,7 +574,8 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_user_modifActionPerformed
 
     private void btn_ajout_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_clientActionPerformed
-        new AddClient().setVisible(true);
+        new AddClient(table_clients).setVisible(true);
+        
     }//GEN-LAST:event_btn_ajout_clientActionPerformed
 
     private void btn_save_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_save_modifActionPerformed

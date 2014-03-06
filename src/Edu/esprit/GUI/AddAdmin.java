@@ -7,8 +7,10 @@
 package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.AdministrateurDAO;
+import Edu.esprit.DAO.ClientDAO;
 import Edu.esprit.Entities.Administrateur;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
@@ -19,8 +21,14 @@ public class AddAdmin extends javax.swing.JFrame {
     /**
      * Creates new form AddAdmin
      */
+    JTable table;
     public AddAdmin() {
         initComponents();
+    }
+    public AddAdmin(javax.swing.JTable table) {
+        this.table=table;
+        initComponents();
+        
     }
 
     /**
@@ -182,7 +190,7 @@ public class AddAdmin extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Erreur d'ajout");
         }
-        
+        AdministrateurDAO.upateTableAdmins(table);
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
 
     /**

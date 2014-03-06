@@ -10,17 +10,24 @@ import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.*;
 import java.sql.Date;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 
 /**
  *
  * @author Touch media
  */
 public class AddPrest extends javax.swing.JFrame {
+    private JTable table;
 
     /**
      * Creates new form AddAdmin
      */
     public AddPrest() {
+        initComponents();
+    }
+
+    public AddPrest(JTable table) {
+        this.table=table;
         initComponents();
     }
 
@@ -210,7 +217,7 @@ public class AddPrest extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(null, "Erreur d'ajout");
         }
-            
+        PrestDAO.upateTablePrest(table);
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
