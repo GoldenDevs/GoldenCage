@@ -16,7 +16,7 @@ import java.util.List;
 public class Client extends User{
     private Date dateInscrit;
     private Date dateNaiss;
-
+    private int age;
     public Date getDateNaiss() {
         return dateNaiss;
     }
@@ -29,7 +29,12 @@ public class Client extends User{
     public Date getDateInscrit() {
         return dateInscrit;
     }
-
+    public int getAge(){
+        return age;
+    }
+    public int setAge(){
+        return (new Date(new java.util.Date().getTime()).getYear()-dateNaiss.getYear());
+    }
     public void setDateInscrit(Date dateInscrit) {
         this.dateInscrit = dateInscrit;
     }

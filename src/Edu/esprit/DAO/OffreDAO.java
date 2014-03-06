@@ -127,7 +127,7 @@ public class OffreDAO {
         }
     }
     
-    public static void upateTableClient(javax.swing.JTable table_Offres){
+    public static void upateTableOffre(javax.swing.JTable table_Offres){
         
         String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.client a,goldencage.user u where a.login=u.login";
         ResultSet rs=null;

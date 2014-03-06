@@ -26,9 +26,9 @@ import net.proteanit.sql.DbUtils;
  * @author Elyes
  */
 public class ClientDAO {
-     public static Prestataire findClientByLogin(String login){
+     public static Client findClientByLogin(String login){
      
-     Prestataire prest = new Prestataire();
+     Client c = new Client();
      String requete = "select * from Client where login=?";
      ResultSet rs;
         try {
@@ -38,13 +38,13 @@ public class ClientDAO {
             if(rs.next()){ 
                     User user=new User(); 
                     user=CRUD.findUserByLogin(login);
-                    prest.setLogin(login);
-                    prest.setPassword(user.getPassword());
-                    prest.setNom(user.getNom());
-                    prest.setPrenom(user.getPrenom());
-                    prest.setEmail(user.getEmail());  
+                    c.setLogin(login);
+                    c.setPassword(user.getPassword());
+                    c.setNom(user.getNom());
+                    c.setPrenom(user.getPrenom());
+                    c.setEmail(user.getEmail());  
             }
-            return prest;
+            return c;
         } catch (SQLException ex) {
             return null;
         }
@@ -130,12 +130,27 @@ public class ClientDAO {
     
     public static void upateTableClient(javax.swing.JTable table_client){
         
-        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.client a,goldencage.user u where a.login=u.login";
+        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.client a,goldencage.user u where a.login=u.login and a.etat=1";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
         rs=ps.executeQuery();
         table_client.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
+     public static void upateTableClientBanni(javax.swing.JTable table_client_banni){
+        
+        String requete="Select login 'Client Banni' from Client where etat=0";
+        ResultSet rs=null;
+        try{
+        PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+        rs=ps.executeQuery();
+        table_client_banni.setModel(DbUtils.resultSetToTableModel(rs));
         }
         catch(SQLException ex) {
             Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);

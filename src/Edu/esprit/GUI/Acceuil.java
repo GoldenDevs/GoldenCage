@@ -9,6 +9,7 @@ package Edu.esprit.GUI;
 import javax.swing.JTextField;
 import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.Administrateur;
+import Edu.esprit.Entities.Client;
 import Edu.esprit.utils.CRUD;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
@@ -33,10 +34,15 @@ public class Acceuil extends javax.swing.JFrame {
          AdministrateurDAO.upateTableAdmins(table_admins);
          PrestDAO.upateTablePrest(table_prest);
          ClientDAO.upateTableClient(table_clients);
+         ClientDAO.upateTableClientBanni(table_client_banni);
          btn_supp_prest.setEnabled(false);
          btn_supp_admin.setEnabled(false);
          btn_supp_client.setEnabled(false);
          btn_supp_offre.setEnabled(true);
+         btn_affdetail_client.setEnabled(false);
+         pnl_detail_client.setVisible(false);
+         btn_deban_client.setEnabled(false);
+
     }
 
    
@@ -63,10 +69,20 @@ public class Acceuil extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         table_clients = new javax.swing.JTable();
         btn_supp_client = new javax.swing.JButton();
-        btn_user_modif = new javax.swing.JButton();
+        btn_affdetail_client = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         table_client_banni = new javax.swing.JTable();
-        btn_actualiser_list_ban = new javax.swing.JButton();
+        pnl_detail_client = new javax.swing.JPanel();
+        lbl_nom_client = new javax.swing.JLabel();
+        lbl_prenom_client = new javax.swing.JLabel();
+        lbl_Age_client = new javax.swing.JLabel();
+        lbl_adresse_client = new javax.swing.JLabel();
+        lbl_email_client = new javax.swing.JLabel();
+        lbl_date_insc_client = new javax.swing.JLabel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        table_client_list_achat = new javax.swing.JTable();
+        btn_deban_client = new javax.swing.JButton();
+        btn_ban_client1 = new javax.swing.JButton();
         pnl_gprest = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_prest = new javax.swing.JTable();
@@ -168,7 +184,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(pnl_gadminsLayout.createSequentialGroup()
                         .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -188,7 +204,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addComponent(btn_modif)
                     .addComponent(btn_add_admin)
                     .addComponent(btn_supp_admin))
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
@@ -225,10 +241,10 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
-        btn_user_modif.setText("Sauvgarder");
-        btn_user_modif.addActionListener(new java.awt.event.ActionListener() {
+        btn_affdetail_client.setText("Afficher");
+        btn_affdetail_client.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_user_modifActionPerformed(evt);
+                btn_affdetail_clientActionPerformed(evt);
             }
         });
 
@@ -243,12 +259,87 @@ public class Acceuil extends javax.swing.JFrame {
 
             }
         ));
+        table_client_banni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                table_client_banniMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(table_client_banni);
 
-        btn_actualiser_list_ban.setText("Actualiser");
-        btn_actualiser_list_ban.addActionListener(new java.awt.event.ActionListener() {
+        lbl_nom_client.setText("Nom :");
+
+        lbl_prenom_client.setText("Prenom :");
+
+        lbl_Age_client.setText("Age :");
+
+        lbl_adresse_client.setText("Adresse :");
+
+        lbl_email_client.setText("E-Mail :");
+
+        lbl_date_insc_client.setText("Date d'Inscrit :");
+
+        table_client_list_achat.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane6.setViewportView(table_client_list_achat);
+
+        javax.swing.GroupLayout pnl_detail_clientLayout = new javax.swing.GroupLayout(pnl_detail_client);
+        pnl_detail_client.setLayout(pnl_detail_clientLayout);
+        pnl_detail_clientLayout.setHorizontalGroup(
+            pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnl_detail_clientLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_nom_client)
+                    .addComponent(lbl_prenom_client)
+                    .addComponent(lbl_Age_client)
+                    .addComponent(lbl_adresse_client)
+                    .addComponent(lbl_email_client)
+                    .addComponent(lbl_date_insc_client))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        pnl_detail_clientLayout.setVerticalGroup(
+            pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detail_clientLayout.createSequentialGroup()
+                .addContainerGap(40, Short.MAX_VALUE)
+                .addGroup(pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnl_detail_clientLayout.createSequentialGroup()
+                        .addComponent(lbl_nom_client)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_prenom_client)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_Age_client)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_adresse_client)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_email_client)
+                        .addGap(18, 18, 18)
+                        .addComponent(lbl_date_insc_client)))
+                .addContainerGap())
+        );
+
+        btn_deban_client.setText("DEBAN");
+        btn_deban_client.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_actualiser_list_banActionPerformed(evt);
+                btn_deban_clientActionPerformed(evt);
+            }
+        });
+
+        btn_ban_client1.setText("BAN");
+        btn_ban_client1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ban_client1ActionPerformed(evt);
             }
         });
 
@@ -259,20 +350,23 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gusersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
                         .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(pnl_gusersLayout.createSequentialGroup()
+                                .addComponent(pnl_detail_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                                .addComponent(btn_deban_client))
+                            .addGroup(pnl_gusersLayout.createSequentialGroup()
                                 .addComponent(btn_ajout_client, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_supp_client)
+                                .addComponent(btn_affdetail_client)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(btn_user_modif)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btn_actualiser_list_ban)
-                                .addGap(71, 71, 71)))
+                                .addComponent(btn_supp_client)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_ban_client1)
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -284,17 +378,19 @@ public class Acceuil extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addContainerGap())
-                    .addGroup(pnl_gusersLayout.createSequentialGroup()
-                        .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btn_user_modif)
-                            .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(btn_ajout_client)
-                                .addComponent(btn_supp_client)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 178, Short.MAX_VALUE)
-                        .addComponent(btn_actualiser_list_ban)
-                        .addGap(69, 69, 69))))
+                        .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btn_ajout_client)
+                            .addComponent(btn_affdetail_client)
+                            .addComponent(btn_supp_client)
+                            .addComponent(btn_ban_client1))
+                        .addGap(18, 18, 18)
+                        .addComponent(pnl_detail_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 60, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btn_deban_client))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         jTabbedPane1.addTab("Gestion des Clients", pnl_gusers);
@@ -345,7 +441,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gprestLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gprestLayout.createSequentialGroup()
                         .addComponent(btn_ajout_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -366,7 +462,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_ajout_prest)
                         .addComponent(btn_supp_prest)))
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
@@ -375,11 +471,11 @@ public class Acceuil extends javax.swing.JFrame {
         pnl_grecl.setLayout(pnl_greclLayout);
         pnl_greclLayout.setHorizontalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 693, Short.MAX_VALUE)
+            .addGap(0, 706, Short.MAX_VALUE)
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 615, Short.MAX_VALUE)
+            .addGap(0, 659, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -422,7 +518,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_goffresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 673, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(pnl_goffresLayout.createSequentialGroup()
                         .addComponent(btn_add_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -442,7 +538,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addComponent(btn_modif_offre)
                     .addComponent(btn_add_offre)
                     .addComponent(btn_supp_offre))
-                .addContainerGap(270, Short.MAX_VALUE))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Offres", pnl_goffres);
@@ -606,9 +702,24 @@ public class Acceuil extends javax.swing.JFrame {
             
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void btn_user_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_user_modifActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_user_modifActionPerformed
+    private void btn_affdetail_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_affdetail_clientActionPerformed
+        if(table_clients.getSelectedRow()!=-1){
+        pnl_detail_client.setVisible(true);
+        int ligne,colone;
+        String login;
+        Client c= new Client();
+        ligne=table_clients.getSelectedRow();
+        c=ClientDAO.findClientByLogin(table_clients.getValueAt(ligne, 0).toString());
+        lbl_nom_client.setText("Nom : "+c.getNom());
+        lbl_prenom_client.setText("Prenom : "+c.getPrenom());
+        lbl_adresse_client.setText("Adresse : "+c.getAdresse());
+        lbl_email_client.setText("E-mail : "+c.getEmail());
+        lbl_Age_client.setText("Age : "+c.getAge());
+        lbl_date_insc_client.setText("Date Naissance : "+c.getDateInscrit().getTime());
+        
+        
+        }
+    }//GEN-LAST:event_btn_affdetail_clientActionPerformed
 
     private void btn_ajout_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_clientActionPerformed
         new AddClient(table_clients).setVisible(true);
@@ -633,14 +744,14 @@ public class Acceuil extends javax.swing.JFrame {
         
         ligne=table_clients.getSelectedRow();
         try{
-        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_clients.getValueAt(ligne, 0).toString());
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer le Client "+table_clients.getValueAt(ligne, 0).toString());
         if (conf==0){
             ClientDAO.deleteClient(table_clients.getValueAt(ligne, 0).toString());
             ClientDAO.upateTableClient(table_clients);
             }
         }
         catch(Exception ex){
-            JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
+            JOptionPane.showMessageDialog(null, "Selectionner un Client");
         }
     }//GEN-LAST:event_btn_supp_clientActionPerformed
 
@@ -670,7 +781,9 @@ public class Acceuil extends javax.swing.JFrame {
     private void table_clientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_clientsMouseClicked
          if(table_clients.getSelectedRow()!=-1){
             btn_supp_client.setEnabled(true);
+            //btn_affdetail_client.setEnabled(true);// A voir manier d'affichage detaille client
         }
+         pnl_detail_client.setVisible(false);
     }//GEN-LAST:event_table_clientsMouseClicked
 
     private void table_adminsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_adminsMouseClicked
@@ -693,9 +806,23 @@ public class Acceuil extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btn_modif_offreActionPerformed
 
-    private void btn_actualiser_list_banActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_actualiser_list_banActionPerformed
+    private void btn_deban_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deban_clientActionPerformed
+        ClientDAO.updateEtatClientDEBAN(table_client_banni.getValueAt(table_client_banni.getSelectedRow(), table_client_banni.getSelectedColumn()).toString());
+        ClientDAO.upateTableClient(table_clients);
         ClientDAO.upateTableClientBanni(table_client_banni);
-    }//GEN-LAST:event_btn_actualiser_list_banActionPerformed
+    }//GEN-LAST:event_btn_deban_clientActionPerformed
+
+    private void btn_ban_client1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ban_client1ActionPerformed
+        ClientDAO.updateEtatClientBAN(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString());
+        ClientDAO.upateTableClient(table_clients);
+        ClientDAO.upateTableClientBanni(table_client_banni);
+    }//GEN-LAST:event_btn_ban_client1ActionPerformed
+
+    private void table_client_banniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_client_banniMouseClicked
+         /*if(table_client_banni.getSelectedRow()!=-1){
+            btn_deban_client.setEnabled(true);
+        }*/
+    }//GEN-LAST:event_table_client_banniMouseClicked
 
     /**
      * @param args the command line arguments
@@ -734,11 +861,13 @@ public class Acceuil extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Deconnexion;
-    private javax.swing.JButton btn_actualiser_list_ban;
     private javax.swing.JButton btn_add_admin;
     private javax.swing.JButton btn_add_offre;
+    private javax.swing.JButton btn_affdetail_client;
     private javax.swing.JButton btn_ajout_client;
     private javax.swing.JButton btn_ajout_prest;
+    private javax.swing.JButton btn_ban_client1;
+    private javax.swing.JButton btn_deban_client;
     private javax.swing.JButton btn_modif;
     private javax.swing.JButton btn_modif_offre;
     private javax.swing.JButton btn_save_modif;
@@ -746,7 +875,6 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_supp_client;
     private javax.swing.JButton btn_supp_offre;
     private javax.swing.JButton btn_supp_prest;
-    private javax.swing.JButton btn_user_modif;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
@@ -760,13 +888,21 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JLabel lbl_Age_client;
+    private javax.swing.JLabel lbl_adresse_client;
     private javax.swing.JLabel lbl_bnjr;
+    private javax.swing.JLabel lbl_date_insc_client;
+    private javax.swing.JLabel lbl_email_client;
     private javax.swing.JLabel lbl_lastconn_admin;
+    private javax.swing.JLabel lbl_nom_client;
+    private javax.swing.JLabel lbl_prenom_client;
     private javax.swing.JTable liste_offres;
     private javax.swing.JPanel pnl_admin_acceuil;
+    private javax.swing.JPanel pnl_detail_client;
     private javax.swing.JPanel pnl_gadmins;
     private javax.swing.JPanel pnl_goffres;
     private javax.swing.JPanel pnl_gprest;
@@ -774,6 +910,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JPanel pnl_gusers;
     private javax.swing.JTable table_admins;
     private javax.swing.JTable table_client_banni;
+    private javax.swing.JTable table_client_list_achat;
     private javax.swing.JTable table_clients;
     private javax.swing.JTable table_prest;
     // End of variables declaration//GEN-END:variables
