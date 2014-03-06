@@ -24,14 +24,14 @@ import net.proteanit.sql.DbUtils;
  * @author Elyes
  */
 public class OffreDAO {
-   public static Offre findOffreByPrest(String login){
+   public static Offre findOffreByID(int id){
      
      Offre off = new Offre();
-     String requete = "select * from Offre where id_prest=?";
+     String requete = "select * from Offre where ID_offre=?";
      ResultSet rs;
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, login);
+            ps.setInt(1, id);
             rs=ps.executeQuery();
             if(rs.next()){ 
                 off.setLibelle_off(rs.getString(1));
@@ -66,33 +66,31 @@ public class OffreDAO {
         }
     }
     
-    public static boolean deleteClient(String login){
-        String requete="DELETE from Client where login=?";
+    public static boolean deleteOffre(int id){
+        String requete="DELETE from Offre where ID_offre=?";
         
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
-            ps.setString(1, login);
+            ps.setInt(1, id);
             ps.executeUpdate();
-            CRUD.deleteUser(login);
-                System.out.println("Suppression avec Succés !");
-                return true;
+            return true;
             
         } catch (SQLException ex) {
             System.out.println("Erreur de Suppression !"+ex.getMessage());
             return false;
         }
     }
-    public List<User>listClient(){
-        String requete="Select * from goldencage.user u,goldencage.client a where u.login=a.login";
+    public List<Offre>listOffresPrest(String login){
+        String requete="Select * from offre where id_prest=?";
         ResultSet rs=null;
-        User user=new User();
-        List<User>list=new ArrayList<User>();
+        Offre off=new Offre();
+        List<Offre>list=new ArrayList<Offre>();
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             rs=ps.executeQuery();
             while(rs.next()){
-                user=CRUD.findUserByLogin(rs.getString(1));
-                list.add(user);
+                off=findOffreByID(rs.getInt(0));
+                list.add(off);
             }
             return list;
         } catch (SQLException ex) {
@@ -100,10 +98,12 @@ public class OffreDAO {
             return null;
         }
     }
-    
-    public static void updateEtatClientDEBAN(String login){
+    public static void updateOffreByID(int id){
+        
+    }
+    public static void updateEtatOffreDispo(String login){
             
-           String requete="Update Client set etat=? where login=?";
+           String requete="Update Offre set Dispo=? where ID_offre=?";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setInt(1, 1);
@@ -114,27 +114,27 @@ public class OffreDAO {
         }
     }
     
-    public static void updateEtatClientBAN(String login){
+    public static void updateEtatOffreNonDispo(int id){
             
-           String requete="Update Client set etat=? where login=?";
+           String requete="Update Offre set dispo=? where ID_offre=?";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setInt(1, 0);
-            ps.setString(2, login);
+            ps.setInt(2, id);
             ps.executeUpdate();
         } catch (SQLException ex) {
             System.out.println("Erreur de mise a jour\n"+ex.getMessage());
         }
     }
     
-    public static void upateTableClient(javax.swing.JTable table_client){
+    public static void upateTableClient(javax.swing.JTable table_Offres){
         
         String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.client a,goldencage.user u where a.login=u.login";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
         rs=ps.executeQuery();
-        table_client.setModel(DbUtils.resultSetToTableModel(rs));
+        table_Offres.setModel(DbUtils.resultSetToTableModel(rs));
         }
         catch(SQLException ex) {
             Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
