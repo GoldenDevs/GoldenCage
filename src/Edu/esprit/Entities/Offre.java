@@ -100,6 +100,8 @@ public class Offre {
     
 
     public Offre() {
+        this.stat_offre=true;
+        this.date_Post = new Date(new java.util.Date().getTime());
     }
     
     

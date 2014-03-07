@@ -9,6 +9,8 @@ package Edu.esprit.tests;
 import Edu.esprit.DAO.PrestDAO;
 import Edu.esprit.Entities.Prestataire;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,9 +18,17 @@ import java.sql.Date;
  */
 public class TestCRUDPrest {
     public static void main(String[] args) {
-        Date deAb=new Date(new java.util.Date().getTime());
-        Date finAb=new Date(new java.util.Date().getTime());
-        Prestataire prest=new Prestataire(deAb, finAb, "Microsoft2", "123", "Microsoft", "Blabla", "Rue fagaebaebaea", "Bla@esprit.Tn");
-        PrestDAO.addPrest(prest);
+//        Date deAb=new Date(new java.util.Date().getTime());
+//        Date finAb=new Date(new java.util.Date().getTime());
+//        Prestataire prest=new Prestataire(deAb, finAb, "Microsoft2", "123", "Microsoft", "Blabla", "Rue fagaebaebaea", "Bla@esprit.Tn");
+//        PrestDAO.addPrest(prest);
+        
+
+        List<Prestataire>list=new ArrayList<Prestataire>();
+        list=PrestDAO.listPrest();
+        for(Prestataire p:list){
+            System.out.println(p.getLogin());
+        }
+        
     }
 }

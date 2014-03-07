@@ -23,12 +23,8 @@ public class Acceuil extends javax.swing.JFrame {
     /**
      * Creates new form Acceuil
      */
-    
-    public Acceuil() {
-        initComponents();
-        
-         
-         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
+    public void load(){
+        lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
          lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.login);
          
          AdministrateurDAO.upateTableAdmins(table_admins);
@@ -42,8 +38,14 @@ public class Acceuil extends javax.swing.JFrame {
          btn_affdetail_client.setEnabled(false);
          pnl_detail_client.setVisible(false);
          btn_deban_client.setEnabled(false);
+         btn_ban_client1.setEnabled(false);
          jmenu_login.setText("Administrateur , "+Authentification.login);
-
+         btn_modif.setEnabled(false);
+    }
+    
+    public Acceuil() {
+        initComponents();
+        load();
     }
 
    
@@ -173,7 +175,7 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
-        btn_modif.setText("Sauvgarder");
+        btn_modif.setText("Modifier");
         btn_modif.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_modifActionPerformed(evt);
@@ -221,13 +223,13 @@ public class Acceuil extends javax.swing.JFrame {
 
         table_clients.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         table_clients.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -806,6 +808,7 @@ public class Acceuil extends javax.swing.JFrame {
     private void table_clientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_clientsMouseClicked
          if(table_clients.getSelectedRow()!=-1){
             btn_supp_client.setEnabled(true);
+            btn_ban_client1.setEnabled(true);
             //btn_affdetail_client.setEnabled(true);// A voir manier d'affichage detaille client
         }
          pnl_detail_client.setVisible(false);

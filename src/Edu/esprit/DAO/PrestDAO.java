@@ -84,6 +84,24 @@ public class PrestDAO {
         }
     }
     
+    public static List<Prestataire>listPrest(){
+        String requete="Select * from goldencage.user u,goldencage.prestataire p where u.login=p.login";
+        ResultSet rs=null;
+        Prestataire prest=new Prestataire();
+        List<Prestataire>list=new ArrayList<Prestataire>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                prest=findPrestByLogin(rs.getString(1));
+                list.add(prest);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
     public static void upateTablePrest(javax.swing.JTable table_prest){
         
         String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.prestataire a,goldencage.user u where a.login=u.login";

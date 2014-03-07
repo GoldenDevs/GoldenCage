@@ -102,7 +102,7 @@ public class OffreDAO {
             return false;
         }
     }
-    public List<Offre>listOffresPrest(String login){
+    public static List<Offre>listOffresPrest(String login){
         String requete="Select * from offre where id_prest=?";
         ResultSet rs=null;
         Offre off=new Offre();
@@ -119,6 +119,42 @@ public class OffreDAO {
             Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
             return null;
         }
+    }
+    
+    public static List<Offre>listOffres(String login){
+        String requete="Select * from offre ";
+        ResultSet rs=null;
+        Offre off=new Offre();
+        List<Offre>list=new ArrayList<Offre>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                off=findOffreByID(rs.getInt(0));
+                list.add(off);
+            }
+            return list;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
+    
+    public static boolean setPhotoOffre(){
+        String requete ="Select img from Offre where libelle_offre=?";
+        
+       try {
+           PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+           
+       } catch (SQLException ex) {
+           Logger.getLogger(OffreDAO.class.getName()).log(Level.SEVERE, null, ex);
+       }
+        return false;
+    }
+    
+     public static boolean getPhotoOffre(){
+        
+        return false;
     }
     public static void updateOffreByID(int id){
         
