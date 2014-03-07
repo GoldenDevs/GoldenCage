@@ -47,10 +47,28 @@ public class OffreDAO {
             return null;
         }
 }
-     
+   public static boolean verifExistOffre(String libelle) {
+       
+       String requete = "Select * from Offre where libelle_offre=?";
+       ResultSet rs=null;
+       try {
+           PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+           ps.setString(1, libelle);
+           rs=ps.executeQuery();
+           if(rs.next()){
+               return true;
+           }
+           return false;
+       } catch (SQLException ex) {
+           Logger.getLogger(OffreDAO.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println("Erreur d'excuter la requete "+ ex.getMessage());
+           return true;
+       }
+   }
+   
     public static boolean addOffre(Offre o){
+        if(!(verifExistOffre(o.getLibelle_off()))){
         String requete = "Insert into Offre(Libelle_offre,dispo,date_Post,id_prest,prix)values(?,?,?,?,?)";
-        
         try {           
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, o.getLibelle_off());
@@ -59,11 +77,15 @@ public class OffreDAO {
             ps.setString(4, o.getNomPrest());
             ps.setFloat(5, o.getPrix());
             ps.executeUpdate();
+            System.out.println("Offre est ajouter !");
             return true;
         } catch (SQLException ex) {
             System.out.println("Erreur d'ajout d'Offre !");
             return false;
         }
+        }
+        System.out.println("L'Offre existe déja");
+        return false;
     }
     
     public static boolean deleteOffre(int id){

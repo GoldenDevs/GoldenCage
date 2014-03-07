@@ -42,6 +42,7 @@ public class Acceuil extends javax.swing.JFrame {
          btn_affdetail_client.setEnabled(false);
          pnl_detail_client.setVisible(false);
          btn_deban_client.setEnabled(false);
+         jmenu_login.setText("Administrateur , "+Authentification.login);
 
     }
 
@@ -100,7 +101,9 @@ public class Acceuil extends javax.swing.JFrame {
         lbl_bnjr = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jmenu_login = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         Deconnexion = new javax.swing.JMenuItem();
         jMenuItem3 = new javax.swing.JMenuItem();
@@ -549,13 +552,24 @@ public class Acceuil extends javax.swing.JFrame {
 
         jMenu1.setText("Fichier");
 
-        jMenuItem2.setText("Changer mot de passe");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenu2.setText("Changer Mot de Passe");
+
+        jMenuItem4.setText("SuperAdmin");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItem4ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        jMenu2.add(jMenuItem4);
+
+        jmenu_login.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jmenu_loginActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jmenu_login);
+
+        jMenu1.add(jMenu2);
         jMenu1.add(jSeparator2);
 
         Deconnexion.setText("Deconnexion");
@@ -642,16 +656,17 @@ public class Acceuil extends javax.swing.JFrame {
         System.exit(0);
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+    private void jmenu_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_loginActionPerformed
        new AdminPasswordChange().setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_jmenu_loginActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        new ContactSupport().setVisible(true);
+       
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btn_supp_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_adminActionPerformed
         int ligne,colone;
+        String msg;
         
         ligne=table_admins.getSelectedRow();
         try{
@@ -660,7 +675,17 @@ public class Acceuil extends javax.swing.JFrame {
         if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.login)){
             JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
         }else{
+            if((!Authentification.login.equals("superadmin"))){
+            msg=JOptionPane.showInputDialog(null,"Taper le Mot de passe de SuperUser");
+            if(msg.equals(AdministrateurDAO.getSuperAdminPassword())){
             AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+            }else{
+                JOptionPane.showMessageDialog(null, "Erreur de Suppression , Mot de Passe incorrect");
+            }}
+            else{
+               AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+
+            }
         }
         }
             AdministrateurDAO.upateTableAdmins(table_admins);
@@ -671,7 +696,7 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_supp_adminActionPerformed
 
     private void btn_add_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_adminActionPerformed
-       AddAdmin admin= new AddAdmin();
+       AddAdmin admin= new AddAdmin(table_admins);
        admin.setTitle("Ajouter Administrateur");
        admin.setVisible(true);
         
@@ -699,7 +724,7 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_modifActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-            
+         new ContactSupport().setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void btn_affdetail_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_affdetail_clientActionPerformed
@@ -731,7 +756,7 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_save_modifActionPerformed
 
     private void btn_ajout_prestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_prestActionPerformed
-        new AddPrest().setVisible(true);
+        new AddPrest(table_prest).setVisible(true);
     }//GEN-LAST:event_btn_ajout_prestActionPerformed
 
     private void DeconnexionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeconnexionActionPerformed
@@ -819,10 +844,15 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_ban_client1ActionPerformed
 
     private void table_client_banniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_client_banniMouseClicked
-         /*if(table_client_banni.getSelectedRow()!=-1){
+         if(table_client_banni.getSelectedRow()!=-1){
             btn_deban_client.setEnabled(true);
-        }*/
+        }
     }//GEN-LAST:event_table_client_banniMouseClicked
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        new AdminPasswordChange("superadmin").setVisible(true);
+        
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -877,11 +907,12 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_supp_prest;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -892,6 +923,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem jmenu_login;
     private javax.swing.JLabel lbl_Age_client;
     private javax.swing.JLabel lbl_adresse_client;
     private javax.swing.JLabel lbl_bnjr;

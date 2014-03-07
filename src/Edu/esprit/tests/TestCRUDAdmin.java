@@ -32,8 +32,12 @@ public class TestCRUDAdmin {
 //        user.setPrenom("AAAA");
 //        user.setNom("NAAA");
 //        CRUD.updateUserByLogin(user);
-        System.out.println(AdministrateurDAO.findAdminByLogin("Microsft")==null);
+        //System.out.println(AdministrateurDAO.findAdminByLogin("Microsft")==null);
 //        adminDAO.deleteAdmin(a);
+        AdministrateurDAO.setSuperAdminPassword("Super23");
+        System.out.println(AdministrateurDAO.getSuperAdminPassword());
+
+        
 
 
     }

@@ -213,11 +213,12 @@ public class AddPrest extends javax.swing.JFrame {
         Prestataire prest=new Prestataire(new Date(jDateChooserDebut.getDate().getTime()),new Date(jDateChooserFin.getDate().getTime()),txtf_login.getText(),txtf_password.getText(),txtf_nom.getText(),txtf_prenom.getText(),txtf_adresse.getText(),txtf_email.getText());
         if(PrestDAO.addPrest(prest)){
             JOptionPane.showMessageDialog(null, "Client "+txtf_login.getText()+" est ajouter avec succes");
+            PrestDAO.upateTablePrest(table);
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Erreur d'ajout");
         }
-        PrestDAO.upateTablePrest(table);
+        
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
 
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed

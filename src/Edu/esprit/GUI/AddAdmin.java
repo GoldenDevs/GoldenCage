@@ -28,9 +28,8 @@ public class AddAdmin extends javax.swing.JFrame {
     public AddAdmin(javax.swing.JTable table) {
         this.table=table;
         initComponents();
-        
+    
     }
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -186,11 +185,12 @@ public class AddAdmin extends javax.swing.JFrame {
 //        admin.setAdresse(txtf_adresse.getText());
         if(AdministrateurDAO.addAdmin(admin)){
             JOptionPane.showMessageDialog(null, "Administrateur "+txtf_login.getText()+" est ajouter avec succes");
+            AdministrateurDAO.upateTableAdmins(table);
             this.dispose();
         }else{
             JOptionPane.showMessageDialog(null, "Erreur d'ajout");
         }
-        AdministrateurDAO.upateTableAdmins(table);
+        
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
 
     /**
@@ -222,6 +222,7 @@ public class AddAdmin extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new AddAdmin().setVisible(true);
             }

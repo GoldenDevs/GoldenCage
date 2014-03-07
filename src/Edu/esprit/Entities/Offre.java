@@ -18,8 +18,12 @@ public class Offre {
     private String libelle_off;
     private boolean stat_offre;
     private float prix;
+    private Date date_Post;
+    private String nomPrest;
+    private float noteOffre;
+    private List<Commentaire>listCommentaires;
 
-    public float getPrix() {
+     public float getPrix() {
         return prix;
     }
 
@@ -27,12 +31,6 @@ public class Offre {
         this.prix = prix;
     }
   
-    private Date date_Post;
-    private String nomPrest;
-    private float noteOffre;
-    private List<Commentaire>listCommentaires;
-
-    
       public float getNoteOffre() {
         return noteOffre;
     }
@@ -90,13 +88,16 @@ public class Offre {
         this.listCommentaires = listCommentaires;
     }
 
-    public Offre(int id_Offre, String libelle_off, boolean stat_offre, Date date_Post, String nomPrest) {
-        this.id_Offre = id_Offre;
+    public Offre(String libelle_off, boolean stat_offre, float prix, String nomPrest) {
         this.libelle_off = libelle_off;
         this.stat_offre = stat_offre;
-        this.date_Post = date_Post;
+        this.prix = prix;
+        this.date_Post = new Date(new java.util.Date().getTime());
         this.nomPrest = nomPrest;
     }
+
+    
+    
 
     public Offre() {
     }

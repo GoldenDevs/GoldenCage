@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
 
@@ -154,6 +155,22 @@ public static Administrateur findAdminByLogin(String login){
         CRUD.updateUserByLogin(admin);
         System.out.println(admin);
     }
+    
+    public static void setSuperAdminPassword(String Password){
+        Administrateur admin=new Administrateur();
+        admin=findAdminByLogin("superadmin");
+        admin.setPassword(Password);
+        CRUD.updateUserByLogin(admin);
+       
+    }
+    
+    public static String getSuperAdminPassword(){
+        String pwd=null;
+        Administrateur admin=new Administrateur();
+        admin=findAdminByLogin("superadmin");
+        pwd=admin.getPassword();
+        return pwd;
+}
     
     public List<User>listAdministrateur(){
         String requete="Select * from goldencage.user u,goldencage.administrateur a where u.login=a.login";
