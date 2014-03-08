@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -166,19 +167,6 @@ public class OffreDAO {
         }
     }
     
-    public static boolean setPhotoOffre(){
-        String requete ="Select img from Offre where libelle_offre=?";
-        
-       try {
-           PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
-           
-       } catch (SQLException ex) {
-           Logger.getLogger(OffreDAO.class.getName()).log(Level.SEVERE, null, ex);
-       }
-        return false;
-    }
-    
-    
     public static void updateEtatOffreDispo(String login){
             
            String requete="Update Offre set Dispo=? where ID_offre=?";
@@ -205,18 +193,44 @@ public class OffreDAO {
         }
     }
     
-    public static void upateTableOffre(javax.swing.JTable table_Offres){
+ 
+    public static void upateTableOffre(javax.swing.JTable liste_offres){
         
-        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.client a,goldencage.user u where a.login=u.login";
+        String requete="SELECT * from Offre";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
         rs=ps.executeQuery();
-        table_Offres.setModel(DbUtils.resultSetToTableModel(rs));
+        liste_offres.setModel(DbUtils.resultSetToTableModel(rs));
         }
         catch(SQLException ex) {
             Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     } 
+    
+    public static ImageIcon getImageOffre(int id){
+        ImageIcon img=null;
+        String requete="Select img from Offre where id=?";
+        ResultSet rs=null;
+        try {
+           PreparedStatement ps= MyConnection.getInstance().prepareStatement(requete);
+           ps.setInt(1, id);
+           rs=ps.executeQuery();
+           if(rs.next()){
+                byte[] imagedata = rs.getBytes(1);
+                img = new ImageIcon(imagedata);
+           }
+           
+           return img;
+        } catch (SQLException ex) {
+           Logger.getLogger(OffreDAO.class.getName()).log(Level.SEVERE, null, ex);
+           JOptionPane.showMessageDialog(null, "Erreur de charger le photo \n"+ex.getMessage());
+           return null;
+       }
+        
+                
+        }   
+        
+   
 }

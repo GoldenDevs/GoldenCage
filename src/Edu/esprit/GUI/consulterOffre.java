@@ -18,6 +18,9 @@ public class consulterOffre extends javax.swing.JFrame {
     public consulterOffre() {
         initComponents();
     }
+    public consulterOffre(int id) {
+        initComponents();
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,26 +31,38 @@ public class consulterOffre extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel6 = new javax.swing.JLabel();
-
-        jLabel1.setText("jLabel1");
+        lbl_image_offre = new javax.swing.JLabel();
+        lbl_lib_offre = new javax.swing.JLabel();
+        lbl_id_offre = new javax.swing.JLabel();
+        lbl_dateP_offre = new javax.swing.JLabel();
+        lbl_etat_Offre = new javax.swing.JLabel();
+        lbl_prest_offre = new javax.swing.JLabel();
+        lbl_prix_offre = new javax.swing.JLabel();
+        lbl_note_offre = new javax.swing.JLabel();
+        btn_fermer_detail_offre = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel2.setText("jLabel2");
+        lbl_lib_offre.setText("Libelle Offre : ");
 
-        jLabel3.setText("Libelle Offre : ");
+        lbl_id_offre.setText("Identifient :");
 
-        jLabel4.setText("Identifient :");
+        lbl_dateP_offre.setText("Date Post :");
 
-        jLabel5.setText("jLabel5");
+        lbl_etat_Offre.setText("Etat Offre : ");
 
-        jLabel6.setText("Etat Offre : ");
+        lbl_prest_offre.setText("Prestataire :");
+
+        lbl_prix_offre.setText("Prix :");
+
+        lbl_note_offre.setText("Note :");
+
+        btn_fermer_detail_offre.setText("Fermer");
+        btn_fermer_detail_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_fermer_detail_offreActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -56,35 +71,53 @@ public class consulterOffre extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(166, 166, 166)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6))))
-                .addContainerGap(194, Short.MAX_VALUE))
+                            .addComponent(lbl_id_offre)
+                            .addComponent(lbl_lib_offre)
+                            .addComponent(lbl_etat_Offre)
+                            .addComponent(lbl_dateP_offre)
+                            .addComponent(lbl_prest_offre)
+                            .addComponent(lbl_prix_offre)
+                            .addComponent(lbl_note_offre)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(106, 106, 106)
+                        .addComponent(lbl_image_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(152, 152, 152)
+                        .addComponent(btn_fermer_detail_offre)))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jLabel4)
+                .addComponent(lbl_image_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_id_offre)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3)
+                .addComponent(lbl_lib_offre)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel6)
+                .addComponent(lbl_prest_offre)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel5)
-                .addContainerGap(236, Short.MAX_VALUE))
+                .addComponent(lbl_dateP_offre)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_etat_Offre)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_prix_offre)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_note_offre)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(btn_fermer_detail_offre)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_fermer_detail_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fermer_detail_offreActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_btn_fermer_detail_offreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -122,11 +155,14 @@ public class consulterOffre extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
+    private javax.swing.JButton btn_fermer_detail_offre;
+    private javax.swing.JLabel lbl_dateP_offre;
+    private javax.swing.JLabel lbl_etat_Offre;
+    private javax.swing.JLabel lbl_id_offre;
+    private javax.swing.JLabel lbl_image_offre;
+    private javax.swing.JLabel lbl_lib_offre;
+    private javax.swing.JLabel lbl_note_offre;
+    private javax.swing.JLabel lbl_prest_offre;
+    private javax.swing.JLabel lbl_prix_offre;
     // End of variables declaration//GEN-END:variables
 }

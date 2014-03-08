@@ -31,6 +31,7 @@ public class Acceuil extends javax.swing.JFrame {
          PrestDAO.upateTablePrest(table_prest);
          ClientDAO.upateTableClient(table_clients);
          ClientDAO.upateTableClientBanni(table_client_banni);
+         OffreDAO.upateTableOffre(liste_offres);
          btn_supp_prest.setEnabled(false);
          btn_supp_admin.setEnabled(false);
          btn_supp_client.setEnabled(false);
