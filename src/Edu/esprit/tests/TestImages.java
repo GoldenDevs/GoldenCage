@@ -6,17 +6,17 @@
 
 package Edu.esprit.tests;
 
-import Edu.esprit.DAO.OffreDAO;
-import Edu.esprit.Entities.Offre;
+import Edu.esprit.utils.Images;
 
 /**
  *
  * @author Elyes
  */
-public class TestCRUDOffre {
+public class TestImages {
     public static void main(String[] args) {
-        Offre off=new Offre("Sourie444", true,(float) 100.5, "Microsoft2");
-        //System.out.println(OffreDAO.verifExistOffre("aegaeg"));
-        System.out.println(OffreDAO.findOffreByID(1));
+        Images.uploadImage("Cat", "C:\\Image\\offre.jpg");
+        String path=Images.downloadImage(1);
+        System.out.println(path);
+        
     }
 }

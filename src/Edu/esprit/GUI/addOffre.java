@@ -10,6 +10,7 @@ import Edu.esprit.DAO.OffreDAO;
 import Edu.esprit.DAO.PrestDAO;
 import Edu.esprit.Entities.Offre;
 import Edu.esprit.Entities.Prestataire;
+import Edu.esprit.utils.Images;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -17,8 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 /**
@@ -27,7 +30,15 @@ import javax.swing.filechooser.FileFilter;
  */
 public class addOffre extends javax.swing.JFrame {
     private String basePath="C:\\Images";
-    FileInputStream fin ;
+    private String imagePath;
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
     /**
      * Creates new form addOffre
      */
@@ -37,9 +48,11 @@ public class addOffre extends javax.swing.JFrame {
         List<Prestataire>list=new ArrayList<Prestataire>();
         list=PrestDAO.listPrest();
         for(Prestataire p:list){
-            cbx_liste_prest.addItem(p.getLogin().toString());
+            
+        cbx_liste_prest.addItem(p.getLogin().toString());
             
         }
+        lbl_image.setIcon(new ImageIcon("C:\\Image\\offre.jpg"));
     }
 
     /**
@@ -60,6 +73,7 @@ public class addOffre extends javax.swing.JFrame {
         cbx_liste_prest = new javax.swing.JComboBox();
         btn_v_ajout_offre = new javax.swing.JButton();
         btn_annuler_ajout_offre = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -70,6 +84,7 @@ public class addOffre extends javax.swing.JFrame {
         lbl_prix_offre.setText("Prix :");
 
         lbl_image.setForeground(new java.awt.Color(255, 255, 204));
+        lbl_image.setIcon(new javax.swing.ImageIcon("C:\\Image\\offre.jpg")); // NOI18N
         lbl_image.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbl_imageMouseClicked(evt);
@@ -97,43 +112,56 @@ public class addOffre extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Image");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addGap(53, 53, 53)
-                            .addComponent(btn_v_ajout_offre)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_annuler_ajout_offre))
-                        .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(lbl_libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(lbl_prix_offre)
-                                .addComponent(lbl_prest_offre))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(cbx_liste_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(layout.createSequentialGroup()
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(txtf_prix_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(txtf_Libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(54, 54, 54)
-                        .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(22, Short.MAX_VALUE))
+                        .addGap(53, 53, 53)
+                        .addComponent(btn_v_ajout_offre)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_annuler_ajout_offre))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(49, 49, 49)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbl_prix_offre)
+                                    .addComponent(lbl_prest_offre))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(cbx_liste_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(txtf_prix_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtf_Libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButton1)))))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addComponent(lbl_image, javax.swing.GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-                .addGap(18, 18, 18)
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton1)
+                    .addComponent(lbl_image, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lbl_libelle_offre)
                     .addComponent(txtf_Libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -149,7 +177,7 @@ public class addOffre extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_v_ajout_offre)
                     .addComponent(btn_annuler_ajout_offre))
-                .addGap(22, 22, 22))
+                .addContainerGap())
         );
 
         pack();
@@ -165,7 +193,10 @@ public class addOffre extends javax.swing.JFrame {
         o.setLibelle_off(txtf_Libelle_offre.getText());
         o.setPrix(Float.parseFloat(txtf_prix_offre.getText()));
         o.setNomPrest(cbx_liste_prest.getSelectedItem().toString());
-        OffreDAO.addOffre(o);
+        if(OffreDAO.addOffre(o)){
+            Images.uploadImage(o.getLibelle_off(),imagePath);
+        }
+        this.dispose();
     }//GEN-LAST:event_btn_v_ajout_offreActionPerformed
 
     private void lbl_imageKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_lbl_imageKeyPressed
@@ -174,17 +205,30 @@ public class addOffre extends javax.swing.JFrame {
     }//GEN-LAST:event_lbl_imageKeyPressed
 
     private void lbl_imageMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_imageMouseClicked
-        JFileChooser browser = new JFileChooser(basePath);
-       browser.setFileFilter(new JPEGImageFileFilter());
-       int res = browser.showOpenDialog(null);
-       lbl_image.setIcon(new ImageIcon(browser.getSelectedFile().getAbsolutePath()));
-        try {
-            fin = new FileInputStream(browser.getSelectedFile().getAbsolutePath());
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(addOffre.class.getName()).log(Level.SEVERE, null, ex);
+       JFileChooser fc = new JFileChooser(basePath);
+       fc.setFileFilter(new JPEGImageFileFilter());
+       int res = fc.showOpenDialog(null);
+       if(res==fc.APPROVE_OPTION){  
+            lbl_image.setIcon(new ImageIcon(fc.getSelectedFile().getAbsolutePath()));
+            imagePath=fc.getSelectedFile().getAbsolutePath();
         }
-
+       else{
+           JOptionPane.showMessageDialog(null, "vous n'avais pas pas choisie une image ");
+       }
     }//GEN-LAST:event_lbl_imageMouseClicked
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JFileChooser fc = new JFileChooser(basePath);
+       fc.setFileFilter(new JPEGImageFileFilter());
+       int res = fc.showOpenDialog(null);
+       if(res==fc.APPROVE_OPTION){            
+            lbl_image.setIcon(new ImageIcon(fc.getSelectedFile().getAbsolutePath()));
+            imagePath=fc.getSelectedFile().getAbsolutePath();
+        }
+       else{
+           JOptionPane.showMessageDialog(null, "vous n'avais pas pas choisie une image ");
+       }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -225,6 +269,7 @@ public class addOffre extends javax.swing.JFrame {
     private javax.swing.JButton btn_annuler_ajout_offre;
     private javax.swing.JButton btn_v_ajout_offre;
     private javax.swing.JComboBox cbx_liste_prest;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_image;
     private javax.swing.JLabel lbl_libelle_offre;
     private javax.swing.JLabel lbl_prest_offre;
@@ -233,6 +278,7 @@ public class addOffre extends javax.swing.JFrame {
     private javax.swing.JTextField txtf_prix_offre;
     // End of variables declaration//GEN-END:variables
  public class JPEGImageFileFilter extends FileFilter implements java.io.FileFilter{
+        @Override
         public boolean accept(File f){
                 if (f.getName().toLowerCase().endsWith(".png")) return true;
                 if (f.getName().toLowerCase().endsWith(".jpeg")) return true;
@@ -241,8 +287,9 @@ public class addOffre extends javax.swing.JFrame {
                 if(f.isDirectory())return true;
                 return false;
        }
+        @Override
         public String getDescription(){
-          return "JPEG files";
+          return "JPEG et PNG ";
         }
 
 } 

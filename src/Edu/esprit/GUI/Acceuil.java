@@ -41,6 +41,8 @@ public class Acceuil extends javax.swing.JFrame {
          btn_ban_client1.setEnabled(false);
          jmenu_login.setText("Administrateur , "+Authentification.login);
          btn_modif.setEnabled(false);
+         pnl_grecl.add(ContactSupport.getInterface());
+         
     }
     
     public Acceuil() {
@@ -209,7 +211,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addComponent(btn_modif)
                     .addComponent(btn_add_admin)
                     .addComponent(btn_supp_admin))
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
@@ -390,7 +392,7 @@ public class Acceuil extends javax.swing.JFrame {
                             .addComponent(btn_ban_client1))
                         .addGap(18, 18, 18)
                         .addComponent(pnl_detail_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 60, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btn_deban_client))
@@ -467,7 +469,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btn_ajout_prest)
                         .addComponent(btn_supp_prest)))
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
@@ -480,7 +482,7 @@ public class Acceuil extends javax.swing.JFrame {
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 659, Short.MAX_VALUE)
+            .addGap(0, 595, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -543,7 +545,7 @@ public class Acceuil extends javax.swing.JFrame {
                     .addComponent(btn_modif_offre)
                     .addComponent(btn_add_offre)
                     .addComponent(btn_supp_offre))
-                .addContainerGap(314, Short.MAX_VALUE))
+                .addContainerGap(250, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Offres", pnl_goffres);
@@ -640,10 +642,10 @@ public class Acceuil extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lbl_bnjr)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnl_admin_acceuil, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTabbedPane1))
-                .addContainerGap())
+                    .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18))
         );
 
         pack();

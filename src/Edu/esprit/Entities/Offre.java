@@ -103,6 +103,11 @@ public class Offre {
         this.stat_offre=true;
         this.date_Post = new Date(new java.util.Date().getTime());
     }
+
+    @Override
+    public String toString() {
+        return "Offre{" + "id_Offre=" + id_Offre + ", libelle_off=" + libelle_off + ", stat_offre=" + stat_offre + ", prix=" + prix + ", date_Post=" + date_Post + ", nomPrest=" + nomPrest + ", noteOffre=" + noteOffre + '}';
+    }
     
     
 }

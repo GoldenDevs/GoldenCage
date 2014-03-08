@@ -34,7 +34,32 @@ public class OffreDAO {
             ps.setInt(1, id);
             rs=ps.executeQuery();
             if(rs.next()){ 
-                off.setLibelle_off(rs.getString(1));
+                off.setId_Offre(rs.getInt(1));
+                off.setLibelle_off(rs.getString(2));
+                off.setDate_Post(rs.getDate(4));
+                off.setNomPrest(rs.getString(5));
+                off.setNoteOffre(rs.getFloat(6));
+                off.setEtat_offre(rs.getBoolean(3));
+                off.setPrix(rs.getFloat(7));
+            }
+            return off;
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+            return null;
+        }
+}
+   public static Offre findOffreByLibelle(String lib){
+     
+     Offre off = new Offre();
+     String requete = "select * from Offre where Libelle_offre=?";
+     ResultSet rs;
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            ps.setString(1, lib);
+            rs=ps.executeQuery();
+            if(rs.next()){ 
+                off.setId_Offre(rs.getInt(1));
+                off.setLibelle_off(rs.getString(2));
                 off.setDate_Post(rs.getDate(4));
                 off.setNomPrest(rs.getString(5));
                 off.setNoteOffre(rs.getFloat(6));
@@ -67,6 +92,7 @@ public class OffreDAO {
    }
    
     public static boolean addOffre(Offre o){
+        
         if(!(verifExistOffre(o.getLibelle_off()))){
         String requete = "Insert into Offre(Libelle_offre,dispo,date_Post,id_prest,prix)values(?,?,?,?,?)";
         try {           
@@ -152,13 +178,7 @@ public class OffreDAO {
         return false;
     }
     
-     public static boolean getPhotoOffre(){
-        
-        return false;
-    }
-    public static void updateOffreByID(int id){
-        
-    }
+    
     public static void updateEtatOffreDispo(String login){
             
            String requete="Update Offre set Dispo=? where ID_offre=?";
