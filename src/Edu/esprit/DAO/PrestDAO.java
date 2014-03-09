@@ -59,6 +59,7 @@ public class PrestDAO {
             ps.setString(1, p.getLogin());
             ps.setDate(2,sqlDateDeb);
             ps.setDate(3,sqlDateFin);
+               
             ps.executeUpdate();
             return true;
         } catch (SQLException ex) {
@@ -104,7 +105,7 @@ public class PrestDAO {
     }
     public static void upateTablePrest(javax.swing.JTable table_prest){
         
-        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.prestataire a,goldencage.user u where a.login=u.login";
+        String requete="SELECT u.login Login,u.nom Nom,u.prenom Prenom,u.email Email FROM goldencage.prestataire a,goldencage.user u where a.login=u.login and a.etat=1";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
@@ -116,6 +117,45 @@ public class PrestDAO {
         }
         
     }
-    
-    
+   
+            
+          
+      
+
+    public static void updateEtatPrestBAN(String login) {
+ String requete="Update prestataire set etat=? where login=?";
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 0);
+            ps.setString(2, login);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Erreur de mise a jour\n"+ex.getMessage());
+        }    }
+
+    public static void updateEtatPrestDEBAN(String login) {
+ String requete="Update prestataire set etat=? where login=?";
+        try {
+            PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+            ps.setInt(1, 1);
+            ps.setString(2, login);
+            ps.executeUpdate();
+        } catch (SQLException ex) {
+            System.out.println("Erreur de mise a jour\n"+ex.getMessage());
+        }
+    }   
+public static void upateTablePrestBanni(javax.swing.JTable table_client_banni){
+        
+        String requete="Select login 'prestataire Banni' from prestataire where etat=0";
+        ResultSet rs=null;
+        try{
+        PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+        rs=ps.executeQuery();
+        table_client_banni.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
 }

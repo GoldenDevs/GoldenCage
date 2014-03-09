@@ -17,6 +17,11 @@ public class Prestataire extends User{
     private Date debut_Abonnement;
     private Date fin_Abonnement;
     private List<Offre>listOffres;
+    
+
+    
+
+    
 
     public Date getDebut_Abonnement() {
         return debut_Abonnement;
@@ -46,12 +51,14 @@ public class Prestataire extends User{
         super(login, password, nom, prenom, adresse, email);
         this.debut_Abonnement = debut_Abonnement;
         this.fin_Abonnement = fin_Abonnement;
+        
     }
 
     public Prestataire(Date debut_Abonnement, Date fin_Abonnement, String login, String password, String email) {
         super(login, password, email);
         this.debut_Abonnement = debut_Abonnement;
         this.fin_Abonnement = fin_Abonnement;
+             
     }
 
     public Prestataire(Date debut_Abonnement, Date fin_Abonnement) {

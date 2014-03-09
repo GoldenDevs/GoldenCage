@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Edu.esprit.GUI;
 
 import javax.swing.JTextField;
@@ -40,39 +39,41 @@ public class Acceuil extends javax.swing.JFrame {
     List<Integer> idr = new ArrayList<Integer>();
     public static String idClientRep;
     public static int idReclamation;
-  
+
     /**
      * Creates new form Acceuil
      */
-    public void load(){
-         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
-         lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.login);
-          
-         AdministrateurDAO.upateTableAdmins(table_admins);
-         PrestDAO.upateTablePrest(table_prest);
-         ClientDAO.upateTableClient(table_clients);
-         ClientDAO.upateTableClientBanni(table_client_banni);
-         OffreDAO.upateTableOffre(table_offres);
-         btn_supp_prest.setEnabled(false);
-         btn_supp_admin.setEnabled(false);
-         btn_supp_client.setEnabled(false);
-         btn_supp_offre.setEnabled(true);
-         btn_affdetail_client.setEnabled(false);
-         pnl_detail_client.setVisible(false);
-         btn_deban_client.setEnabled(false);
-         btn_ban_client1.setEnabled(false);
-         jmenu_login.setText("Administrateur , "+Authentification.login);
-         btn_modif.setEnabled(false);
+    public void load() {
+        lbl_lastconn_admin.setText(lbl_lastconn_admin.getText() + " " + AdministrateurDAO.getAdminLastLogin(Authentification.login));
+        lbl_bnjr.setText(lbl_bnjr.getText() + " " + Authentification.login);
+
+        AdministrateurDAO.upateTableAdmins(table_admins);
+        PrestDAO.upateTablePrest(table_prest);
+        ClientDAO.upateTableClient(table_clients);
+        ClientDAO.upateTableClientBanni(table_client_banni);
+        OffreDAO.upateTableOffre(table_offres);
+        btn_supp_prest.setEnabled(false);
+        btn_supp_admin.setEnabled(false);
+        btn_supp_client.setEnabled(false);
+        btn_supp_offre.setEnabled(true);
+        btn_affdetail_client.setEnabled(false);
+        pnl_detail_client.setVisible(false);
+        btn_deban_client.setEnabled(false);
+        btn_ban.setEnabled(false);
+        btn_deban.setEnabled(false);
+        btn_ban_client1.setEnabled(false);
+        jmenu_login.setText("Administrateur , " + Authentification.login);
+        btn_modif.setEnabled(false);
 //         pnl_grecl.add(InterfaceReclamation.getInterface());
-         
+        PrestDAO.upateTablePrest(table_prest);
+        PrestDAO.upateTablePrestBanni(TabelPrestBanni);
     }
-    
+
     public Acceuil() {
         initComponents();
         load();
     }
 
-   
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -115,6 +116,11 @@ public class Acceuil extends javax.swing.JFrame {
         btn_save_modif = new javax.swing.JButton();
         btn_supp_prest = new javax.swing.JButton();
         btn_ajout_prest = new javax.swing.JButton();
+        btn_ban = new javax.swing.JButton();
+        btn_deban = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        TabelPrestBanni = new javax.swing.JTable();
         pnl_grecl = new javax.swing.JPanel();
         jScrollPane9 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
@@ -222,7 +228,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gadminsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
                     .addGroup(pnl_gadminsLayout.createSequentialGroup()
                         .addGap(13, 13, 13)
                         .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -379,7 +385,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gusersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
                         .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnl_gusersLayout.createSequentialGroup()
@@ -462,6 +468,41 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
+        btn_ban.setText("Ban");
+        btn_ban.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_banActionPerformed(evt);
+            }
+        });
+
+        btn_deban.setText("Deban");
+        btn_deban.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_debanActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 100, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 196, Short.MAX_VALUE)
+        );
+
+        TabelPrestBanni.setModel(new javax.swing.table.DefaultTableModel(
+
+        ));
+        TabelPrestBanni.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TabelPrestBanniMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(TabelPrestBanni);
+
         javax.swing.GroupLayout pnl_gprestLayout = new javax.swing.GroupLayout(pnl_gprest);
         pnl_gprest.setLayout(pnl_gprestLayout);
         pnl_gprestLayout.setHorizontalGroup(
@@ -469,28 +510,48 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gprestLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gprestLayout.createSequentialGroup()
-                        .addComponent(btn_ajout_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_supp_prest)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_save_modif)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                    .addGroup(pnl_gprestLayout.createSequentialGroup()
+                        .addComponent(jScrollPane3)
+                        .addContainerGap())
+                    .addGroup(pnl_gprestLayout.createSequentialGroup()
+                        .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_gprestLayout.createSequentialGroup()
+                                .addComponent(btn_ajout_prest, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_supp_prest)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(btn_save_modif)
+                                .addGap(18, 18, 18)
+                                .addComponent(btn_ban, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(28, 28, 28)
+                                .addComponent(btn_deban))
+                            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 156, Short.MAX_VALUE)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))))
         );
         pnl_gprestLayout.setVerticalGroup(
             pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnl_gprestLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_save_modif)
-                    .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_ajout_prest)
-                        .addComponent(btn_supp_prest)))
-                .addContainerGap(250, Short.MAX_VALUE))
+                    .addGroup(pnl_gprestLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_save_modif)
+                                .addComponent(btn_ban)
+                                .addComponent(btn_deban))
+                            .addGroup(pnl_gprestLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(btn_ajout_prest)
+                                .addComponent(btn_supp_prest)))
+                        .addGap(13, 13, 13)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gprestLayout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
@@ -551,7 +612,7 @@ public class Acceuil extends javax.swing.JFrame {
                         .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 253, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(158, Short.MAX_VALUE))))
+                        .addContainerGap(209, Short.MAX_VALUE))))
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -624,7 +685,7 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_goffresLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 737, Short.MAX_VALUE)
                     .addGroup(pnl_goffresLayout.createSequentialGroup()
                         .addComponent(btn_add_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -763,98 +824,96 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jmenu_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jmenu_loginActionPerformed
-       new AdminPasswordChange().setVisible(true);
+        new AdminPasswordChange().setVisible(true);
     }//GEN-LAST:event_jmenu_loginActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       
+
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void btn_supp_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_adminActionPerformed
-        int ligne,colone;
+        int ligne, colone;
         String msg;
-        
-        ligne=table_admins.getSelectedRow();
-        try{
-        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_admins.getValueAt(ligne, 0).toString());
-        if (conf==0){
-        if(table_admins.getValueAt(ligne, 0).toString().equals(Authentification.login)){
-            JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
-        }else{
-            if((!Authentification.login.equals("superadmin"))){
-            msg=JOptionPane.showInputDialog(null,"Taper le Mot de passe de SuperUser");
-            if(msg.equals(AdministrateurDAO.getSuperAdminPassword())){
-            AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
-            }else{
-                JOptionPane.showMessageDialog(null, "Erreur de Suppression , Mot de Passe incorrect");
-            }}
-            else{
-               AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
 
+        ligne = table_admins.getSelectedRow();
+        try {
+            int conf = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment Supprimer l'Administrateur " + table_admins.getValueAt(ligne, 0).toString());
+            if (conf == 0) {
+                if (table_admins.getValueAt(ligne, 0).toString().equals(Authentification.login)) {
+                    JOptionPane.showMessageDialog(null, "Vous ne pouvez pas supprimier votre Compte");
+                } else {
+                    if ((!Authentification.login.equals("superadmin"))) {
+                        msg = JOptionPane.showInputDialog(null, "Taper le Mot de passe de SuperUser");
+                        if (msg.equals(AdministrateurDAO.getSuperAdminPassword())) {
+                            AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Erreur de Suppression , Mot de Passe incorrect");
+                        }
+                    } else {
+                        AdministrateurDAO.deleteAdmin(table_admins.getValueAt(ligne, 0).toString());
+
+                    }
+                }
             }
-        }
-        }
             AdministrateurDAO.upateTableAdmins(table_admins);
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Selectionner un Administrateur");
         }
     }//GEN-LAST:event_btn_supp_adminActionPerformed
 
     private void btn_add_adminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_adminActionPerformed
-       AddAdmin admin= new AddAdmin(table_admins);
-       admin.setTitle("Ajouter Administrateur");
-       admin.setVisible(true);
-        
+        AddAdmin admin = new AddAdmin(table_admins);
+        admin.setTitle("Ajouter Administrateur");
+        admin.setVisible(true);
+
     }//GEN-LAST:event_btn_add_adminActionPerformed
 
     private void btn_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_modifActionPerformed
         String ch;
-        Administrateur admin=new Administrateur();
-        try{
-            
-            admin.setLogin(table_admins.getValueAt(table_admins.getSelectedRow(),0).toString());
-            admin.setPassword(table_admins.getValueAt(table_admins.getSelectedRow(),1).toString());
-            admin.setNom(table_admins.getValueAt(table_admins.getSelectedRow(),2).toString());
-            admin.setPrenom(table_admins.getValueAt(table_admins.getSelectedRow(),3).toString());
-            admin.setEmail(table_admins.getValueAt(table_admins.getSelectedRow(),4).toString());
-            admin.setAdresse(table_admins.getValueAt(table_admins.getSelectedRow(),5).toString());
-            
+        Administrateur admin = new Administrateur();
+        try {
+
+            admin.setLogin(table_admins.getValueAt(table_admins.getSelectedRow(), 0).toString());
+            admin.setPassword(table_admins.getValueAt(table_admins.getSelectedRow(), 1).toString());
+            admin.setNom(table_admins.getValueAt(table_admins.getSelectedRow(), 2).toString());
+            admin.setPrenom(table_admins.getValueAt(table_admins.getSelectedRow(), 3).toString());
+            admin.setEmail(table_admins.getValueAt(table_admins.getSelectedRow(), 4).toString());
+            admin.setAdresse(table_admins.getValueAt(table_admins.getSelectedRow(), 5).toString());
+
             CRUD.updateUserByLogin(admin);
             AdministrateurDAO.upateTableAdmins(table_admins);
-            
-        }catch(Exception e){
+
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Aucune Modification Effectuer ! ");
         }
-       
+
     }//GEN-LAST:event_btn_modifActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-         new ContactSupport().setVisible(true);
+        new ContactSupport().setVisible(true);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void btn_affdetail_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_affdetail_clientActionPerformed
-        if(table_clients.getSelectedRow()!=-1){
-        pnl_detail_client.setVisible(true);
-        int ligne,colone;
-        String login;
-        Client c= new Client();
-        ligne=table_clients.getSelectedRow();
-        c=ClientDAO.findClientByLogin(table_clients.getValueAt(ligne, 0).toString());
-        lbl_nom_client.setText("Nom : "+c.getNom());
-        lbl_prenom_client.setText("Prenom : "+c.getPrenom());
-        lbl_adresse_client.setText("Adresse : "+c.getAdresse());
-        lbl_email_client.setText("E-mail : "+c.getEmail());
-        lbl_Age_client.setText("Age : "+c.getAge());
-        lbl_date_insc_client.setText("Date Naissance : "+c.getDateInscrit().getTime());
-        
-        
+        if (table_clients.getSelectedRow() != -1) {
+            pnl_detail_client.setVisible(true);
+            int ligne, colone;
+            String login;
+            Client c = new Client();
+            ligne = table_clients.getSelectedRow();
+            c = ClientDAO.findClientByLogin(table_clients.getValueAt(ligne, 0).toString());
+            lbl_nom_client.setText("Nom : " + c.getNom());
+            lbl_prenom_client.setText("Prenom : " + c.getPrenom());
+            lbl_adresse_client.setText("Adresse : " + c.getAdresse());
+            lbl_email_client.setText("E-mail : " + c.getEmail());
+            lbl_Age_client.setText("Age : " + c.getAge());
+            lbl_date_insc_client.setText("Date Naissance : " + c.getDateInscrit().getTime());
+
         }
     }//GEN-LAST:event_btn_affdetail_clientActionPerformed
 
     private void btn_ajout_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_clientActionPerformed
         new AddClient(table_clients).setVisible(true);
-        
+
     }//GEN-LAST:event_btn_ajout_clientActionPerformed
 
     private void btn_save_modifActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_save_modifActionPerformed
@@ -871,55 +930,54 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_DeconnexionActionPerformed
 
     private void btn_supp_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_clientActionPerformed
-        int ligne,colone;
-        
-        ligne=table_clients.getSelectedRow();
-        try{
-        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer le Client "+table_clients.getValueAt(ligne, 0).toString());
-        if (conf==0){
-            ClientDAO.deleteClient(table_clients.getValueAt(ligne, 0).toString());
-            ClientDAO.upateTableClient(table_clients);
+        int ligne, colone;
+
+        ligne = table_clients.getSelectedRow();
+        try {
+            int conf = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment Supprimer le Client " + table_clients.getValueAt(ligne, 0).toString());
+            if (conf == 0) {
+                ClientDAO.deleteClient(table_clients.getValueAt(ligne, 0).toString());
+                ClientDAO.upateTableClient(table_clients);
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Selectionner un Client");
         }
     }//GEN-LAST:event_btn_supp_clientActionPerformed
 
     private void btn_supp_prestActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_prestActionPerformed
-        int ligne,colone;
+        int ligne, colone;
         table_prest.getSelectedRow();
-        
-        ligne=table_prest.getSelectedRow();
-        try{
-        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Administrateur "+table_prest.getValueAt(ligne, 0).toString());
-        if (conf==0){
-            PrestDAO.deletePrest(table_prest.getValueAt(ligne, 0).toString());
-            PrestDAO.upateTablePrest(table_prest);
+
+        ligne = table_prest.getSelectedRow();
+        try {
+            int conf = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment Supprimer l'Administrateur " + table_prest.getValueAt(ligne, 0).toString());
+            if (conf == 0) {
+                PrestDAO.deletePrest(table_prest.getValueAt(ligne, 0).toString());
+                PrestDAO.upateTablePrest(table_prest);
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Selectionner un Prestataire");
         }
     }//GEN-LAST:event_btn_supp_prestActionPerformed
 
     private void table_prestMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_prestMouseClicked
-        if(table_prest.getSelectedRow()!=-1){
+        if (table_prest.getSelectedRow() != -1) {
             btn_supp_prest.setEnabled(true);
+            btn_ban.setEnabled(true);
         }
     }//GEN-LAST:event_table_prestMouseClicked
 
     private void table_clientsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_clientsMouseClicked
-         if(table_clients.getSelectedRow()!=-1){
+        if (table_clients.getSelectedRow() != -1) {
             btn_supp_client.setEnabled(true);
             btn_ban_client1.setEnabled(true);
             //btn_affdetail_client.setEnabled(true);// A voir manier d'affichage detaille client
         }
-         pnl_detail_client.setVisible(false);
+        pnl_detail_client.setVisible(false);
     }//GEN-LAST:event_table_clientsMouseClicked
 
     private void table_adminsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_adminsMouseClicked
-        if(table_admins.getSelectedRow()!=-1){
+        if (table_admins.getSelectedRow() != -1) {
             btn_supp_admin.setEnabled(true);
         }
     }//GEN-LAST:event_table_adminsMouseClicked
@@ -929,17 +987,16 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_add_offreActionPerformed
 
     private void btn_supp_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_offreActionPerformed
-        int ligne,colone;
-        
-        ligne=table_offres.getSelectedRow();
-        try{
-        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Offre ID : "+table_offres.getValueAt(ligne, 0).toString());
-        if (conf==0){
-            OffreDAO.deleteOffre(Integer.parseInt(table_offres.getValueAt(ligne, 0).toString()));
-            OffreDAO.upateTableOffre(table_offres);
+        int ligne, colone;
+
+        ligne = table_offres.getSelectedRow();
+        try {
+            int conf = JOptionPane.showConfirmDialog(null, "Voulez-vous vraiment Supprimer l'Offre ID : " + table_offres.getValueAt(ligne, 0).toString());
+            if (conf == 0) {
+                OffreDAO.deleteOffre(Integer.parseInt(table_offres.getValueAt(ligne, 0).toString()));
+                OffreDAO.upateTableOffre(table_offres);
             }
-        }
-        catch(Exception ex){
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Veuillez choisir un Offre");
         }
     }//GEN-LAST:event_btn_supp_offreActionPerformed
@@ -961,24 +1018,25 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_ban_client1ActionPerformed
 
     private void table_client_banniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_table_client_banniMouseClicked
-         if(table_client_banni.getSelectedRow()!=-1){
+        if (table_client_banni.getSelectedRow() != -1) {
             btn_deban_client.setEnabled(true);
         }
     }//GEN-LAST:event_table_client_banniMouseClicked
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         new AdminPasswordChange("superadmin").setVisible(true);
-        
+
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void btn_list_reservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_list_reservationActionPerformed
-if (table_clients.getSelectedRow()==-1)
-      { JOptionPane.showMessageDialog(null, "vous devez choisir une ligne");}
+        if (table_clients.getSelectedRow() == -1) {
+            JOptionPane.showMessageDialog(null, "vous devez choisir une ligne");
+        }
         new Liste_reservation(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString()).setVisible(true);
     }//GEN-LAST:event_btn_list_reservationActionPerformed
 
     private void btn_detail_offreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_detail_offreKeyPressed
-        
+
     }//GEN-LAST:event_btn_detail_offreKeyPressed
 
     private void btn_detail_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detail_offreActionPerformed
@@ -991,14 +1049,14 @@ if (table_clients.getSelectedRow()==-1)
         ReclamationDAO r = new ReclamationDAO();
         Reclamation rec = r.findReclamationByIdRec(idr.get(jList1.getSelectedIndex()));
         panel_info_rec.setText("id: " + rec.getId_rec() + "\n"
-            + "sujet : " + rec.getRec_sujet() + "\n"
-            + "text de la reclamation: " + rec.getRec_text() + "\n"
-            + "date reclamtion : " + rec.getDate_rec() + "\n"
-            + "client reclamateur : " + rec.getidClient() + "\n"
-            + " offre reclamée : " + rec.getOffre_rec() + "\n"
-            +" etat de la reclamation:"+ rec.getEtat());
-        idClientRep=rec.getidClient();
-        idReclamation=rec.getId_rec();
+                + "sujet : " + rec.getRec_sujet() + "\n"
+                + "text de la reclamation: " + rec.getRec_text() + "\n"
+                + "date reclamtion : " + rec.getDate_rec() + "\n"
+                + "client reclamateur : " + rec.getidClient() + "\n"
+                + " offre reclamée : " + rec.getOffre_rec() + "\n"
+                + " etat de la reclamation:" + rec.getEtat());
+        idClientRep = rec.getidClient();
+        idReclamation = rec.getId_rec();
         // TODO add your handling code here:
     }//GEN-LAST:event_jList1MousePressed
 
@@ -1008,7 +1066,7 @@ if (table_clients.getSelectedRow()==-1)
         Reclamation rec = r.findReclamationByIdRec(idr.get(jList1.getSelectedIndex()));
         r.deleteReclamation(rec.getId_rec());
         load();
-        JOptionPane.showMessageDialog(null,"suppression effectuée");
+        JOptionPane.showMessageDialog(null, "suppression effectuée");
         panel_info_rec.setText("");
     }//GEN-LAST:event_boutton_spprimerActionPerformed
 
@@ -1021,6 +1079,27 @@ if (table_clients.getSelectedRow()==-1)
         new InterfaceAjoutRec().setVisible(true);
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void btn_banActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_banActionPerformed
+        PrestDAO.updateEtatPrestBAN(table_prest.getValueAt(table_prest.getSelectedRow(), 0).toString());
+
+        PrestDAO.upateTablePrestBanni(TabelPrestBanni);
+        PrestDAO.upateTablePrest(table_prest);
+    }//GEN-LAST:event_btn_banActionPerformed
+
+    private void btn_debanActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_debanActionPerformed
+        PrestDAO.updateEtatPrestDEBAN(TabelPrestBanni.getValueAt(TabelPrestBanni.getSelectedRow(), TabelPrestBanni.getSelectedColumn()).toString());
+
+        PrestDAO.upateTablePrest(table_prest);
+        PrestDAO.upateTablePrestBanni(TabelPrestBanni);
+    }//GEN-LAST:event_btn_debanActionPerformed
+
+    private void TabelPrestBanniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TabelPrestBanniMouseClicked
+        if (TabelPrestBanni.getSelectedRow() != -1) {
+            btn_deban.setEnabled(true);
+            // TODO add your handling code here:
+    }//GEN-LAST:event_TabelPrestBanniMouseClicked
+    }
 
     /**
      * @param args the command line arguments
@@ -1059,6 +1138,7 @@ if (table_clients.getSelectedRow()==-1)
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JMenuItem Deconnexion;
+    private javax.swing.JTable TabelPrestBanni;
     private javax.swing.JToggleButton boutton_reponseMail;
     private javax.swing.JToggleButton boutton_spprimer;
     private javax.swing.JButton btn_add_admin;
@@ -1066,7 +1146,9 @@ if (table_clients.getSelectedRow()==-1)
     private javax.swing.JButton btn_affdetail_client;
     private javax.swing.JButton btn_ajout_client;
     private javax.swing.JButton btn_ajout_prest;
+    private javax.swing.JButton btn_ban;
     private javax.swing.JButton btn_ban_client1;
+    private javax.swing.JButton btn_deban;
     private javax.swing.JButton btn_deban_client;
     private javax.swing.JButton btn_detail_offre;
     private javax.swing.JButton btn_list_reservation;
@@ -1090,12 +1172,14 @@ if (table_clients.getSelectedRow()==-1)
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
