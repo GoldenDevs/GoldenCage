@@ -262,5 +262,23 @@ public class OffreDAO {
             return null;
         }
     }
+
+    public static boolean updateOffre(Offre of) {
+        String requete="Update Offre set Libelle_offre=?,prix=?,etat=? where id_offre=?";           
+            try {
+                PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
+                ps.setString(1, of.getLibelle_off());
+                ps.setFloat(2, of.getPrix());
+                ps.setBoolean(3, of.getEtatoffre());
+                ps.setInt(4, of.getId_Offre());
+               
+                ps.executeUpdate();
+                System.out.println("Mise à jour effectuée avec succès !");
+                return true;
+            } catch (SQLException ex) {
+                System.out.println("Erreur de Mise a jour !\n"+ex.getMessage());
+                return false;
+            }
+    }
    
 }
