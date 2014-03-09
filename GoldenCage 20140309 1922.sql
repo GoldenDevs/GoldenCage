@@ -73,7 +73,7 @@ INSERT INTO `client` (`login`,`etat`,`date_naiss`) VALUES
  ('Client1',0,'2014-03-05 00:00:00'),
  ('Client5',0,'1994-03-05 00:00:00'),
  ('ohlaega',1,'1904-03-15 00:00:00'),
- ('Said',0,'1990-03-06 00:00:00');
+ ('Said',1,'1990-03-06 00:00:00');
 /*!40000 ALTER TABLE `client` ENABLE KEYS */;
 
 
@@ -179,6 +179,7 @@ CREATE TABLE `prestataire` (
   `login` varchar(20) NOT NULL,
   `debutAb` datetime NOT NULL,
   `finAb` datetime NOT NULL,
+  `etat` tinyint(1) default '1',
   PRIMARY KEY  (`login`),
   CONSTRAINT `FK_prestataire` FOREIGN KEY (`login`) REFERENCES `user` (`login`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -188,10 +189,10 @@ CREATE TABLE `prestataire` (
 --
 
 /*!40000 ALTER TABLE `prestataire` DISABLE KEYS */;
-INSERT INTO `prestataire` (`login`,`debutAb`,`finAb`) VALUES 
- ('aegaegaeg','2014-03-08 00:00:00','2014-03-25 00:00:00'),
- ('Microsoft','2014-03-02 00:00:00','2014-03-02 00:00:00'),
- ('Microsoft2','2014-03-06 00:00:00','2014-03-06 00:00:00');
+INSERT INTO `prestataire` (`login`,`debutAb`,`finAb`,`etat`) VALUES 
+ ('aegaegaeg','2014-03-08 00:00:00','2014-03-25 00:00:00',1),
+ ('Microsoft','2014-03-02 00:00:00','2014-03-02 00:00:00',1),
+ ('Microsoft2','2014-03-06 00:00:00','2014-03-06 00:00:00',1);
 /*!40000 ALTER TABLE `prestataire` ENABLE KEYS */;
 
 

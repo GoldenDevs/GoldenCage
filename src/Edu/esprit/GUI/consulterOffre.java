@@ -116,6 +116,11 @@ public class consulterOffre extends javax.swing.JFrame {
         });
 
         btn_edit_Libelle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/icon_edit.png"))); // NOI18N
+        btn_edit_Libelle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_edit_LibelleMouseClicked(evt);
+            }
+        });
 
         btn_edit_etat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/icon_edit.png"))); // NOI18N
         btn_edit_etat.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -253,6 +258,11 @@ public class consulterOffre extends javax.swing.JFrame {
     private void btn_save_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_save_offreActionPerformed
         OffreDAO.updateOffre(of);
     }//GEN-LAST:event_btn_save_offreActionPerformed
+
+    private void btn_edit_LibelleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_LibelleMouseClicked
+        btn_edit_Libelle.setEnabled(true);
+        btn_save_offre.setEnabled(true);
+    }//GEN-LAST:event_btn_edit_LibelleMouseClicked
 
     /**
      * @param args the command line arguments
