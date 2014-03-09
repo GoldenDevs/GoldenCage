@@ -24,7 +24,7 @@ import java.util.logging.Logger;
  * @author Elyes
  */
 public class ReclamationDAO {
-    public void insertReclamation(Reclamation r) throws SQLException{
+    public void insertReclamation(Reclamation r){
         String requete = "insert into reclamation (id_reclamation,rec_sujet,rec_text,id_client,id_offre,date) values (default,?,?,?,?,?)";
          try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
@@ -41,7 +41,7 @@ public class ReclamationDAO {
             System.out.println("erreur lors de l'insertion "+ex.getMessage());
         }    
     }
-    public void updateReclamation(Reclamation r){
+    public static void updateReclamation(Reclamation r){
         String requete = "update reclamation set rec_sujet=?,rec_text=?,id_client=?,id_offre=?,date=? where id_rec=?";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
@@ -59,7 +59,7 @@ public class ReclamationDAO {
             System.out.println("erreur lors de la mise à jour "+ex.getMessage());
         }
     }
-     public void deleteReclamation(int id){
+     public static void deleteReclamation(int id){
         String requete = "delete from reclamation where id_user=?";
         try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
@@ -71,7 +71,7 @@ public class ReclamationDAO {
             System.out.println("erreur lors de la suppression "+ex.getMessage());
         }
       }
-     public Reclamation findReclamationByIdRec(int id){
+     public static Reclamation findReclamationByIdRec(int id){
         Reclamation reclamation = new Reclamation();
         String requete = "select * from reclamation where id_reclamation=?";
         try {

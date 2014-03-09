@@ -10,7 +10,12 @@ import javax.swing.JTextField;
 import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.Entities.Client;
+import Edu.esprit.Entities.Reclamation;
+import static Edu.esprit.GUI.InterfaceReclamation.idClientRep;
 import Edu.esprit.utils.CRUD;
+import Edu.esprit.utils.mailSend;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -20,13 +25,14 @@ import net.proteanit.sql.DbUtils;
  */
 public class Acceuil extends javax.swing.JFrame {
 
+    List<Integer> idr = new ArrayList<Integer>();
     /**
      * Creates new form Acceuil
      */
     public void load(){
         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
          lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.login);
-         
+          
          AdministrateurDAO.upateTableAdmins(table_admins);
          PrestDAO.upateTablePrest(table_prest);
          ClientDAO.upateTableClient(table_clients);
@@ -42,7 +48,7 @@ public class Acceuil extends javax.swing.JFrame {
          btn_ban_client1.setEnabled(false);
          jmenu_login.setText("Administrateur , "+Authentification.login);
          btn_modif.setEnabled(false);
-         pnl_grecl.add(ContactSupport.getInterface());
+//         pnl_grecl.add(InterfaceReclamation.getInterface());
          
     }
     
@@ -95,6 +101,17 @@ public class Acceuil extends javax.swing.JFrame {
         btn_supp_prest = new javax.swing.JButton();
         btn_ajout_prest = new javax.swing.JButton();
         pnl_grecl = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        list_rec = new javax.swing.JList();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txta_desc_rec = new javax.swing.JTextArea();
+        btn_ajout_rec = new javax.swing.JButton();
+        btn_close_rec = new javax.swing.JButton();
+        btn_rep_envoi = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        txta_txt_rep_rec = new javax.swing.JTextArea();
+        txtf_mail_dest_rec = new javax.swing.JTextField();
+        txtf_rec_id = new javax.swing.JTextField();
         pnl_goffres = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         liste_offres = new javax.swing.JTable();
@@ -462,15 +479,99 @@ public class Acceuil extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
 
+        list_rec.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        list_rec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list_recMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(list_rec);
+
+        txta_desc_rec.setColumns(20);
+        txta_desc_rec.setRows(5);
+        jScrollPane7.setViewportView(txta_desc_rec);
+
+        btn_ajout_rec.setText("Ajouter");
+        btn_ajout_rec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ajout_recActionPerformed(evt);
+            }
+        });
+
+        btn_close_rec.setText("Fermer Reclamation");
+        btn_close_rec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_close_recActionPerformed(evt);
+            }
+        });
+
+        btn_rep_envoi.setText("Repondre");
+        btn_rep_envoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_rep_envoiActionPerformed(evt);
+            }
+        });
+
+        txta_txt_rep_rec.setColumns(20);
+        txta_txt_rep_rec.setRows(5);
+        jScrollPane8.setViewportView(txta_txt_rep_rec);
+
         javax.swing.GroupLayout pnl_greclLayout = new javax.swing.GroupLayout(pnl_grecl);
         pnl_grecl.setLayout(pnl_greclLayout);
         pnl_greclLayout.setHorizontalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 706, Short.MAX_VALUE)
+            .addGroup(pnl_greclLayout.createSequentialGroup()
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(btn_ajout_rec)
+                        .addGap(43, 43, 43))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_greclLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_greclLayout.createSequentialGroup()
+                        .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnl_greclLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btn_rep_envoi))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
+                        .addGap(176, 176, 176))
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btn_close_rec)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(txtf_mail_dest_rec))
+                            .addComponent(txtf_rec_id, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGroup(pnl_greclLayout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addComponent(txtf_rec_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtf_mail_dest_rec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6))
+                .addGap(18, 18, 18)
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_ajout_rec)
+                    .addComponent(btn_close_rec))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_rep_envoi)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -851,6 +952,41 @@ public class Acceuil extends javax.swing.JFrame {
          new Liste_reservation(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString()).setVisible(true);
     }//GEN-LAST:event_btn_list_reservationActionPerformed
 
+    private void list_recMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_recMouseClicked
+        btn_close_rec.setEnabled(true);
+        btn_rep_envoi.setEnabled(true);
+        ReclamationDAO r = new ReclamationDAO();
+        Reclamation rec = r.findReclamationByIdRec(idr.get(list_rec.getSelectedIndex()));
+        txta_desc_rec.setText("id: " + rec.getId_rec() + "\n"
+                + "sujet : " + rec.getRec_sujet() + "\n"
+                + "text de la reclamation: " + rec.getRec_text() + "\n"
+                + "date reclamtion : " + rec.getDate_rec() + "\n"
+                + "client reclamateur : " + rec.getidClient() + "\n"
+                + " offre reclamée : " + rec.getOffre_rec() + "\n"
+                +" etat de la reclamation:"+ rec.getEtat());
+        idClientRep=rec.getidClient();
+        
+        txtf_mail_dest_rec.setText(ClientDAO.findClientByLogin(rec.getidClient()).getEmail());
+        txtf_rec_id.setText("Rec#"+rec.getId_rec());
+    }//GEN-LAST:event_list_recMouseClicked
+
+    private void btn_ajout_recActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_recActionPerformed
+       new InterfaceAjoutRec().setVisible(true);
+    }//GEN-LAST:event_btn_ajout_recActionPerformed
+
+    private void btn_close_recActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_close_recActionPerformed
+        
+        Reclamation rec = ReclamationDAO.findReclamationByIdRec(idr.get(list_rec.getSelectedIndex()));
+        ReclamationDAO.deleteReclamation(rec.getId_rec());
+        load();
+        JOptionPane.showMessageDialog(null,"suppression effectuée");
+        txta_desc_rec.setText("");
+    }//GEN-LAST:event_btn_close_recActionPerformed
+
+    private void btn_rep_envoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rep_envoiActionPerformed
+        mailSend.Send(txtf_mail_dest_rec.getText(), txtf_rec_id.getText(), txta_txt_rep_rec.getText());
+    }//GEN-LAST:event_btn_rep_envoiActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -893,11 +1029,14 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_affdetail_client;
     private javax.swing.JButton btn_ajout_client;
     private javax.swing.JButton btn_ajout_prest;
+    private javax.swing.JButton btn_ajout_rec;
     private javax.swing.JButton btn_ban_client1;
+    private javax.swing.JButton btn_close_rec;
     private javax.swing.JButton btn_deban_client;
     private javax.swing.JButton btn_list_reservation;
     private javax.swing.JButton btn_modif;
     private javax.swing.JButton btn_modif_offre;
+    private javax.swing.JButton btn_rep_envoi;
     private javax.swing.JButton btn_save_modif;
     private javax.swing.JButton btn_supp_admin;
     private javax.swing.JButton btn_supp_client;
@@ -917,6 +1056,9 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -929,6 +1071,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_lastconn_admin;
     private javax.swing.JLabel lbl_nom_client;
     private javax.swing.JLabel lbl_prenom_client;
+    private javax.swing.JList list_rec;
     private javax.swing.JTable liste_offres;
     private javax.swing.JPanel pnl_admin_acceuil;
     private javax.swing.JPanel pnl_detail_client;
@@ -941,5 +1084,9 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JTable table_client_banni;
     private javax.swing.JTable table_clients;
     private javax.swing.JTable table_prest;
+    private javax.swing.JTextArea txta_desc_rec;
+    private javax.swing.JTextArea txta_txt_rep_rec;
+    private javax.swing.JTextField txtf_mail_dest_rec;
+    private javax.swing.JTextField txtf_rec_id;
     // End of variables declaration//GEN-END:variables
 }
