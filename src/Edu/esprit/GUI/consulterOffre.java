@@ -240,11 +240,13 @@ public class consulterOffre extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_fermer_detail_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fermer_detail_offreActionPerformed
+       
         this.dispose();
     }//GEN-LAST:event_btn_fermer_detail_offreActionPerformed
 
     private void btn_edit_prixMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_prixMouseClicked
         txtf_prix_offre.setEnabled(true);
+        btn_save_offre.setEnabled(true);
     }//GEN-LAST:event_btn_edit_prixMouseClicked
 
     private void btn_edit_etatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_etatMouseClicked
@@ -260,8 +262,9 @@ public class consulterOffre extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_save_offreActionPerformed
 
     private void btn_edit_LibelleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_LibelleMouseClicked
-        btn_edit_Libelle.setEnabled(true);
+        txtf_libelle_offre.setEnabled(true);
         btn_save_offre.setEnabled(true);
+        
     }//GEN-LAST:event_btn_edit_LibelleMouseClicked
 
     /**

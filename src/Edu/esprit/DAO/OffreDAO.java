@@ -264,7 +264,7 @@ public class OffreDAO {
     }
 
     public static boolean updateOffre(Offre of) {
-        String requete="Update Offre set Libelle_offre=?,prix=?,etat=? where id_offre=?";           
+        String requete="Update Offre set Libelle_offre=?,prix=?,Dispo=? where id_offre=?";           
             try {
                 PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
                 ps.setString(1, of.getLibelle_off());
