@@ -25,6 +25,7 @@ import net.proteanit.sql.DbUtils;
  * @author Elyes
  */
 public class OffreDAO {
+    
    public static Offre findOffreByID(int id){
      
      Offre off = new Offre();
@@ -245,6 +246,23 @@ public class OffreDAO {
         
                 
         }   
-        
+        public static List<Offre> listOffre(){
+        String requete="Select * from offre";
+        ResultSet rs=null;
+       Offre off=new Offre();
+        List<Offre>list1=new ArrayList<Offre>();
+        try {
+            PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+            rs=ps.executeQuery();
+            while(rs.next()){
+                off=OffreDAO.findOffreByID(rs.getInt(1));
+                list1.add(off);
+            }
+            return list1;
+        } catch (SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+            return null;
+        }
+    }
    
 }

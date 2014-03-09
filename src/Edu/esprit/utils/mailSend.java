@@ -24,11 +24,12 @@ import javax.swing.JOptionPane;
 public class mailSend {
    
     public static void Send(String dest,String sujet,String Text ) {
+      
       String to = dest;
 
-      String from = "bselyes@gmail.com";
-      final String username = "bselyes";
-      final String password = "o0e1zk2890";
+      String from = "goldencage2014@gmail.com";
+      final String username = "goldencage2014";
+      final String password = "123456789azert";
 
       
       String host = "smtp.gmail.com";
@@ -40,14 +41,15 @@ public class mailSend {
       props.put("mail.smtp.port", "587");
 
       
-      Session session = Session.getInstance(props,new javax.mail.Authenticator() {
+      Session session = Session.getInstance(props,
+      new javax.mail.Authenticator() {
          protected PasswordAuthentication getPasswordAuthentication() {
             return new PasswordAuthentication(username, password);
          }
       });
 
       try {
-         
+        
          Message message = new MimeMessage(session);
 
          
@@ -56,14 +58,18 @@ public class mailSend {
          
          message.setRecipients(Message.RecipientType.TO,
          InternetAddress.parse(to));
+
+    
          message.setSubject(sujet);
+
+        
          message.setText(Text);
+
          Transport.send(message);
-         
-          JOptionPane.showMessageDialog(null, "Mail Envoyee avec Succés");
+
+         JOptionPane.showMessageDialog(null,"Sent message successfully....");
 
       } catch (MessagingException e) {
-            JOptionPane.showMessageDialog(null, "Erreur d'envoi de mail");
             throw new RuntimeException(e);
       }
    }

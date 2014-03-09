@@ -17,6 +17,8 @@ public class Client extends User{
     private Date dateInscrit;
     private Date dateNaiss;
     private int age;
+    private char sexe;
+    
     public Date getDateNaiss() {
         return dateNaiss;
     }
