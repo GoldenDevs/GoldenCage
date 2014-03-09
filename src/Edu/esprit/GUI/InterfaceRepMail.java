@@ -4,9 +4,30 @@
  */
 package Edu.esprit.GUI;
 
+
+/////////
 import Edu.esprit.DAO.ClientDAO;
+import Edu.esprit.DAO.ReclamationDAO;
 import Edu.esprit.Entities.Client;
-import Edu.esprit.utils.mailSend;
+
+import Edu.esprit.Entities.Reclamation;
+import Edu.esprit.utils.MailSender;
+import java.io.File;
+import java.util.Properties;
+import javax.activation.DataHandler;
+import javax.activation.FileDataSource;
+import javax.mail.Message;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import static Edu.esprit.GUI.Acceuil.idReclamation;
 
 /**
  *
@@ -17,13 +38,20 @@ public class InterfaceRepMail extends javax.swing.JFrame {
     /**
      * Creates new form InterfaceRepMail
      */
+    public static int verif;
+    ReclamationDAO rd=new ReclamationDAO();
+    Reclamation r =rd.findReclamationByIdRec(idReclamation);
     public InterfaceRepMail() {
         initComponents();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         ClientDAO cd=new ClientDAO();
         Client c=new  Client();
         c=cd.findClientByLogin(InterfaceReclamation.idClientRep);
         txtf_mail_rep_client.setText(c.getEmail());
         txtf_mail_rep_client.setEnabled(false);
+        
+        
+        
         
          
     }
@@ -46,6 +74,9 @@ public class InterfaceRepMail extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
         txtf_mail_rep_client = new javax.swing.JTextField();
+        boutton_attacher = new javax.swing.JButton();
+        txtf_path = new javax.swing.JTextField();
+        txtf_attach_name = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -86,51 +117,84 @@ public class InterfaceRepMail extends javax.swing.JFrame {
             }
         });
 
+        boutton_attacher.setText("attacher fichier");
+        boutton_attacher.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                boutton_attacherActionPerformed(evt);
+            }
+        });
+
+        txtf_path.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtf_pathActionPerformed(evt);
+            }
+        });
+
+        txtf_attach_name.setText("attach_name");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtf_mail_rep_client, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jScrollPane1)
-                            .addComponent(txtf_sujet_rec, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtf_mail_rep_client, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel3)
+                                        .addComponent(jLabel1))
+                                    .addComponent(boutton_attacher)
+                                    .addComponent(txtf_path, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_attach_name, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_sujet_rec, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(26, 26, 26))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(34, 34, 34)
                         .addComponent(jButton1)
-                        .addGap(73, 73, 73)
-                        .addComponent(jButton2)))
-                .addContainerGap(37, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(58, 58, 58))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(42, 42, 42)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(txtf_mail_rep_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtf_sujet_rec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(21, 21, 21)
+                        .addComponent(jLabel3)
+                        .addGap(30, 30, 30))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtf_sujet_rec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(boutton_attacher)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtf_path, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtf_attach_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
-                    .addComponent(jButton2)))
+                    .addComponent(jButton2))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
 
         pack();
@@ -146,12 +210,32 @@ public class InterfaceRepMail extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        mailSend.Send(txtf_mail_rep_client.getText(), txtf_sujet_rec.getText(), txtf_message_rec.getText());
+     
+       MailSender.sendMail(txtf_mail_rep_client.getText(),txtf_sujet_rec.getText(),txtf_message_rec.getText(),attachement_path,txtf_attach_name.getText());
+      
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void txtf_mail_rep_clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_mail_rep_clientActionPerformed
             // TODO add your handling code here:
     }//GEN-LAST:event_txtf_mail_rep_clientActionPerformed
+
+    private void boutton_attacherActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_boutton_attacherActionPerformed
+        
+        JFileChooser chooser=new JFileChooser();
+        int pverif=chooser.showOpenDialog(null);
+        if(pverif==chooser.APPROVE_OPTION)
+            verif=1;
+        else verif=0;
+        File f=chooser.getSelectedFile();
+        attachement_path=f.getAbsolutePath();
+        txtf_path.setText(attachement_path);
+        
+    }//GEN-LAST:event_boutton_attacherActionPerformed
+
+    private void txtf_pathActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtf_pathActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtf_pathActionPerformed
 
     /**
      * @param args the command line arguments
@@ -188,14 +272,19 @@ public class InterfaceRepMail extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton boutton_attacher;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField txtf_attach_name;
     private javax.swing.JTextField txtf_mail_rep_client;
     private javax.swing.JTextArea txtf_message_rec;
+    private javax.swing.JTextField txtf_path;
     private javax.swing.JTextField txtf_sujet_rec;
     // End of variables declaration//GEN-END:variables
+
+    String attachement_path;
 }
