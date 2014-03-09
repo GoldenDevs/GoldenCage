@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.*;
+import Edu.esprit.utils.InputControlers;
 import java.sql.Date;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -22,14 +22,15 @@ public class AddClient extends javax.swing.JFrame {
      * Creates new form AddAdmin
      */
     JTable table;
+
     public AddClient() {
         initComponents();
     }
 
     AddClient(JTable table_clients) {
-        table=table_clients;
+        table = table_clients;
         initComponents();
-        
+
     }
 
     /**
@@ -92,7 +93,7 @@ public class AddClient extends javax.swing.JFrame {
             }
         });
 
-        btn_valider_regAdmin.setText("Valider");
+        btn_valider_regAdmin.setIcon(new javax.swing.ImageIcon("C:\\Users\\baya\\Desktop\\Save-icon.png")); // NOI18N
         btn_valider_regAdmin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_valider_regAdminActionPerformed(evt);
@@ -114,32 +115,31 @@ public class AddClient extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(txtf_login)
-                                .addComponent(txtf_nom)
-                                .addComponent(txtf_prenom)
-                                .addComponent(txtf_email)
-                                .addComponent(txtf_adresse, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
-                                .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(50, 50, 50))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btn_valider_regAdmin)
-                        .addGap(18, 18, 18)
-                        .addComponent(btn_Annuler_regAdmin)
-                        .addGap(38, 38, 38))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(txtf_login)
+                        .addComponent(txtf_nom)
+                        .addComponent(txtf_prenom)
+                        .addComponent(txtf_email)
+                        .addComponent(txtf_adresse, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)
+                        .addComponent(jDateChooser1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(txtf_password, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(btn_valider_regAdmin, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Annuler_regAdmin)
+                .addGap(38, 38, 38))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,10 +173,10 @@ public class AddClient extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(txtf_adresse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_valider_regAdmin)
-                    .addComponent(btn_Annuler_regAdmin))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btn_Annuler_regAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btn_valider_regAdmin, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(33, 33, 33))
         );
 
         pack();
@@ -196,18 +196,31 @@ public class AddClient extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_Annuler_regAdminActionPerformed
 
     private void btn_valider_regAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_valider_regAdminActionPerformed
+        if (txtf_login.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez login !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_password.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez mot de passe!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_nom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrer le nom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_prenom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez le prenom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (InputControlers.isEmailAdress(txtf_email.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez votre email !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_adresse.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez l'adresse !!", "Erreur", JOptionPane.WARNING_MESSAGE);
 
-        Client client=new Client(new Date((new java.util.Date()).getTime()),txtf_login.getText(),txtf_password.getText(),txtf_nom.getText(),txtf_prenom.getText(),txtf_adresse.getText(),txtf_email.getText(),new Date(jDateChooser1.getDate().getTime()));
+        } else {
+            Client client = new Client(new Date((new java.util.Date()).getTime()), txtf_login.getText(), txtf_password.getText(), txtf_nom.getText(), txtf_prenom.getText(), txtf_adresse.getText(), txtf_email.getText(), new Date(jDateChooser1.getDate().getTime()));
 
-        if(ClientDAO.addClient(client)){
-            JOptionPane.showMessageDialog(null, "Client "+txtf_login.getText()+" est ajouter avec succes");
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Erreur d'ajout");
-        }
-        ClientDAO.upateTableClient(table);
+            if (ClientDAO.addClient(client)) {
+                JOptionPane.showMessageDialog(null, "Client " + txtf_login.getText() + " est ajouter avec succes");
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erreur d'ajout");
+            }
+            ClientDAO.upateTableClient(table);
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
-
+    }
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed

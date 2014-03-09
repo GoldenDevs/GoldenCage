@@ -3,12 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.AdministrateurDAO;
 import Edu.esprit.DAO.ClientDAO;
 import Edu.esprit.Entities.Administrateur;
+import Edu.esprit.utils.InputControlers;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
@@ -22,14 +24,17 @@ public class AddAdmin extends javax.swing.JFrame {
      * Creates new form AddAdmin
      */
     JTable table;
+
     public AddAdmin() {
         initComponents();
     }
+   
     public AddAdmin(javax.swing.JTable table) {
-        this.table=table;
+        this.table = table;
         initComponents();
-    
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -176,26 +181,41 @@ public class AddAdmin extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_Annuler_regAdminActionPerformed
 
     private void btn_valider_regAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_valider_regAdminActionPerformed
-        Administrateur admin=new Administrateur(txtf_login.getText(),txtf_password.getText(),txtf_nom.getText(),txtf_prenom.getText(),txtf_adresse.getText(),txtf_email.getText());
+        
+        if ((txtf_login.getText().isEmpty())) {
+            JOptionPane.showMessageDialog(null, "Entrez login !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_password.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez mot de passe!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_nom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrer le nom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_prenom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez le prenom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (!InputControlers.isEmailAdress(txtf_email.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez votre email !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_adresse.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez l'adresse !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            Administrateur admin = new Administrateur(txtf_login.getText(), txtf_password.getText(), txtf_nom.getText(), txtf_prenom.getText(), txtf_adresse.getText(), txtf_email.getText());
 //        admin.setLogin(txtf_login.getText());
 //        admin.setPassword(txtf_password.getText());
 //        admin.setNom(txtf_nom.getText());
 //        admin.setPrenom(txtf_prenom.getText());
 //        admin.setEmail(txtf_email.getText());
 //        admin.setAdresse(txtf_adresse.getText());
-        if(AdministrateurDAO.addAdmin(admin)){
-            JOptionPane.showMessageDialog(null, "Administrateur "+txtf_login.getText()+" est ajouter avec succes");
-            AdministrateurDAO.upateTableAdmins(table);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Erreur d'ajout");
-        }
-        
-    }//GEN-LAST:event_btn_valider_regAdminActionPerformed
+            if (AdministrateurDAO.addAdmin(admin)) {
+                JOptionPane.showMessageDialog(null, "Administrateur " + txtf_login.getText() + " est ajouter avec succes");
+                AdministrateurDAO.upateTableAdmins(table);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erreur d'ajout");
+            }
 
+    }//GEN-LAST:event_btn_valider_regAdminActionPerformed
+    }
     /**
-     * @param args the command line arguments
-     */
+         * @param args the command line arguments
+         */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

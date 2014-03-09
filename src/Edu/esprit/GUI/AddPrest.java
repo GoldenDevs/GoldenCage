@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.*;
@@ -17,6 +16,7 @@ import javax.swing.JTable;
  * @author Touch media
  */
 public class AddPrest extends javax.swing.JFrame {
+
     private JTable table;
 
     /**
@@ -27,7 +27,7 @@ public class AddPrest extends javax.swing.JFrame {
     }
 
     public AddPrest(JTable table) {
-        this.table=table;
+        this.table = table;
         initComponents();
     }
 
@@ -209,18 +209,31 @@ public class AddPrest extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_Annuler_regAdminActionPerformed
 
     private void btn_valider_regAdminActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_valider_regAdminActionPerformed
+        if (txtf_login.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez login !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_password.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez mot de passe!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_nom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrer le nom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_prenom.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez le prenom!!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_email.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez votre email !!", "Erreur", JOptionPane.WARNING_MESSAGE);
+        } else if (txtf_adresse.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Entrez l'adresse !!", "Erreur", JOptionPane.WARNING_MESSAGE);
 
-        Prestataire prest=new Prestataire(new Date(jDateChooserDebut.getDate().getTime()),new Date(jDateChooserFin.getDate().getTime()),txtf_login.getText(),txtf_password.getText(),txtf_nom.getText(),txtf_prenom.getText(),txtf_adresse.getText(),txtf_email.getText());
-        if(PrestDAO.addPrest(prest)){
-            JOptionPane.showMessageDialog(null, "Client "+txtf_login.getText()+" est ajouter avec succes");
-            PrestDAO.upateTablePrest(table);
-            this.dispose();
-        }else{
-            JOptionPane.showMessageDialog(null, "Erreur d'ajout");
-        }
-        
+        } else {
+            Prestataire prest = new Prestataire(new Date(jDateChooserDebut.getDate().getTime()), new Date(jDateChooserFin.getDate().getTime()), txtf_login.getText(), txtf_password.getText(), txtf_nom.getText(), txtf_prenom.getText(), txtf_adresse.getText(), txtf_email.getText());
+            if (PrestDAO.addPrest(prest)) {
+                JOptionPane.showMessageDialog(null, "Client " + txtf_login.getText() + " est ajouter avec succes");
+                PrestDAO.upateTablePrest(table);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Erreur d'ajout");
+            }
+
     }//GEN-LAST:event_btn_valider_regAdminActionPerformed
-
+    }
     private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
 
     }//GEN-LAST:event_formWindowClosed
