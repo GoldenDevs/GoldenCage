@@ -25,7 +25,7 @@ import java.util.logging.Logger;
  */
 public class ReclamationDAO {
     public void insertReclamation(Reclamation r){
-        String requete = "insert into reclamation (id_reclamation,rec_sujet,rec_text,id_client,id_offre,date) values (default,?,?,?,?,?)";
+        String requete = "insert into reclamation (id_reclamation,rec_sujet,rec_text,id_client,id_offre,date_post) values (default,?,?,?,?,?)";
          try {
             PreparedStatement ps = MyConnection.getInstance().prepareStatement(requete);
             ps.setString(1, r.getRec_sujet());

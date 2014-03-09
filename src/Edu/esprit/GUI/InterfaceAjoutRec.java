@@ -212,7 +212,7 @@ public class InterfaceAjoutRec extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        InterfaceReclamation r = new InterfaceReclamation();
+        Acceuil r = new Acceuil();
         r.setVisible(true);
         this.dispose();
         
