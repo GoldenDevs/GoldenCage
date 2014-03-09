@@ -83,17 +83,17 @@ public class ClientDAO {
             return false;
         }
     }
-    public List<User>listClient(){
+   public static List<Client> listClient(){
         String requete="Select * from goldencage.user u,goldencage.client a where u.login=a.login";
         ResultSet rs=null;
-        User user=new User();
-        List<User>list=new ArrayList<User>();
+        Client cl=new Client();
+        List<Client>list=new ArrayList<Client>();
         try {
             PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
             rs=ps.executeQuery();
             while(rs.next()){
-                user=CRUD.findUserByLogin(rs.getString(1));
-                list.add(user);
+                cl=ClientDAO.findClientByLogin(rs.getString(1));
+                list.add(cl);
             }
             return list;
         } catch (SQLException ex) {

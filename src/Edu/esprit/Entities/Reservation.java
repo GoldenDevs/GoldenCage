@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package Edu.esprit.Entities;
 
 import java.util.Date;
@@ -13,18 +12,35 @@ import java.util.Date;
  * @author Touch media
  */
 public class Reservation {
-    private String offre;
+
+    private int id;
     private Date date_debut;
     private Date date_fin;
-    private String nomClient;
-    private String nomPrest;
+    private String id_client;
+    private int id_offre;
 
-    public String getOffre() {
-        return offre;
+    public String getId_client() {
+        return id_client;
     }
 
-    public void setOffre(String offre) {
-        this.offre = offre;
+    public void setId_client(String id_client) {
+        this.id_client = id_client;
+    }
+
+    public int getId_offre() {
+        return id_offre;
+    }
+
+    public void setId_offre(int id_offre) {
+        this.id_offre = id_offre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getDate_debut() {
@@ -43,38 +59,15 @@ public class Reservation {
         this.date_fin = date_fin;
     }
 
-    public String getNomClient() {
-        return nomClient;
-    }
-
-    public void setNomClient(String nomClient) {
-        this.nomClient = nomClient;
-    }
-
-    public String getNomPrest() {
-        return nomPrest;
-    }
-
-    public void setNomPrest(String nomPrest) {
-        this.nomPrest = nomPrest;
-    }
-
     public Reservation(String offre, Date date_debut, Date date_fin, String nomClient, String nomPrest) {
-        this.offre = offre;
+        this.id_offre = id_offre;
         this.date_debut = date_debut;
         this.date_fin = date_fin;
-        this.nomClient = nomClient;
-        this.nomPrest = nomPrest;
+        this.id_client = id_client;
+
     }
 
     public Reservation() {
     }
 
-    @Override
-    public String toString() {
-        return "Info Reservation \n\nDate Reservation : "+date_debut+"Fin de Reservation : "+date_fin
-                +"\nClient : "+nomClient+"\nPrestataire :"+nomPrest+"\n";
-    }
-    
-    
 }

@@ -19,6 +19,15 @@ public class Reclamation {
     private Date date_rec;
     private String idClient;
     private int offre_rec;
+       private String etat;
+
+    public String getEtat() {
+        return etat;
+    }
+
+    public void setEtat(String etat) {
+        this.etat = etat;
+    }
     
      public int getId_rec() {
         return id_rec;

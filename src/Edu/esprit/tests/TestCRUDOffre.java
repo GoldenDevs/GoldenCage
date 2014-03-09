@@ -18,5 +18,6 @@ public class TestCRUDOffre {
         Offre off=new Offre("Sourie444", true,(float) 100.5, "Microsoft2");
         //System.out.println(OffreDAO.verifExistOffre("aegaeg"));
         System.out.println(OffreDAO.findOffreByID(1));
+        OffreDAO.deleteOffre(5);
     }
 }

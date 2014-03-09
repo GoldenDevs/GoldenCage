@@ -10,7 +10,12 @@ import javax.swing.JTextField;
 import Edu.esprit.DAO.*;
 import Edu.esprit.Entities.Administrateur;
 import Edu.esprit.Entities.Client;
+import Edu.esprit.Entities.Reclamation;
+import static Edu.esprit.GUI.InterfaceReclamation.idClientRep;
 import Edu.esprit.utils.CRUD;
+import Edu.esprit.utils.mailSend;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
 
@@ -20,13 +25,14 @@ import net.proteanit.sql.DbUtils;
  */
 public class Acceuil extends javax.swing.JFrame {
 
+    List<Integer> idr = new ArrayList<Integer>();
     /**
      * Creates new form Acceuil
      */
     public void load(){
         lbl_lastconn_admin.setText(lbl_lastconn_admin.getText()+" "+AdministrateurDAO.getAdminLastLogin(Authentification.login));
          lbl_bnjr.setText(lbl_bnjr.getText()+" "+Authentification.login);
-         
+          
          AdministrateurDAO.upateTableAdmins(table_admins);
          PrestDAO.upateTablePrest(table_prest);
          ClientDAO.upateTableClient(table_clients);
@@ -42,7 +48,7 @@ public class Acceuil extends javax.swing.JFrame {
          btn_ban_client1.setEnabled(false);
          jmenu_login.setText("Administrateur , "+Authentification.login);
          btn_modif.setEnabled(false);
-         pnl_grecl.add(ContactSupport.getInterface());
+//         pnl_grecl.add(InterfaceReclamation.getInterface());
          
     }
     
@@ -85,10 +91,9 @@ public class Acceuil extends javax.swing.JFrame {
         lbl_adresse_client = new javax.swing.JLabel();
         lbl_email_client = new javax.swing.JLabel();
         lbl_date_insc_client = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        table_client_list_achat = new javax.swing.JTable();
         btn_deban_client = new javax.swing.JButton();
         btn_ban_client1 = new javax.swing.JButton();
+        btn_list_reservation = new javax.swing.JButton();
         pnl_gprest = new javax.swing.JPanel();
         jScrollPane3 = new javax.swing.JScrollPane();
         table_prest = new javax.swing.JTable();
@@ -96,6 +101,17 @@ public class Acceuil extends javax.swing.JFrame {
         btn_supp_prest = new javax.swing.JButton();
         btn_ajout_prest = new javax.swing.JButton();
         pnl_grecl = new javax.swing.JPanel();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        list_rec = new javax.swing.JList();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        txta_desc_rec = new javax.swing.JTextArea();
+        btn_ajout_rec = new javax.swing.JButton();
+        btn_close_rec = new javax.swing.JButton();
+        btn_rep_envoi = new javax.swing.JButton();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        txta_txt_rep_rec = new javax.swing.JTextArea();
+        txtf_mail_dest_rec = new javax.swing.JTextField();
+        txtf_rec_id = new javax.swing.JTextField();
         pnl_goffres = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
         liste_offres = new javax.swing.JTable();
@@ -171,7 +187,7 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
-        btn_add_admin.setText("Ajouter");
+        btn_add_admin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/buttons-ajout.jpg"))); // NOI18N
         btn_add_admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_add_adminActionPerformed(evt);
@@ -194,8 +210,9 @@ public class Acceuil extends javax.swing.JFrame {
                 .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(pnl_gadminsLayout.createSequentialGroup()
-                        .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(13, 13, 13)
+                        .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_supp_admin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_modif)
@@ -208,11 +225,12 @@ public class Acceuil extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_modif)
-                    .addComponent(btn_add_admin)
-                    .addComponent(btn_supp_admin))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_modif)
+                        .addComponent(btn_supp_admin))
+                    .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
@@ -286,19 +304,6 @@ public class Acceuil extends javax.swing.JFrame {
 
         lbl_date_insc_client.setText("Date d'Inscrit :");
 
-        table_client_list_achat.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {},
-                {},
-                {},
-                {}
-            },
-            new String [] {
-
-            }
-        ));
-        jScrollPane6.setViewportView(table_client_list_achat);
-
         javax.swing.GroupLayout pnl_detail_clientLayout = new javax.swing.GroupLayout(pnl_detail_client);
         pnl_detail_client.setLayout(pnl_detail_clientLayout);
         pnl_detail_clientLayout.setHorizontalGroup(
@@ -312,28 +317,23 @@ public class Acceuil extends javax.swing.JFrame {
                     .addComponent(lbl_adresse_client)
                     .addComponent(lbl_email_client)
                     .addComponent(lbl_date_insc_client))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         pnl_detail_clientLayout.setVerticalGroup(
             pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_detail_clientLayout.createSequentialGroup()
-                .addContainerGap(40, Short.MAX_VALUE)
-                .addGroup(pnl_detail_clientLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(pnl_detail_clientLayout.createSequentialGroup()
-                        .addComponent(lbl_nom_client)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_prenom_client)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_Age_client)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_adresse_client)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_email_client)
-                        .addGap(18, 18, 18)
-                        .addComponent(lbl_date_insc_client)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lbl_nom_client)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_prenom_client)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_Age_client)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_adresse_client)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_email_client)
+                .addGap(18, 18, 18)
+                .addComponent(lbl_date_insc_client)
                 .addContainerGap())
         );
 
@@ -351,6 +351,13 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
+        btn_list_reservation.setText("Reservation");
+        btn_list_reservation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_list_reservationActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl_gusersLayout = new javax.swing.GroupLayout(pnl_gusers);
         pnl_gusers.setLayout(pnl_gusersLayout);
         pnl_gusersLayout.setHorizontalGroup(
@@ -358,13 +365,9 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(pnl_gusersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
-                        .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnl_gusersLayout.createSequentialGroup()
-                                .addComponent(pnl_detail_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
-                                .addComponent(btn_deban_client))
+                        .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(pnl_gusersLayout.createSequentialGroup()
                                 .addComponent(btn_ajout_client, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -372,9 +375,13 @@ public class Acceuil extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btn_supp_client)
                                 .addGap(18, 18, 18)
-                                .addComponent(btn_ban_client1)
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btn_ban_client1))
+                            .addComponent(pnl_detail_client, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_list_reservation)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_deban_client)
+                        .addGap(47, 47, 47)
                         .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
@@ -383,20 +390,19 @@ public class Acceuil extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnl_gusersLayout.createSequentialGroup()
                         .addGroup(pnl_gusersLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btn_ajout_client)
                             .addComponent(btn_affdetail_client)
                             .addComponent(btn_supp_client)
-                            .addComponent(btn_ban_client1))
+                            .addComponent(btn_ban_client1)
+                            .addComponent(btn_deban_client)
+                            .addComponent(btn_list_reservation))
                         .addGap(18, 18, 18)
                         .addComponent(pnl_detail_client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_gusersLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btn_deban_client))
+                        .addGap(0, 18, Short.MAX_VALUE))
                     .addComponent(jScrollPane5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -475,15 +481,99 @@ public class Acceuil extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Gestions des Prestataires", pnl_gprest);
 
+        list_rec.setModel(new javax.swing.AbstractListModel() {
+            String[] strings = { };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        list_rec.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                list_recMouseClicked(evt);
+            }
+        });
+        jScrollPane6.setViewportView(list_rec);
+
+        txta_desc_rec.setColumns(20);
+        txta_desc_rec.setRows(5);
+        jScrollPane7.setViewportView(txta_desc_rec);
+
+        btn_ajout_rec.setText("Ajouter");
+        btn_ajout_rec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_ajout_recActionPerformed(evt);
+            }
+        });
+
+        btn_close_rec.setText("Fermer Reclamation");
+        btn_close_rec.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_close_recActionPerformed(evt);
+            }
+        });
+
+        btn_rep_envoi.setText("Repondre");
+        btn_rep_envoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_rep_envoiActionPerformed(evt);
+            }
+        });
+
+        txta_txt_rep_rec.setColumns(20);
+        txta_txt_rep_rec.setRows(5);
+        jScrollPane8.setViewportView(txta_txt_rep_rec);
+
         javax.swing.GroupLayout pnl_greclLayout = new javax.swing.GroupLayout(pnl_grecl);
         pnl_grecl.setLayout(pnl_greclLayout);
         pnl_greclLayout.setHorizontalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 706, Short.MAX_VALUE)
+            .addGroup(pnl_greclLayout.createSequentialGroup()
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(btn_ajout_rec)
+                        .addGap(43, 43, 43))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_greclLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnl_greclLayout.createSequentialGroup()
+                        .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(pnl_greclLayout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btn_rep_envoi))
+                            .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 273, Short.MAX_VALUE))
+                        .addGap(176, 176, 176))
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(btn_close_rec)
+                                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                                .addComponent(txtf_mail_dest_rec))
+                            .addComponent(txtf_rec_id, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         pnl_greclLayout.setVerticalGroup(
             pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 595, Short.MAX_VALUE)
+            .addGroup(pnl_greclLayout.createSequentialGroup()
+                .addGap(164, 164, 164)
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(pnl_greclLayout.createSequentialGroup()
+                        .addComponent(txtf_rec_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtf_mail_dest_rec, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+                    .addComponent(jScrollPane6))
+                .addGap(18, 18, 18)
+                .addGroup(pnl_greclLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_ajout_rec)
+                    .addComponent(btn_close_rec))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_rep_envoi)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
@@ -824,7 +914,7 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_table_adminsMouseClicked
 
     private void btn_add_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_offreActionPerformed
-        // TODO add your handling code here:
+        new addOffre().setVisible(true);
     }//GEN-LAST:event_btn_add_offreActionPerformed
 
     private void btn_supp_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_offreActionPerformed
@@ -859,6 +949,45 @@ public class Acceuil extends javax.swing.JFrame {
         new AdminPasswordChange("superadmin").setVisible(true);
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void btn_list_reservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_list_reservationActionPerformed
+         new Liste_reservation(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString()).setVisible(true);
+    }//GEN-LAST:event_btn_list_reservationActionPerformed
+
+    private void list_recMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_list_recMouseClicked
+        btn_close_rec.setEnabled(true);
+        btn_rep_envoi.setEnabled(true);
+        ReclamationDAO r = new ReclamationDAO();
+        Reclamation rec = r.findReclamationByIdRec(idr.get(list_rec.getSelectedIndex()));
+        txta_desc_rec.setText("id: " + rec.getId_rec() + "\n"
+                + "sujet : " + rec.getRec_sujet() + "\n"
+                + "text de la reclamation: " + rec.getRec_text() + "\n"
+                + "date reclamtion : " + rec.getDate_rec() + "\n"
+                + "client reclamateur : " + rec.getidClient() + "\n"
+                + " offre reclamée : " + rec.getOffre_rec() + "\n"
+                +" etat de la reclamation:"+ rec.getEtat());
+        idClientRep=rec.getidClient();
+        
+        txtf_mail_dest_rec.setText(ClientDAO.findClientByLogin(rec.getidClient()).getEmail());
+        txtf_rec_id.setText("Rec#"+rec.getId_rec());
+    }//GEN-LAST:event_list_recMouseClicked
+
+    private void btn_ajout_recActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_ajout_recActionPerformed
+       new InterfaceAjoutRec().setVisible(true);
+    }//GEN-LAST:event_btn_ajout_recActionPerformed
+
+    private void btn_close_recActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_close_recActionPerformed
+        
+        Reclamation rec = ReclamationDAO.findReclamationByIdRec(idr.get(list_rec.getSelectedIndex()));
+        ReclamationDAO.deleteReclamation(rec.getId_rec());
+        load();
+        JOptionPane.showMessageDialog(null,"suppression effectuée");
+        txta_desc_rec.setText("");
+    }//GEN-LAST:event_btn_close_recActionPerformed
+
+    private void btn_rep_envoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_rep_envoiActionPerformed
+        mailSend.Send(txtf_mail_dest_rec.getText(), txtf_rec_id.getText(), txta_txt_rep_rec.getText());
+    }//GEN-LAST:event_btn_rep_envoiActionPerformed
 
     /**
      * @param args the command line arguments
@@ -902,10 +1031,14 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_affdetail_client;
     private javax.swing.JButton btn_ajout_client;
     private javax.swing.JButton btn_ajout_prest;
+    private javax.swing.JButton btn_ajout_rec;
     private javax.swing.JButton btn_ban_client1;
+    private javax.swing.JButton btn_close_rec;
     private javax.swing.JButton btn_deban_client;
+    private javax.swing.JButton btn_list_reservation;
     private javax.swing.JButton btn_modif;
     private javax.swing.JButton btn_modif_offre;
+    private javax.swing.JButton btn_rep_envoi;
     private javax.swing.JButton btn_save_modif;
     private javax.swing.JButton btn_supp_admin;
     private javax.swing.JButton btn_supp_client;
@@ -926,6 +1059,8 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
@@ -938,6 +1073,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_lastconn_admin;
     private javax.swing.JLabel lbl_nom_client;
     private javax.swing.JLabel lbl_prenom_client;
+    private javax.swing.JList list_rec;
     private javax.swing.JTable liste_offres;
     private javax.swing.JPanel pnl_admin_acceuil;
     private javax.swing.JPanel pnl_detail_client;
@@ -948,8 +1084,11 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JPanel pnl_gusers;
     private javax.swing.JTable table_admins;
     private javax.swing.JTable table_client_banni;
-    private javax.swing.JTable table_client_list_achat;
     private javax.swing.JTable table_clients;
     private javax.swing.JTable table_prest;
+    private javax.swing.JTextArea txta_desc_rec;
+    private javax.swing.JTextArea txta_txt_rep_rec;
+    private javax.swing.JTextField txtf_mail_dest_rec;
+    private javax.swing.JTextField txtf_rec_id;
     // End of variables declaration//GEN-END:variables
 }
