@@ -20,7 +20,7 @@ public class ContactSupport extends javax.swing.JFrame {
     public ContactSupport() {
         initComponents();
     }
-    
+    //appel a une partie de l'interface ContactSupport
     public static JPanel getInterface(){
         ContactSupport tempo = new ContactSupport();
         return tempo.pnl_contact_supp;

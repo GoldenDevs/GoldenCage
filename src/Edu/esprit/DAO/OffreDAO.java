@@ -196,7 +196,21 @@ public class OffreDAO {
  
     public static void upateTableOffre(javax.swing.JTable liste_offres){
         
-        String requete="SELECT * from Offre";
+        String requete="SELECT o.id_offre Identifient,o.libelle_offre 'Libelle',o.id_prest 'Prestataire',o.date_post 'Date Post',o.prix Prix FROM offre o where dispo=true;";
+        ResultSet rs=null;
+        try{
+        PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
+        rs=ps.executeQuery();
+        liste_offres.setModel(DbUtils.resultSetToTableModel(rs));
+        }
+        catch(SQLException ex) {
+            Logger.getLogger(AdministrateurDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    } 
+    public static void upateTableOffreByPrest(javax.swing.JTable liste_offres){
+        
+        String requete="SELECT o.id_offre Identifient,o.libelle_offre 'Libelle',o.id_prest 'Prestataire',o.date_post 'Date Post',o.prix Prix FROM offre o where dispo=true and id_prest=?;";
         ResultSet rs=null;
         try{
         PreparedStatement ps=MyConnection.getInstance().prepareStatement(requete);
@@ -211,7 +225,7 @@ public class OffreDAO {
     
     public static ImageIcon getImageOffre(int id){
         ImageIcon img=null;
-        String requete="Select img from Offre where id=?";
+        String requete="Select img from Offre where id_offre=?";
         ResultSet rs=null;
         try {
            PreparedStatement ps= MyConnection.getInstance().prepareStatement(requete);
