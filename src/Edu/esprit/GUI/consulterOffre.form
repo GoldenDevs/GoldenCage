@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" attributes="0">
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Component id="lbl_id_offre" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_lib_offre" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_etat_Offre" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_dateP_offre" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_prest_offre" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_prix_offre" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="lbl_note_offre" alignment="0" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="106" max="-2" attributes="0"/>
+                      <Component id="lbl_image_offre" min="-2" pref="175" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <EmptySpace min="-2" pref="152" max="-2" attributes="0"/>
+                      <Component id="btn_fermer_detail_offre" min="-2" max="-2" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace pref="114" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="lbl_image_offre" min="-2" pref="168" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="lbl_id_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_lib_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_prest_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+              <Component id="lbl_dateP_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_etat_Offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_prix_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="lbl_note_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="25" max="32767" attributes="0"/>
+              <Component id="btn_fermer_detail_offre" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JLabel" name="lbl_image_offre">
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_lib_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Libelle Offre : "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_id_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Identifient :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_dateP_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Date Post :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_etat_Offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Etat Offre : "/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_prest_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Prestataire :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_prix_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Prix :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="lbl_note_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Note :"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="btn_fermer_detail_offre">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Fermer"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_fermer_detail_offreActionPerformed"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
