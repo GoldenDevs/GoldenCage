@@ -187,7 +187,7 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
-        btn_add_admin.setText("Ajouter");
+        btn_add_admin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/buttons-ajout.jpg"))); // NOI18N
         btn_add_admin.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_add_adminActionPerformed(evt);
@@ -210,8 +210,9 @@ public class Acceuil extends javax.swing.JFrame {
                 .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
                     .addGroup(pnl_gadminsLayout.createSequentialGroup()
-                        .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(13, 13, 13)
+                        .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btn_supp_admin)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_modif)
@@ -224,11 +225,12 @@ public class Acceuil extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_modif)
-                    .addComponent(btn_add_admin)
-                    .addComponent(btn_supp_admin))
-                .addContainerGap(250, Short.MAX_VALUE))
+                .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnl_gadminsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_modif)
+                        .addComponent(btn_supp_admin))
+                    .addComponent(btn_add_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(249, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Gestion des Administrateurs", pnl_gadmins);
