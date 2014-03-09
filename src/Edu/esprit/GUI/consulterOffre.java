@@ -7,6 +7,7 @@
 package Edu.esprit.GUI;
 
 import Edu.esprit.DAO.OffreDAO;
+import Edu.esprit.Entities.Offre;
 import javax.swing.ImageIcon;
 
 /**
@@ -15,20 +16,43 @@ import javax.swing.ImageIcon;
  */
 public class consulterOffre extends javax.swing.JFrame {
     ImageIcon img=null;
+    Offre of=new Offre();
     /**
      * Creates new form consulterOffre
      */
+    
     public consulterOffre() {
         initComponents();
+        this.setResizable(false);
     }
     public consulterOffre(int id) {
         initComponents();
+        btn_save_offre.setEnabled(false);
+        this.setResizable(false);
+        
+        txtf_date_post_offre.setEnabled(false);
+        txtf_id_offre.setEnabled(false);
+        txtf_libelle_offre.setEnabled(false);
+        txtf_note_offre.setEnabled(false);
+        txtf_prest_offre.setEnabled(false);
+        txtf_prix_offre.setEnabled(false);
+        
+        
         img=OffreDAO.getImageOffre(id);
         if(img!=null){
         lbl_image_offre.setIcon(img);
         }else{
             lbl_image_offre.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/offre.jpg")));
         }
+        
+        of=OffreDAO.findOffreByID(id);
+        txtf_date_post_offre.setText(of.getDate_Post().toLocaleString());
+        txtf_id_offre.setText(""+of.getId_Offre());
+        txtf_libelle_offre.setText(of.getLibelle_off());
+        txtf_note_offre.setText(""+of.getNoteOffre());
+        txtf_prest_offre.setText(of.getNomPrest());
+        txtf_prix_offre.setText(""+of.getPrix());
+        
     }
 
     /**
@@ -49,6 +73,17 @@ public class consulterOffre extends javax.swing.JFrame {
         lbl_prix_offre = new javax.swing.JLabel();
         lbl_note_offre = new javax.swing.JLabel();
         btn_fermer_detail_offre = new javax.swing.JButton();
+        txtf_id_offre = new javax.swing.JTextField();
+        txtf_libelle_offre = new javax.swing.JTextField();
+        txtf_prest_offre = new javax.swing.JTextField();
+        txtf_date_post_offre = new javax.swing.JTextField();
+        txtf_prix_offre = new javax.swing.JTextField();
+        txtf_note_offre = new javax.swing.JTextField();
+        txtf_etat_offre = new javax.swing.JLabel();
+        btn_save_offre = new javax.swing.JButton();
+        btn_edit_Libelle = new javax.swing.JButton();
+        btn_edit_etat = new javax.swing.JButton();
+        btn_edit_prix = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -73,6 +108,34 @@ public class consulterOffre extends javax.swing.JFrame {
             }
         });
 
+        btn_save_offre.setText("Sauvgarder");
+        btn_save_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_save_offreActionPerformed(evt);
+            }
+        });
+
+        btn_edit_Libelle.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/icon_edit.png"))); // NOI18N
+        btn_edit_Libelle.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_edit_LibelleMouseClicked(evt);
+            }
+        });
+
+        btn_edit_etat.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/icon_edit.png"))); // NOI18N
+        btn_edit_etat.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_edit_etatMouseClicked(evt);
+            }
+        });
+
+        btn_edit_prix.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/icon_edit.png"))); // NOI18N
+        btn_edit_prix.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_edit_prixMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -81,21 +144,49 @@ public class consulterOffre extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbl_id_offre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtf_id_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbl_lib_offre)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtf_libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_prix_offre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtf_prix_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(lbl_prest_offre)
+                                .addGap(26, 26, 26)
+                                .addComponent(txtf_prest_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbl_note_offre)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(txtf_note_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lbl_dateP_offre)
+                                    .addComponent(lbl_etat_Offre))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtf_date_post_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtf_etat_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(lbl_id_offre)
-                            .addComponent(lbl_lib_offre)
-                            .addComponent(lbl_etat_Offre)
-                            .addComponent(lbl_dateP_offre)
-                            .addComponent(lbl_prest_offre)
-                            .addComponent(lbl_prix_offre)
-                            .addComponent(lbl_note_offre)))
+                            .addComponent(btn_edit_Libelle, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_edit_etat, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_edit_prix, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(106, 106, 106)
                         .addComponent(lbl_image_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(btn_fermer_detail_offre)))
-                .addContainerGap(114, Short.MAX_VALUE))
+                        .addGap(97, 97, 97)
+                        .addComponent(btn_fermer_detail_offre)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_save_offre)))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,30 +194,78 @@ public class consulterOffre extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(lbl_image_offre, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lbl_id_offre)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_id_offre)
+                            .addComponent(txtf_id_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lbl_lib_offre)
+                            .addComponent(txtf_libelle_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btn_edit_Libelle, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(lbl_lib_offre)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_prest_offre)
+                    .addComponent(txtf_prest_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_dateP_offre)
+                    .addComponent(txtf_date_post_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(lbl_prest_offre)
-                .addGap(18, 18, 18)
-                .addComponent(lbl_dateP_offre)
-                .addGap(18, 18, 18)
-                .addComponent(lbl_etat_Offre)
-                .addGap(18, 18, 18)
-                .addComponent(lbl_prix_offre)
-                .addGap(18, 18, 18)
-                .addComponent(lbl_note_offre)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
-                .addComponent(btn_fermer_detail_offre)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(lbl_etat_Offre, javax.swing.GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+                        .addComponent(txtf_etat_offre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btn_edit_etat, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lbl_prix_offre)
+                        .addComponent(txtf_prix_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btn_edit_prix, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_note_offre)
+                    .addComponent(txtf_note_offre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 15, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_fermer_detail_offre)
+                    .addComponent(btn_save_offre))
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_fermer_detail_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fermer_detail_offreActionPerformed
+       
         this.dispose();
     }//GEN-LAST:event_btn_fermer_detail_offreActionPerformed
+
+    private void btn_edit_prixMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_prixMouseClicked
+        txtf_prix_offre.setEnabled(true);
+        btn_save_offre.setEnabled(true);
+    }//GEN-LAST:event_btn_edit_prixMouseClicked
+
+    private void btn_edit_etatMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_etatMouseClicked
+        if(of.getEtatoffre()==true){
+            txtf_etat_offre.setIcon(new ImageIcon(getClass().getResource("/Images/Icon/open.png")));
+        }else{
+            txtf_etat_offre.setIcon(new ImageIcon(getClass().getResource("/Images/Icon/closed.png")));
+        }
+    }//GEN-LAST:event_btn_edit_etatMouseClicked
+
+    private void btn_save_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_save_offreActionPerformed
+        OffreDAO.updateOffre(of);
+    }//GEN-LAST:event_btn_save_offreActionPerformed
+
+    private void btn_edit_LibelleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_edit_LibelleMouseClicked
+        txtf_libelle_offre.setEnabled(true);
+        btn_save_offre.setEnabled(true);
+        
+    }//GEN-LAST:event_btn_edit_LibelleMouseClicked
 
     /**
      * @param args the command line arguments
@@ -164,7 +303,11 @@ public class consulterOffre extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_edit_Libelle;
+    private javax.swing.JButton btn_edit_etat;
+    private javax.swing.JButton btn_edit_prix;
     private javax.swing.JButton btn_fermer_detail_offre;
+    private javax.swing.JButton btn_save_offre;
     private javax.swing.JLabel lbl_dateP_offre;
     private javax.swing.JLabel lbl_etat_Offre;
     private javax.swing.JLabel lbl_id_offre;
@@ -173,5 +316,12 @@ public class consulterOffre extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_note_offre;
     private javax.swing.JLabel lbl_prest_offre;
     private javax.swing.JLabel lbl_prix_offre;
+    private javax.swing.JTextField txtf_date_post_offre;
+    private javax.swing.JLabel txtf_etat_offre;
+    private javax.swing.JTextField txtf_id_offre;
+    private javax.swing.JTextField txtf_libelle_offre;
+    private javax.swing.JTextField txtf_note_offre;
+    private javax.swing.JTextField txtf_prest_offre;
+    private javax.swing.JTextField txtf_prix_offre;
     // End of variables declaration//GEN-END:variables
 }

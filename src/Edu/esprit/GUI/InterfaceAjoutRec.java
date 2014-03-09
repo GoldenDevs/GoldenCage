@@ -3,7 +3,7 @@
  * and open the template in the editor.
  */
 package Edu.esprit.GUI;
-//import Edu.esprit.GUI.InterfaceReclamation;
+//import Edu.esprit.GUI.InerfaceReclamation;
 import Edu.esprit.DAO.ClientDAO;
 import Edu.esprit.DAO.OffreDAO;
 import Edu.esprit.DAO.ReclamationDAO;
@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import static javax.swing.WindowConstants.HIDE_ON_CLOSE;
 
 /**
  *
@@ -29,6 +30,8 @@ public class InterfaceAjoutRec extends javax.swing.JFrame {
      */
     public InterfaceAjoutRec() {
         initComponents();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
+        this.setResizable(false);
         //liste offre
 //          List<Offre> list_offre=new ArrayList<Offre>();
 //          list_offre= OffreDAO.L
@@ -111,7 +114,7 @@ public class InterfaceAjoutRec extends javax.swing.JFrame {
             }
         });
 
-        cmbx_id_offre.setModel(new javax.swing.DefaultComboBoxModel(new String[] {  }));
+        cmbx_id_offre.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -209,7 +212,7 @@ public class InterfaceAjoutRec extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        InterfaceReclamation r = new InterfaceReclamation();
+        Acceuil r = new Acceuil();
         r.setVisible(true);
         this.dispose();
         

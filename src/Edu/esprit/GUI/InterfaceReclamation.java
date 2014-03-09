@@ -37,6 +37,7 @@ public class InterfaceReclamation extends javax.swing.JFrame// implements Action
     List<Integer> idr = new ArrayList<Integer>();
     public static String idClientRep;
     public static JPanel inter;
+  
 
     /**
      * Creates new form InterfaceReclamation
