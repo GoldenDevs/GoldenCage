@@ -912,7 +912,7 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_table_adminsMouseClicked
 
     private void btn_add_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_offreActionPerformed
-        // TODO add your handling code here:
+        new addOffre().setVisible(true);
     }//GEN-LAST:event_btn_add_offreActionPerformed
 
     private void btn_supp_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_offreActionPerformed
