@@ -960,7 +960,9 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void btn_list_reservationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_list_reservationActionPerformed
-         new Liste_reservation(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString()).setVisible(true);
+if (table_clients.getSelectedRow()==-1)
+      { JOptionPane.showMessageDialog(null, "vous devez choisir une ligne");}
+        new Liste_reservation(table_clients.getValueAt(table_clients.getSelectedRow(), 0).toString()).setVisible(true);
     }//GEN-LAST:event_btn_list_reservationActionPerformed
 
     private void btn_detail_offreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_detail_offreKeyPressed
