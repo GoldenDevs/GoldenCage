@@ -24,8 +24,6 @@ public class AfficherImage extends javax.swing.JFrame {
         ImageIcon img=null;
         if((img=OffreDAO.getImageOffre(i))!=null){
         lbl_consult_img.setIcon(OffreDAO.getImageOffre(i));
-        }else{
-            lbl_consult_img.setIcon(new ImageIcon("C:\\Image\\offre.jpg"));
         }
     }
 
@@ -43,6 +41,8 @@ public class AfficherImage extends javax.swing.JFrame {
         btn_image_prec = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        lbl_consult_img.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/Icon/offre.jpg"))); // NOI18N
 
         btn_image_suiv.setText("Suivant >");
         btn_image_suiv.addActionListener(new java.awt.event.ActionListener() {

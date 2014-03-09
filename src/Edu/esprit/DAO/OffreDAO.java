@@ -225,7 +225,7 @@ public class OffreDAO {
     } 
     
     public static ImageIcon getImageOffre(int id){
-        ImageIcon img=null;
+        ImageIcon img=new ImageIcon("//Images//Icon//offre.jpg");;
         String requete="Select img from Offre where id_offre=?";
         ResultSet rs=null;
         try {

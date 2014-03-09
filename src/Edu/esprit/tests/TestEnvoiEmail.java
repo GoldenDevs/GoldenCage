@@ -14,6 +14,6 @@ import Edu.esprit.utils.mailSend;
  */
 public class TestEnvoiEmail {
     public static void main(String[] args) {
-        mailSend.Send("elyes.bensalah@esprit.tn", "Test", "Test daegaegaegaegaega egaegaeg");
+        mailSend.Send("elyes.bensalah@esprit.tn", "Hello", "HTEstotoaa");
     }
 }

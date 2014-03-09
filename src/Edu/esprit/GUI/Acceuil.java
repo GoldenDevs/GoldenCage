@@ -37,7 +37,7 @@ public class Acceuil extends javax.swing.JFrame {
          PrestDAO.upateTablePrest(table_prest);
          ClientDAO.upateTableClient(table_clients);
          ClientDAO.upateTableClientBanni(table_client_banni);
-         OffreDAO.upateTableOffre(liste_offres);
+         OffreDAO.upateTableOffre(table_offres);
          btn_supp_prest.setEnabled(false);
          btn_supp_admin.setEnabled(false);
          btn_supp_client.setEnabled(false);
@@ -114,10 +114,11 @@ public class Acceuil extends javax.swing.JFrame {
         txtf_rec_id = new javax.swing.JTextField();
         pnl_goffres = new javax.swing.JPanel();
         jScrollPane4 = new javax.swing.JScrollPane();
-        liste_offres = new javax.swing.JTable();
+        table_offres = new javax.swing.JTable();
         btn_add_offre = new javax.swing.JButton();
         btn_supp_offre = new javax.swing.JButton();
         btn_modif_offre = new javax.swing.JButton();
+        btn_detail_offre = new javax.swing.JButton();
         lbl_lastconn_admin = new javax.swing.JLabel();
         lbl_bnjr = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -578,7 +579,7 @@ public class Acceuil extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Les Reclamations", pnl_grecl);
 
-        liste_offres.setModel(new javax.swing.table.DefaultTableModel(
+        table_offres.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -586,7 +587,7 @@ public class Acceuil extends javax.swing.JFrame {
 
             }
         ));
-        jScrollPane4.setViewportView(liste_offres);
+        jScrollPane4.setViewportView(table_offres);
 
         btn_add_offre.setText("Ajouter");
         btn_add_offre.addActionListener(new java.awt.event.ActionListener() {
@@ -609,6 +610,18 @@ public class Acceuil extends javax.swing.JFrame {
             }
         });
 
+        btn_detail_offre.setText("Detail");
+        btn_detail_offre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_detail_offreActionPerformed(evt);
+            }
+        });
+        btn_detail_offre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                btn_detail_offreKeyPressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout pnl_goffresLayout = new javax.swing.GroupLayout(pnl_goffres);
         pnl_goffres.setLayout(pnl_goffresLayout);
         pnl_goffresLayout.setHorizontalGroup(
@@ -623,6 +636,8 @@ public class Acceuil extends javax.swing.JFrame {
                         .addComponent(btn_supp_offre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btn_modif_offre)
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_detail_offre)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -635,7 +650,8 @@ public class Acceuil extends javax.swing.JFrame {
                 .addGroup(pnl_goffresLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btn_modif_offre)
                     .addComponent(btn_add_offre)
-                    .addComponent(btn_supp_offre))
+                    .addComponent(btn_supp_offre)
+                    .addComponent(btn_detail_offre))
                 .addContainerGap(250, Short.MAX_VALUE))
         );
 
@@ -914,12 +930,22 @@ public class Acceuil extends javax.swing.JFrame {
     }//GEN-LAST:event_table_adminsMouseClicked
 
     private void btn_add_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_add_offreActionPerformed
-        new addOffre().setVisible(true);
+        new AddOffre(table_offres).setVisible(true);
     }//GEN-LAST:event_btn_add_offreActionPerformed
 
     private void btn_supp_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_supp_offreActionPerformed
-        if(table_admins.getSelectedRow()!=-1){
-            btn_supp_admin.setEnabled(true);
+        int ligne,colone;
+        
+        ligne=table_offres.getSelectedRow();
+        try{
+        int conf=JOptionPane.showConfirmDialog(null,"Voulez-vous vraiment Supprimer l'Offre ID : "+table_offres.getValueAt(ligne, 0).toString());
+        if (conf==0){
+            OffreDAO.deleteOffre(Integer.parseInt(table_offres.getValueAt(ligne, 0).toString()));
+            OffreDAO.upateTableOffre(table_offres);
+            }
+        }
+        catch(Exception ex){
+            JOptionPane.showMessageDialog(null, "Veuillez choisir un Offre");
         }
     }//GEN-LAST:event_btn_supp_offreActionPerformed
 
@@ -989,6 +1015,14 @@ public class Acceuil extends javax.swing.JFrame {
         mailSend.Send(txtf_mail_dest_rec.getText(), txtf_rec_id.getText(), txta_txt_rep_rec.getText());
     }//GEN-LAST:event_btn_rep_envoiActionPerformed
 
+    private void btn_detail_offreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_btn_detail_offreKeyPressed
+        
+    }//GEN-LAST:event_btn_detail_offreKeyPressed
+
+    private void btn_detail_offreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_detail_offreActionPerformed
+        new consulterOffre(Integer.parseInt(table_offres.getValueAt(table_offres.getSelectedRow(), 0).toString())).setVisible(true);
+    }//GEN-LAST:event_btn_detail_offreActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1035,6 +1069,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JButton btn_ban_client1;
     private javax.swing.JButton btn_close_rec;
     private javax.swing.JButton btn_deban_client;
+    private javax.swing.JButton btn_detail_offre;
     private javax.swing.JButton btn_list_reservation;
     private javax.swing.JButton btn_modif;
     private javax.swing.JButton btn_modif_offre;
@@ -1074,7 +1109,6 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_nom_client;
     private javax.swing.JLabel lbl_prenom_client;
     private javax.swing.JList list_rec;
-    private javax.swing.JTable liste_offres;
     private javax.swing.JPanel pnl_admin_acceuil;
     private javax.swing.JPanel pnl_detail_client;
     private javax.swing.JPanel pnl_gadmins;
@@ -1085,6 +1119,7 @@ public class Acceuil extends javax.swing.JFrame {
     private javax.swing.JTable table_admins;
     private javax.swing.JTable table_client_banni;
     private javax.swing.JTable table_clients;
+    private javax.swing.JTable table_offres;
     private javax.swing.JTable table_prest;
     private javax.swing.JTextArea txta_desc_rec;
     private javax.swing.JTextArea txta_txt_rep_rec;

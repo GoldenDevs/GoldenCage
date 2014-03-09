@@ -6,6 +6,8 @@
 
 package Edu.esprit.GUI;
 
+import Edu.esprit.DAO.OffreDAO;
+
 /**
  *
  * @author Elyes
@@ -20,6 +22,7 @@ public class consulterOffre extends javax.swing.JFrame {
     }
     public consulterOffre(int id) {
         initComponents();
+        lbl_image_offre.setIcon(OffreDAO.getImageOffre(id));
     }
 
     /**

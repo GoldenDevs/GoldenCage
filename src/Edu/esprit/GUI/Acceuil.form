@@ -791,6 +791,8 @@
                               <Component id="btn_supp_offre" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="unrelated" max="-2" attributes="0"/>
                               <Component id="btn_modif_offre" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace type="separate" max="-2" attributes="0"/>
+                              <Component id="btn_detail_offre" min="-2" max="-2" attributes="0"/>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
@@ -808,6 +810,7 @@
                           <Component id="btn_modif_offre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btn_add_offre" alignment="3" min="-2" max="-2" attributes="0"/>
                           <Component id="btn_supp_offre" alignment="3" min="-2" max="-2" attributes="0"/>
+                          <Component id="btn_detail_offre" alignment="3" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="250" max="32767" attributes="0"/>
                   </Group>
@@ -822,7 +825,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
               <SubComponents>
-                <Component class="javax.swing.JTable" name="liste_offres">
+                <Component class="javax.swing.JTable" name="table_offres">
                   <Properties>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="0" rowCount="0"/>
@@ -859,6 +862,15 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_modif_offreActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btn_detail_offre">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="Detail"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_detail_offreActionPerformed"/>
+                <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="btn_detail_offreKeyPressed"/>
               </Events>
             </Component>
           </SubComponents>
