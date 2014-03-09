@@ -13,11 +13,23 @@ import Edu.esprit.Entities.Client;
 import Edu.esprit.Entities.Reclamation;
 import static Edu.esprit.GUI.InterfaceReclamation.idClientRep;
 import Edu.esprit.utils.CRUD;
+import Edu.esprit.utils.MyConnection;
 import Edu.esprit.utils.mailSend;
+import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.design.JasperDesign;
+import net.sf.jasperreports.engine.xml.JRXmlLoader;
 
 /**
  *
