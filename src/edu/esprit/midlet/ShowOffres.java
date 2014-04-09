@@ -55,10 +55,8 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
     
     //blablabla
     String msgPrest="Vous avez un Client dépeche toi :D ";
-    String numPrest="";
-    public void startApp() 
-    {
-        
+    String numPrest="5550000";
+    public void init() {
         try {
             imgAcceuil=Image.createImage("/LogoV2.jpg");
         } catch (IOException ex) {
@@ -78,10 +76,15 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
         f2.setCommandListener(this);
         disp.setCurrent(f);
     }
+    
+    public void startApp() 
+    {       
+        init();
+    }
 
     public void pauseApp() {
     }
-
+    
     public void destroyApp(boolean unconditional) {
         
     }
@@ -111,6 +114,15 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
             if(Integer.parseInt(offres[i].getStat_offre())==1){
             sb.append("Disponible");
             sb.append("\n");
+            sb.append("Contact Responsable : ");
+            if(offres[i].getTelephone()==null){
+                numPrest="Blablabla";            
+            }else{
+                numPrest=offres[i].getTelephone();
+            }
+            sb.append(numPrest);
+            sb.append("\n");
+            
             }
             else{
             sb.append("Non Disponible");
@@ -261,6 +273,8 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
                         }
                   }
 }
+
+    
     public class DrawAcceuil extends Canvas{
         
         int h=getHeight();
@@ -268,6 +282,7 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
         Image img2;
         int choix ;
         public DrawAcceuil(){}   
+        
         public DrawAcceuil(int i){
             this.choix=i;
         }   

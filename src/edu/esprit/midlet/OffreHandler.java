@@ -25,7 +25,7 @@ public class OffreHandler extends DefaultHandler{
     String noteTag= "close";
     String prixTag = "close";
     String urlimgTag= "close";
-    
+    String telTag="close";
     public OffreHandler() {
         offres = new Vector();
     }
@@ -62,6 +62,8 @@ public class OffreHandler extends DefaultHandler{
             prixTag = "open";
         }  else if (qName.equals("urlimg")) {
             urlimgTag = "open";
+        }   else if (qName.equals("telTag")) {
+            urlimgTag = "open";
         }
     }
 
@@ -85,6 +87,8 @@ public class OffreHandler extends DefaultHandler{
         } else if (qName.equals("prix")) {
             prixTag = "close";
         }  else if (qName.equals("urlimg")) {
+            urlimgTag = "close";
+        }else if (qName.equals("telTag")) {
             urlimgTag = "close";
         }
     }
@@ -126,6 +130,10 @@ public class OffreHandler extends DefaultHandler{
                     if (urlimgTag.equals("open")) {
                 String url = new String(ch, start, length).trim();
                 currentOffre.setUrlimg(url);
+            }else
+                    if (telTag.equals("open")) {
+                String tel = new String(ch, start, length).trim();
+                currentOffre.setUrlimg(telTag);
             }
         }
     }
