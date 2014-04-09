@@ -62,8 +62,8 @@ public class OffreHandler extends DefaultHandler{
             prixTag = "open";
         }  else if (qName.equals("urlimg")) {
             urlimgTag = "open";
-        }   else if (qName.equals("telTag")) {
-            urlimgTag = "open";
+        }   else if (qName.equals("num_tel")) {
+            telTag = "open";
         }
     }
 
@@ -88,8 +88,8 @@ public class OffreHandler extends DefaultHandler{
             prixTag = "close";
         }  else if (qName.equals("urlimg")) {
             urlimgTag = "close";
-        }else if (qName.equals("telTag")) {
-            urlimgTag = "close";
+        }else if (qName.equals("num_tel")) {
+            telTag = "close";
         }
     }
     // "characters" are the text inbetween tags
@@ -133,7 +133,7 @@ public class OffreHandler extends DefaultHandler{
             }else
                     if (telTag.equals("open")) {
                 String tel = new String(ch, start, length).trim();
-                currentOffre.setUrlimg(telTag);
+                currentOffre.setTelephone(telTag);
             }
         }
     }

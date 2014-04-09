@@ -37,9 +37,10 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
     StringBuffer sb = new StringBuffer();
     Image img;
     Image imgAcceuil;
-    Image imgrez;
+    Image imgrez;    
     ImageItem im;
     
+    String urlOfImage="http://localhost/goldencage/images/defaul.jpg";
     Alert alert;
      //connexion 
     HttpConnection httpConnection;
@@ -156,11 +157,15 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
         }
         if (c == List.SELECT_COMMAND) {
             f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");
+            
             Thread th=new Thread(new Runnable() {
 
                 public void run() {
                     try {
-                        httpConnection=(HttpConnection)Connector.open(offres[lst.getSelectedIndex()].getUrlimg());//connexion
+                        if(offres[lst.getSelectedIndex()].getUrlimg()!=null){
+                            urlOfImage=offres[lst.getSelectedIndex()].getUrlimg();
+                        }
+                        httpConnection=(HttpConnection)Connector.open(urlOfImage);//connexion
                         dataInputStream=httpConnection.openDataInputStream();//recuperation
                         size=(int)httpConnection.getLength();
                         data=new byte[size];
