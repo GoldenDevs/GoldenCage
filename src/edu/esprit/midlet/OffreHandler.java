@@ -133,7 +133,7 @@ public class OffreHandler extends DefaultHandler{
             }else
                     if (telTag.equals("open")) {
                 String tel = new String(ch, start, length).trim();
-                currentOffre.setTelephone(telTag);
+                currentOffre.setTelephone(tel);
             }
         }
     }

@@ -1,13 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package edu.esprit.midlet;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.TimeZone;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
 import javax.microedition.lcdui.*;
@@ -20,7 +15,7 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * @author Elyes
  */
-public class ShowOffres extends MIDlet implements CommandListener,Runnable
+public class ShowOffres extends MIDlet implements CommandListener
 {
     Display disp = Display.getDisplay(this);
     Command cmdParse = new Command("Offres", Command.SCREEN, 0);
@@ -42,6 +37,7 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
     
     String urlOfImage="http://localhost/goldencage/images/defaul.jpg";
     Alert alert;
+    Alert splashAlert =new Alert("GoldenCage v0.1");
      //connexion 
     HttpConnection httpConnection;
     DataInputStream dataInputStream;
@@ -57,12 +53,25 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
     //blablabla
     String msgPrest="Vous avez un Client dépeche toi :D ";
     String numPrest="5550000";
+    
+    //Reservation
+    Command cmdRez = new Command("Reservation", Command.OK, 1);
+    Form frez = new Form("Reservation Offre");
+    Alert altERez = new Alert("Erreur lors de reservation");
+    Alert altRez = new Alert("Merci de votre Confiance a nous !");
+    Command cmdConf = new Command("Confirmer", Command.OK, 1);
+    DateField dfd=new DateField("Date Debut :", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    DateField dff=new DateField("Date Fin :", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    String userLogin;
+    int indexOff;
     public void init() {
         try {
             imgAcceuil=Image.createImage("/LogoV2.jpg");
         } catch (IOException ex) {
               System.out.println("Errreeeuuur"+ex.getMessage());
         }
+        splashAlert.setImage(imgAcceuil);
+        //splashAlert.setTimeout(5000);
         f.append(imgAcceuil);
         f.addCommand(cmdAuth);
         f.addCommand(cmdExit);
@@ -73,14 +82,14 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
         f1.setCommandListener(this);
         lst.setCommandListener(this);
         
-        f2.addCommand(cmdBack);
-        f2.setCommandListener(this);
-        disp.setCurrent(f);
+       
+        
     }
     
     public void startApp() 
     {       
         init();
+        disp.setCurrent(splashAlert,f);
     }
 
     public void pauseApp() {
@@ -89,12 +98,98 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
     public void destroyApp(boolean unconditional) {
         
     }
+   
+    public void commandAction(Command c, Displayable d) {
+        if (c == cmdParse) {
+            disp.setCurrent(loadingDialog);
+            Thread th = new Thread(new Runnable() {
+                public void run() {
+                    displayListOffres();
+                }
+            });
+            th.start();
+        }
+        //Authentification
+        if(c==cmdAuth && d==f){
+            disp.setCurrent(f1);
+        }
+        //SMS
+        if(c==cmdSMS){          
+            Thread thsms=new Thread(new Runnable() {
+                public void run() {
+                    sendSMS(numPrest, msgPrest);
+                }
+            });
+            thsms.start();            
+        }
+        //Detail Offre
+        if (c == List.SELECT_COMMAND) {
+            f2.addCommand(cmdBack);
+            f2.setCommandListener(this);
+            f2.addCommand(cmdRez);
+            f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");            
+            Thread th=new Thread(new Runnable() {
+                public void run() {
+                    detailOffre();   
+                }
+            });
+            th.start();   
+            f2.deleteAll();
+        }
 
-    public void run() {        
+        if (c == cmdBack) {
+            f2.deleteAll();
+            disp.setCurrent(lst);
+        }
+        
+        if( c==cmdRez && d==f2){
+            frez.addCommand(cmdConf);
+            frez.append(showOffre(indexOff));
+            frez.append(dfd);
+            frez.append(dff);
+            frez.setCommandListener(this);
+            frez.deleteAll();
+            disp.setCurrent(frez);   
+        }
+        
+       if(c==cmdConf && d==frez){
+            Thread threz=new Thread(new Runnable() {
+                public void run() {
+                    reservationOffre(userLogin,offres[lst.getSelectedIndex()].getId_Offre(), dfd.getDate().toString(), dff.getDate().toString());
+                }
+            });
+            threz.start();
+             disp.setCurrent(altRez,lst);
+        }
+    }
+    
+    
+    
+    public void displayListOffres() {        
         listOffres();
         disp.setCurrent(lst);
     }
     
+    public void detailOffre(){
+        try {
+                        if(offres[lst.getSelectedIndex()].getUrlimg()!=null){
+                            urlOfImage=offres[lst.getSelectedIndex()].getUrlimg();
+                        }
+                        httpConnection=(HttpConnection)Connector.open(urlOfImage);//connexion
+                        dataInputStream=httpConnection.openDataInputStream();//recuperation
+                        size=(int)httpConnection.getLength();
+                        data=new byte[size];
+                        dataInputStream.readFully(data);
+                        img=Image.createImage(data, 0,size);
+                        imgrez=resizeImage(img);
+                        
+                        f2.append(imgrez);
+                        f2.append(showOffre(lst.getSelectedIndex()));            
+                        disp.setCurrent(f2);
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    } 
+    }
     private String showOffre(int i) {
         String res = "";
         if (offres.length > 0) {
@@ -135,61 +230,6 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
         return res;
     }
     
-    public void commandAction(Command c, Displayable d) {
-        if (c == cmdParse) {
-            disp.setCurrent(loadingDialog);
-            Thread th = new Thread(this);
-            th.start();
-        }
-        if(c==cmdAuth && d==f){
-            disp.setCurrent(f1);
-        }
-        if(c==cmdSMS){
-          
-            Thread thsms=new Thread(new Runnable() {
-
-                public void run() {
-                    sendSMS(numPrest, msgPrest);
-                }
-            });
-            thsms.start();
-            
-        }
-        if (c == List.SELECT_COMMAND) {
-            f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");
-            
-            Thread th=new Thread(new Runnable() {
-
-                public void run() {
-                    try {
-                        if(offres[lst.getSelectedIndex()].getUrlimg()!=null){
-                            urlOfImage=offres[lst.getSelectedIndex()].getUrlimg();
-                        }
-                        httpConnection=(HttpConnection)Connector.open(urlOfImage);//connexion
-                        dataInputStream=httpConnection.openDataInputStream();//recuperation
-                        size=(int)httpConnection.getLength();
-                        data=new byte[size];
-                        dataInputStream.readFully(data);
-                        img=Image.createImage(data, 0,size);
-                        imgrez=resizeImage(img);
-                        
-                        f2.append(imgrez);
-                        f2.append(showOffre(lst.getSelectedIndex()));            
-                        disp.setCurrent(f2);
-                    } catch (IOException ex) {
-                        ex.printStackTrace();
-                    }    
-                }
-            });
-            th.start();
-            
-        }
-
-        if (c == cmdBack) {
-            f2.deleteAll();
-            disp.setCurrent(lst);
-        }
-    }
     
     public Image resizeImage(Image src) {
       int srcWidth = src.getWidth();
@@ -279,6 +319,15 @@ public class ShowOffres extends MIDlet implements CommandListener,Runnable
                   }
 }
 
+    public void reservationOffre(String idc,String ido,String dd,String df){
+        String urlRez="http://localhost/parsing/reservationOffre.php?id_client="+idc+"&id_offre="+ido+"&date_debut="+dd+"&date_fin="+df;
+        try {
+            httpConnection=(HttpConnection)Connector.open(urlRez);//connexion
+        } catch (IOException ex) {
+            new Alert("Erreur de Reservation");
+            System.out.println(ex.getMessage());
+        }       
+    }
     
     public class DrawAcceuil extends Canvas{
         
