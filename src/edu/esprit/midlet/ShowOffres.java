@@ -19,6 +19,9 @@ public class ShowOffres extends MIDlet implements CommandListener
 {
     Display disp = Display.getDisplay(this);
     Command cmdExit = new Command("Exit", Command.EXIT, 1);
+    Command cmdRetour = new Command("Retour", Command.OK, 1);
+    Command cmdSMS = new Command("Envoyer SMS", Command.OK, 1);
+    Form loadingDialog = new Form("Please Wait");
     //Acceuil
     Form f = new Form("Golden Cage v0.1 J2ME");
     Command cmdInscrit = new Command("S'inscrire", Command.SCREEN, 1);
@@ -37,19 +40,35 @@ public class ShowOffres extends MIDlet implements CommandListener
     List lst = new List("Offres", List.IMPLICIT);
     
     //Detail Offre
-    Command cmdSMS = new Command("Envoyer SMS", Command.OK, 1);
-    
-    
     Form f2 = new Form("Infos Offre");
+    Command cmdRez = new Command("Reservation", Command.SCREEN, 1);
+    Command cmdCom = new Command("Commentaires", Command.SCREEN, 1);
+    Command cmdRec = new Command("Signaler", Command.SCREEN, 1);
     
-    Form loadingDialog = new Form("Please Wait");
+    //Valider Reservation
+    Form frez = new Form("Reservation Offre");   
+    Alert altERez = new Alert("altERez:Erreur lors de reservation");
+    Alert altRez = new Alert("Reservation Effectuer avec Succes", "Merci pour votre confiance !", null, AlertType.INFO);
+    Command cmdConf = new Command("Confirmer", Command.OK, 1);
+    DateField dfd=new DateField("Date Debut : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    DateField dff=new DateField("Date Fin : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    
+    //Reclamation
+    Form fRec = new Form("Reclamation Offre");
+    Command cmdVRec = new Command("Valider", Command.OK, 1);
+    
+    //Commentaire
+    Form fCom=new Form("Liste des Commetaires");
+    Command cmdAddComm = new Command("Ajouter Commenatire", Command.OK, 1);
+
+    //Other
     StringBuffer sb = new StringBuffer();
     Image img;
     Image imgAcceuil;
     Image imgrez;    
     ImageItem im;
     
-    String urlOfImage="http://localhost/goldencage/images/defaul.jpg";
+    String urlDOfImage="http://localhost/goldencage/images/defaul.jpg";
     Alert alert;
     Alert splashAlert =new Alert("GoldenCage v0.1");
      //connexion 
@@ -62,25 +81,16 @@ public class ShowOffres extends MIDlet implements CommandListener
     byte[]data;
     
     
-    int screenWidth=232;
-    int screenHeight=140;
-    
+
     //blablabla
     String msgPrest="Vous avez un Client dépeche toi :D ";
-    String numPrest="5550000";
-    
-    //Reservation
-    Command cmdRez = new Command("Reservation", Command.OK, 1);
-    Form frez = new Form("frez : Reservation Offre");
-    Alert altERez = new Alert("altERez:Erreur lors de reservation");
-    Alert altRez = new Alert("Reservation Effectuer avec Succes", "Merci pour votre confiance !", null, AlertType.INFO);
-    Command cmdConf = new Command("Confirmer", Command.OK, 1);
-    DateField dfd=new DateField("Date Debut : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
-    DateField dff=new DateField("Date Fin : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    String numPrest="5550000";    
     
     String userLogin="Said";
     int indexOff=1;
-    
+    int screenWidth=232;
+    int screenHeight=140;
+        
     
     public void init() {
         try {
@@ -192,9 +202,9 @@ public class ShowOffres extends MIDlet implements CommandListener
     public void detailOffre(){
         try {
                         if(offres[lst.getSelectedIndex()].getUrlimg()!=null){
-                            urlOfImage=offres[lst.getSelectedIndex()].getUrlimg();
+                            urlDOfImage=offres[lst.getSelectedIndex()].getUrlimg();
                         }
-                        httpConnection=(HttpConnection)Connector.open(urlOfImage);//connexion
+                        httpConnection=(HttpConnection)Connector.open(urlDOfImage);//connexion
                         dataInputStream=httpConnection.openDataInputStream();//recuperation
                         size=(int)httpConnection.getLength();
                         data=new byte[size];
