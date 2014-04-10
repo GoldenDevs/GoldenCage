@@ -18,16 +18,30 @@ import javax.xml.parsers.SAXParserFactory;
 public class ShowOffres extends MIDlet implements CommandListener
 {
     Display disp = Display.getDisplay(this);
-    Command cmdParse = new Command("Offres", Command.SCREEN, 0);
-    Command cmdBack = new Command("Back", Command.BACK, 0);
-    Command cmdAuth = new Command("Authentification", Command.OK, 1);
     Command cmdExit = new Command("Exit", Command.EXIT, 1);
-    Command cmdSMS = new Command("Envoyer SMS", Command.OK, 1);
+    //Acceuil
+    Form f = new Form("Golden Cage v0.1 J2ME");
+    Command cmdInscrit = new Command("S'inscrire", Command.SCREEN, 1);
+    Command cmdAuth = new Command("Authentification", Command.SCREEN, 1);
+    Command cmdAbout = new Command("Guide GoldenCage", Command.SCREEN, 1);
+    
+    //Acceuil Client
+    Form f1 = new Form("Welcome ");
+    Command cmdStat = new Command("Statistique", Command.SCREEN, 1);
+    Command cmdParse = new Command("List des Offres", Command.SCREEN, 0);
+    Command cmdRechOff = new Command("Offres", Command.SCREEN, 0);
+    Command cmdBack = new Command("Back", Command.BACK, 0);
+    
+    //Liste des Offres
     Offre[] offres;
     List lst = new List("Offres", List.IMPLICIT);
-    Form f1 = new Form("Acceuil");
+    
+    //Detail Offre
+    Command cmdSMS = new Command("Envoyer SMS", Command.OK, 1);
+    
+    
     Form f2 = new Form("Infos Offre");
-    Form f = new Form("Golden Cage v0.1 J2ME");
+    
     Form loadingDialog = new Form("Please Wait");
     StringBuffer sb = new StringBuffer();
     Image img;
@@ -44,6 +58,7 @@ public class ShowOffres extends MIDlet implements CommandListener
     MessageConnection clientConn;
 
     int size;
+    int ch;
     byte[]data;
     
     
@@ -56,14 +71,17 @@ public class ShowOffres extends MIDlet implements CommandListener
     
     //Reservation
     Command cmdRez = new Command("Reservation", Command.OK, 1);
-    Form frez = new Form("Reservation Offre");
-    Alert altERez = new Alert("Erreur lors de reservation");
-    Alert altRez = new Alert("Merci de votre Confiance a nous !");
+    Form frez = new Form("frez : Reservation Offre");
+    Alert altERez = new Alert("altERez:Erreur lors de reservation");
+    Alert altRez = new Alert("Reservation Effectuer avec Succes", "Merci pour votre confiance !", null, AlertType.INFO);
     Command cmdConf = new Command("Confirmer", Command.OK, 1);
-    DateField dfd=new DateField("Date Debut :", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
-    DateField dff=new DateField("Date Fin :", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
-    String userLogin;
-    int indexOff;
+    DateField dfd=new DateField("Date Debut : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    DateField dff=new DateField("Date Fin : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
+    
+    String userLogin="Said";
+    int indexOff=1;
+    
+    
     public void init() {
         try {
             imgAcceuil=Image.createImage("/LogoV2.jpg");
@@ -74,6 +92,7 @@ public class ShowOffres extends MIDlet implements CommandListener
         //splashAlert.setTimeout(5000);
         f.append(imgAcceuil);
         f.addCommand(cmdAuth);
+        f.addCommand(cmdAbout);
         f.addCommand(cmdExit);
         f.setCommandListener(this);
         
@@ -82,7 +101,11 @@ public class ShowOffres extends MIDlet implements CommandListener
         f1.setCommandListener(this);
         lst.setCommandListener(this);
         
+        f2.addCommand(cmdBack);
+        f2.setCommandListener(this);
+        f2.addCommand(cmdRez);
        
+        
         
     }
     
@@ -123,10 +146,7 @@ public class ShowOffres extends MIDlet implements CommandListener
             thsms.start();            
         }
         //Detail Offre
-        if (c == List.SELECT_COMMAND) {
-            f2.addCommand(cmdBack);
-            f2.setCommandListener(this);
-            f2.addCommand(cmdRez);
+        if (c == List.SELECT_COMMAND) {            
             f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");            
             Thread th=new Thread(new Runnable() {
                 public void run() {
@@ -136,19 +156,18 @@ public class ShowOffres extends MIDlet implements CommandListener
             th.start();   
             f2.deleteAll();
         }
-
+        
         if (c == cmdBack) {
             f2.deleteAll();
             disp.setCurrent(lst);
         }
         
-        if( c==cmdRez && d==f2){
+        if( c==cmdRez){
             frez.addCommand(cmdConf);
             frez.append(showOffre(indexOff));
             frez.append(dfd);
             frez.append(dff);
             frez.setCommandListener(this);
-            frez.deleteAll();
             disp.setCurrent(frez);   
         }
         
@@ -190,6 +209,7 @@ public class ShowOffres extends MIDlet implements CommandListener
                         ex.printStackTrace();
                     } 
     }
+    
     private String showOffre(int i) {
         String res = "";
         if (offres.length > 0) {
@@ -229,8 +249,7 @@ public class ShowOffres extends MIDlet implements CommandListener
         sb = new StringBuffer("");
         return res;
     }
-    
-    
+   
     public Image resizeImage(Image src) {
       int srcWidth = src.getWidth();
       int srcHeight = src.getHeight();
@@ -319,14 +338,25 @@ public class ShowOffres extends MIDlet implements CommandListener
                   }
 }
 
-    public void reservationOffre(String idc,String ido,String dd,String df){
-        String urlRez="http://localhost/parsing/reservationOffre.php?id_client="+idc+"&id_offre="+ido+"&date_debut="+dd+"&date_fin="+df;
+    public void reservationOffre(String idc,String ido,String dd,String  df){
+        String urlRez="http://localhost/parsing/reservationOffre.php?id_client='Said'&id_offre="+ido+"&date_debut='"+dd.replace(' ','+')+"'&date_fin='"+df.replace(' ','+')+"'";
         try {
+            
+            System.out.println(dd);
+            System.out.println(df);
             httpConnection=(HttpConnection)Connector.open(urlRez);//connexion
-        } catch (IOException ex) {
-            new Alert("Erreur de Reservation");
-            System.out.println(ex.getMessage());
-        }       
+            dataInputStream = new DataInputStream(httpConnection.openDataInputStream());
+                while ((ch = dataInputStream.read()) != -1) {
+                    sb.append((char)ch);
+                }
+                if ("successfully added".equalsIgnoreCase(sb.toString().trim())) {                    
+                    disp.setCurrent(altRez,lst);
+                }else{
+                    disp.setCurrent(altERez);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
     }
     
     public class DrawAcceuil extends Canvas{
