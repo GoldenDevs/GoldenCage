@@ -28,16 +28,16 @@ public class CommentairesHandler extends DefaultHandler{
         return commentairess;
     }
     // VARIABLES TO MAINTAIN THE PARSER'S STATE DURING PROCESSING
-    private Offre currentOffre;
+    private Commentaire currentCommentaire;
 
     // XML EVENT PROCESSING METHODS (DEFINED BY DefaultHandler)
     // startElement is the opening part of the tag "<tagname...>"
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-        if (qName.equals("offre")) {
-            if (currentOffre != null) {
-                throw new IllegalStateException("already processing a offre");
+        if (qName.equals("commentaire")) {
+            if (currentCommentaire != null) {
+                throw new IllegalStateException("already processing a Comment");
             }
-            currentOffre = new Offre();
+            currentCommentaire = new Commentaire();
         } else if (qName.equals("id_comment")) {
             idTag = "open";
         } else if (qName.equals("id_client")) {
@@ -54,8 +54,8 @@ public class CommentairesHandler extends DefaultHandler{
     public void endElement(String uri, String localName, String qName) throws SAXException {
         if (qName.equals("offre")) {
             // we are no longer processing a <reg.../> tag
-            commentaires.addElement(currentOffre);
-            currentOffre = null;
+            commentaires.addElement(currentCommentaire);
+            currentCommentaire = null;
         } else if (qName.equals("id_comment")) {
             idTag = "close";
         } else if (qName.equals("id_client")) {
@@ -72,27 +72,27 @@ public class CommentairesHandler extends DefaultHandler{
 
     public void characters(char[] ch, int start, int length) throws SAXException {
         // we're only interested in this inside a <phone.../> tag
-        if (currentOffre != null) {
+        if (currentCommentaire != null) {
             // don't forget to trim excess spaces from the ends of the string
             if (idTag.equals("open")) {
                 String id = new String(ch, start, length).trim();
-                currentOffre.setId_Offre(id);
+                currentCommentaire.setIdCom(id);
             } else
                 if (id_clientTag.equals("open")) {
                 String idc = new String(ch, start, length).trim();
-                currentOffre.setLibelle_off(idc);
+                currentCommentaire.setId_client(idc);
             } else
                     if (id_offreTag.equals("open")) {
                 String ido = new String(ch, start, length).trim();
-                currentOffre.setStat_offre(ido);
+                currentCommentaire.setId_offre(ido);
             }else
                     if (dateTag.equals("open")) {
                 String datep = new String(ch, start, length-9).trim();                        
-                currentOffre.setDate_post(datep);
+                currentCommentaire.setDate_com(datep);
             }else
                     if (textTag.equals("open")) {
                 String text = new String(ch, start, length).trim();
-                currentOffre.setPrix(text);
+                currentCommentaire.setText(text);
             }
         }
     }

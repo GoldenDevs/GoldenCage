@@ -66,7 +66,8 @@ public class Mobile extends MIDlet implements CommandListener
     //Commentaire
     Form fCom=new Form("Liste des Commetaires");
     Command cmdAddComm = new Command("Ajouter Commenatire", Command.OK, 1);
-
+    List lstCom=new List("Commentaires", List.IMPLICIT);
+    
     //Recherche Offre
     Form fRech = new Form("Recherche Offre");
     Command cmdRech = new Command("Rechercher", Command.OK, 1);
@@ -149,6 +150,7 @@ public class Mobile extends MIDlet implements CommandListener
         fCom.addCommand(cmdBack);
         fCom.setCommandListener(this);
         
+        
         //Initialisation Form Reclamation
         fRec.addCommand(cmdVRec);
         fRec.append(tfRecSujet);
@@ -168,6 +170,9 @@ public class Mobile extends MIDlet implements CommandListener
         fRech.addCommand(cmdBack);
         fRech.setCommandListener(this);
         
+        //List des Commentaires
+        lstCom.addCommand(cmdBack);
+        lstCom.setCommandListener(this);
     }
     
     public void startApp() 
@@ -232,6 +237,16 @@ public class Mobile extends MIDlet implements CommandListener
         }
        if(c==cmdRechOff && d==f1){
            disp.setCurrent(fRech);
+       }
+       
+       if(c==cmdCom && d==f2){
+           Thread thCom=new Thread(new Runnable() {
+               public void run() {
+                   listCommenatires(offres[lst.getSelectedIndex()].getId_Offre());
+               }
+           });
+           thCom.start();           
+           disp.setCurrent(lstCom);
        }
     }
     
@@ -367,18 +382,18 @@ public class Mobile extends MIDlet implements CommandListener
         {
             CommentairesHandler commentairesHandler = new CommentairesHandler();
             SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
-            HttpConnection hc = (HttpConnection) Connector.open("http://localhost/parsing/getXmlCom.php"+id);
+            HttpConnection hc = (HttpConnection) Connector.open("http://localhost/parsing/getXmlCom.php?id="+id);
             DataInputStream dis = new DataInputStream(hc.openDataInputStream());
             parser.parse(dis, commentairesHandler);
 
             commentaires = commentairesHandler.getCommentaires();
-            
-            if (offres.length > 0) {
-                for (int i = 0; i < offres.length; i++) {
-                    fCom.append(offres[i].toString());  
+            if (commentaires.length > 0) {
+                for (int i = 0; i < commentaires.length; i++) {
+//                    String tempString=commentaires[i].getDate_com()+" "+commentaires[i].getId_client()+"\n         "+
+//                            commentaires[i].getText();
+                    lstCom.append(commentaires[i].getText(),null);  
                 }
             }
-
         } catch (Exception e) 
         {
             System.out.println("Exception:" + e.toString());
