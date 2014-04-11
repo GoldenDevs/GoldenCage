@@ -26,9 +26,12 @@ public class Mobile extends MIDlet implements CommandListener
     Form loadingDialog = new Form("Please Wait");
     //Acceuil
     Form f = new Form("Golden Cage v0.1 J2ME");
-    Command cmdInscrit = new Command("S'inscrire", Command.SCREEN, 1);
+    Command cmdInscritClient = new Command("Inscription Client", Command.SCREEN, 1);
+    Command cmdInscritPrest = new Command("Inscription Prestataire", Command.SCREEN, 1);
     Command cmdAuth = new Command("Authentification", Command.SCREEN, 1);
     Command cmdAbout = new Command("Guide GoldenCage", Command.SCREEN, 1);
+    TextField tfLogin=new TextField("Login : ", "", 500, TextField.ANY);;
+    TextField tfPassword=new TextField("Password : ", "", 500, TextField.PASSWORD);;
     
     //Acceuil Client
     Form f1 = new Form("Welcome ");
@@ -126,7 +129,10 @@ public class Mobile extends MIDlet implements CommandListener
         splashAlert.setImage(imgAcceuil);
         //splashAlert.setTimeout(5000);
         f.append(imgAcceuil);
-        f.addCommand(cmdInscrit);
+        f.append(tfLogin);
+        f.append(tfPassword);
+        f.addCommand(cmdInscritClient);
+        f.addCommand(cmdInscritPrest);
         f.addCommand(cmdAuth);
         f.addCommand(cmdAbout);
         f.addCommand(cmdExit);
