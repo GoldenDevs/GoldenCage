@@ -19,7 +19,7 @@ public class ShowOffres extends MIDlet implements CommandListener
 {
     Display disp = Display.getDisplay(this);
     Command cmdExit = new Command("Exit", Command.EXIT, 1);
-    Command cmdRetour = new Command("Retour", Command.OK, 1);
+    Command cmdBack = new Command("Retour", Command.BACK, 1);
     Command cmdSMS = new Command("Envoyer SMS", Command.OK, 1);
     Form loadingDialog = new Form("Please Wait");
     //Acceuil
@@ -31,9 +31,8 @@ public class ShowOffres extends MIDlet implements CommandListener
     //Acceuil Client
     Form f1 = new Form("Welcome ");
     Command cmdStat = new Command("Statistique", Command.SCREEN, 1);
-    Command cmdParse = new Command("List des Offres", Command.SCREEN, 0);
-    Command cmdRechOff = new Command("Offres", Command.SCREEN, 0);
-    Command cmdBack = new Command("Back", Command.BACK, 0);
+    Command cmdParse = new Command("List des Offres", Command.SCREEN, 1);
+    Command cmdRechOff = new Command("Rechercher Offfre", Command.SCREEN, 1);
     
     //Liste des Offres
     Offre[] offres;
@@ -43,6 +42,7 @@ public class ShowOffres extends MIDlet implements CommandListener
     Form f2 = new Form("Infos Offre");
     Command cmdRez = new Command("Reservation", Command.SCREEN, 1);
     Command cmdCom = new Command("Commentaires", Command.SCREEN, 1);
+    Command cmdEval = new Command("Evaluer", Command.SCREEN, 1);
     Command cmdRec = new Command("Signaler", Command.SCREEN, 1);
     
     //Valider Reservation
@@ -55,6 +55,8 @@ public class ShowOffres extends MIDlet implements CommandListener
     
     //Reclamation
     Form fRec = new Form("Reclamation Offre");
+    TextField tfRecSujet =new TextField("Sujet : ", "", 50, TextField.ANY);
+    TextField tfRecText =new TextField("Text : ", "", 500, TextField.ANY);
     Command cmdVRec = new Command("Valider", Command.OK, 1);
     
     //Commentaire
@@ -93,6 +95,7 @@ public class ShowOffres extends MIDlet implements CommandListener
         
     
     public void init() {
+        //Initialisation Form d'Acceuil + Splash
         try {
             imgAcceuil=Image.createImage("/LogoV2.jpg");
         } catch (IOException ex) {
@@ -101,20 +104,46 @@ public class ShowOffres extends MIDlet implements CommandListener
         splashAlert.setImage(imgAcceuil);
         //splashAlert.setTimeout(5000);
         f.append(imgAcceuil);
+        f.addCommand(cmdInscrit);
         f.addCommand(cmdAuth);
         f.addCommand(cmdAbout);
         f.addCommand(cmdExit);
         f.setCommandListener(this);
         
-        f1.addCommand(cmdSMS);
+        //Initialisation Form Acceuil Client 
+        f1.addCommand(cmdExit);
         f1.addCommand(cmdParse);
+        f1.addCommand(cmdRechOff);
+        f1.addCommand(cmdStat);
         f1.setCommandListener(this);
+        
+        //Liste des offres
         lst.setCommandListener(this);
         
+        //Initialisation Form  Detail Offre
         f2.addCommand(cmdBack);
-        f2.setCommandListener(this);
         f2.addCommand(cmdRez);
-       
+        f2.addCommand(cmdRec);
+        f2.addCommand(cmdCom);
+        f2.setCommandListener(this);
+        
+        //Initialisation Form Reservation Offre
+        frez.addCommand(cmdBack);
+        frez.addCommand(cmdConf);
+        frez.append(dfd);
+        frez.append(dff);
+        frez.setCommandListener(this);
+        
+        //Initialisation Form Commentaires
+        fCom.addCommand(cmdAddComm);
+        fCom.addCommand(cmdBack);
+        fCom.setCommandListener(this);
+        
+        //Initialisation Form Reclamation
+        fRec.addCommand(cmdVRec);
+        fRec.append(tfRecSujet);
+        fRec.append(tfRecText);
+        fRec.setCommandListener(this);
         
         
     }
@@ -147,14 +176,7 @@ public class ShowOffres extends MIDlet implements CommandListener
             disp.setCurrent(f1);
         }
         //SMS
-        if(c==cmdSMS){          
-            Thread thsms=new Thread(new Runnable() {
-                public void run() {
-                    sendSMS(numPrest, msgPrest);
-                }
-            });
-            thsms.start();            
-        }
+        
         //Detail Offre
         if (c == List.SELECT_COMMAND) {            
             f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");            
@@ -173,11 +195,7 @@ public class ShowOffres extends MIDlet implements CommandListener
         }
         
         if( c==cmdRez){
-            frez.addCommand(cmdConf);
             frez.append(showOffre(indexOff));
-            frez.append(dfd);
-            frez.append(dff);
-            frez.setCommandListener(this);
             disp.setCurrent(frez);   
         }
         
