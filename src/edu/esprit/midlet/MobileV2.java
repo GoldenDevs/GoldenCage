@@ -4,6 +4,7 @@ import edu.esprit.entities.*;
 import edu.esprit.handlers.*;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.TimeZone;
 import javax.microedition.io.Connector;
 import javax.microedition.io.HttpConnection;
@@ -13,11 +14,12 @@ import javax.wireless.messaging.MessageConnection;
 import javax.wireless.messaging.TextMessage;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * @author Elyes
  */
-public class MobileV2 extends MIDlet implements CommandListener
+public class MobileV2 extends MIDlet implements CommandListener,Runnable
 {
     Display disp = Display.getDisplay(this);
     Command cmdExit = new Command("Exit", Command.EXIT, 1);
@@ -117,7 +119,24 @@ public class MobileV2 extends MIDlet implements CommandListener
     int indexOff=1;
 //    int screenWidth=232;
 //    int screenHeight=140;
-        
+      
+    
+    
+    ///Statistique 
+    Form statForm = new Form("acceuil");
+    Command cmdB = new Command("statBatton", Command.OK, 0);
+    Command cmdC = new Command("statCylindres", Command.OK, 0);
+    Command cmdBackStat = new Command("Back Stat", Command.OK, 1);
+    Command cmdExitStat = new Command("Exit Stat", Command.EXIT, 1);
+    Command cmdP = new Command("statPie", Command.OK, 0);
+    global gl = new global();
+    OffreStat[] listoffre;
+    ClientStat[] client;
+    PrestataireStat[] prestataire;
+    Image m;
+    ImageItem m2;
+    int typeStat = 0;
+    
     
     public void init() {
         //Initialisation Form d'Acceuil + Splash
@@ -196,6 +215,22 @@ public class MobileV2 extends MIDlet implements CommandListener
         tb1.addCommand(cmdBack);
         tb1.setCommandListener(this);
         
+        //Statistique
+        try {
+               m= Image.createImage("/statImage.png");
+         } catch (IOException ex) {
+             ex.printStackTrace();
+         }
+         m2=new ImageItem("", m, ImageItem.LAYOUT_CENTER, null);
+
+        statForm.append("Choisissez le type de statistiques:");
+        statForm.append(m2);
+        statForm.addCommand(cmdB);
+        statForm.addCommand(cmdP);
+        statForm.addCommand(cmdC);
+        statForm.addCommand(cmdExitStat);
+        statForm.setCommandListener(this);
+
     }
     
     public void startApp() 
@@ -309,6 +344,31 @@ public class MobileV2 extends MIDlet implements CommandListener
                disp.setCurrent(altERech,lst);
            }               
        }
+       //Stat
+        if (c == cmdB) {
+            typeStat = 0;
+            Thread th = new Thread(this);
+            th.start();
+        } else if (c == cmdP) {
+            typeStat = 1;
+            Thread th = new Thread(this);
+            th.start();
+        } else if (c == cmdC) {
+            typeStat = 2;
+            Thread th = new Thread(this);
+            th.start();
+        }
+        
+        if(c==cmdStat){
+            disp.setCurrent(statForm);
+        }
+        
+        if(c==cmdExitStat){
+            statForm.deleteAll();
+            disp.setCurrent(f1);
+                    
+        }
+       
     }
     
     
@@ -531,6 +591,7 @@ public class MobileV2 extends MIDlet implements CommandListener
         }       
         return -1;
     }
+    
     public void reservationOffre(String idc,String ido,String dd,String  df){
         String urlRez="http://localhost/parsing/reservationOffre.php?id_client='Said'&id_offre="+ido+"&date_debut='"+dd.replace(' ','+')+"'&date_fin='"+df.replace(' ','+')+"'";
         try {
@@ -549,26 +610,457 @@ public class MobileV2 extends MIDlet implements CommandListener
                 ex.printStackTrace();
             }
     }
+   
     
-    public class DrawAcceuil extends Canvas{
-        
-        int h=getHeight();
-        int w=getWidth();
-        Image img2;
-        int choix ;
-        public DrawAcceuil(){}   
-        
-        public DrawAcceuil(int i){
-            this.choix=i;
-        }   
-        public DrawAcceuil(Image img){
-            this.img2=img;
-        }   
-        protected void paint(Graphics g) {
-            
-            g.drawImage(img2, w/2, h/2, Graphics.HCENTER|Graphics.VCENTER);
+    public void run() {
 
+
+        //fin client
+
+
+        try {
+
+            //prestataire ************************
+            //offre************************************
+
+            // this will handle our XML
+            PrestHandlerStat prestatairesHandler = new PrestHandlerStat();
+            // get a parser object
+            SAXParser parserP = SAXParserFactory.newInstance().newSAXParser();
+            // get an InputStream from somewhere (could be HttpConnection, for example)
+            HttpConnection hcP = (HttpConnection) Connector.open("http://localhost/parsing/getXmlPrestataires.php");
+            DataInputStream disP = new DataInputStream(hcP.openDataInputStream());
+            parserP.parse(disP, prestatairesHandler);
+            // display the result
+            prestataire = prestatairesHandler.getPrestataire();
+
+            if (prestataire.length > 0) {
+
+                for (int i = 0; i < prestataire.length; i++) {
+                    gl.nbprest = prestataire[i].getNbPrestataires();
+//                    System.out.println(gl.nbprest+"klklklkl");
+                }
+            }
+            //fin Prestataire***************************
+            //offre************************************
+
+            // this will handle our XML
+            OffreHandlerStat offresHandler = new OffreHandlerStat();
+            // get a parser object
+            SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+            // get an InputStream from somewhere (could be HttpConnection, for example)
+            HttpConnection hc = (HttpConnection) Connector.open("http://localhost/parsing/getXmlOffresStat.php");
+            DataInputStream dis = new DataInputStream(hc.openDataInputStream());
+            parser.parse((InputStream) dis, (DefaultHandler) offresHandler);
+            // display the result
+            listoffre = offresHandler.getOffres();
+
+            if (listoffre.length > 0) {
+
+                for (int i = 0; i < listoffre.length; i++) {
+                    gl.nbroff = listoffre[i].getNbOffres();
+                    //System.out.println(gl.nbroff);
+                }
+            }
+            //fin offre**********************************************
+            // this will handle our XML
+
+            //Client***********************************************
+            // get a parser object
+            SAXParser parserC = SAXParserFactory.newInstance().newSAXParser();
+            ClientHandlerStat clientHandler = new ClientHandlerStat();
+
+            // get an InputStream from somewhere (could be HttpConnection, for example)
+            HttpConnection hcC = (HttpConnection) Connector.open("http://localhost/parsing/getXmlClients.php");
+            DataInputStream disC = new DataInputStream(hcC.openDataInputStream());
+            parser.parse((InputStream) disC, (DefaultHandler) clientHandler);
+
+            // display the result
+            client = clientHandler.getClient();
+
+            if (client.length > 0) {
+
+                for (int i = 0; i < client.length; i++) {
+                    gl.nbclient = client[i].getNbClients();
+                    //System.out.println(gl.nbroff);
+                }
+            }
+            //fin Client**************************
+
+        } catch (Exception e) {
+            System.out.println("Exception:" + e.toString());
+        }
+
+
+        // lst.addCommand(cmdFind);
+        if (typeStat == 0) {
+            disp.setCurrent(new Draw2());
+
+        } else if (typeStat == 1) {
+            disp.setCurrent(new Draw1());
+        } else if (typeStat == 2) {
+            disp.setCurrent(new Draw3());
         }
         
     }
+
+    /**
+     *
+     */
+    public class Draw1 extends Canvas implements CommandListener {
+
+        int x = gl.nbroff;
+        int y = gl.nbclient;
+        int z = gl.nbprest;
+        int w = getWidth(); // déclaration de la largeur
+        int h = getHeight(); // déclaration de la hauteur
+        int a = w / 2 - 80;//position initiale
+        int b = h / 2 - 30;
+
+        public Draw1() {
+            addCommand(cmdBackStat);
+            setCommandListener(this);
+        }
+
+        protected void paint(Graphics g) {
+
+            g.setColor(220, 220, 220);
+            g.fillRect(0, 0, w, h);
+
+           
+
+            for (int i = 0; i < 60; i++) {
+                g.setColor(100, 100, 100);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 200, 1);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i - 50, 1, 50);
+                g.setColor(0, 0, 0);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 1, 1);
+            }
+
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a, b, 181, 101, 0, 360);
+
+            g.setColor(255, 0, 0);
+            g.fillArc(a, b, 180, 100, 0, x * 360 / (x + y + z));
+
+            g.setColor(0, 255, 0);
+            g.fillArc(a, b, 180, 100, x * 360 / (x + y + z), ((y) * 360 / (x + y + z)));
+
+            g.setColor(0, 0, 255);
+            g.fillArc(a, b, 180, 100, ((y + x) * 360 / (x + y + z)), ((z) * 360 / (x + y + z)));
+
+
+
+            //3D autrement:
+            for (int i = 2; i < 20; i++) {
+                g.setColor(0, 0, 0);
+                g.fillArc(a - 1, b - i - 1, 182, 101, 0, 181);
+
+                g.setColor(255, 0, 0);
+                g.fillArc(a, b - i, 180, 100, 0, x * 360 / (x + y + z));
+
+                g.setColor(0, 255, 0);
+                g.fillArc(a, b - i, 180, 100, x * 360 / (x + y + z), ((y) * 360 / (x + y + z)));
+
+                g.setColor(0, 0, 255);
+                g.fillArc(a, b - i, 180, 100, ((y + x) * 360 / (x + y + z)), ((z) * 360 / (x + y + z)));
+
+            }
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a - 1, b - 21, 182, 102, 0, 360);
+            g.setColor(255, 0, 0);
+            g.fillArc(a, b - 20, 180, 100, 0, x * 360 / (x + y + z));
+
+            g.setColor(0, 255, 0);
+            g.fillArc(a, b - 20, 180, 100, x * 360 / (x + y + z), ((y) * 360 / (x + y + z)));
+
+            g.setColor(0, 0, 255);
+            g.fillArc(a, b - 20, 180, 100, ((y + x) * 360 / (x + y + z)), ((z) * 360 / (x + y + z)));
+
+
+
+
+
+            //legende
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 23, 22, 22);
+            g.setColor(255, 0, 0);
+            g.fillRect(10, h - 22, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre d'offres ", 82, h - 10, Graphics.HCENTER | Graphics.BASELINE);
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 43, 22, 22);
+            g.setColor(0, 0, 255);
+            g.fillRect(10, h - 42, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de prestataires ", 95, h - 30, Graphics.HCENTER | Graphics.BASELINE);
+
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 63, 22, 22);
+            g.setColor(0, 255, 0);
+            g.fillRect(10, h - 62, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de clients ", 80, h - 50, Graphics.HCENTER | Graphics.BASELINE);
+        }
+
+        public void commandAction(Command c, Displayable d) {
+            if (c == cmdBackStat) {
+                disp.setCurrent(statForm);
+            }
+        }
+    }
+    
+    public class Draw3 extends Canvas implements CommandListener {
+
+        int x = gl.nbroff;
+        int y = gl.nbclient;
+        int z = gl.nbprest;
+        int w = getWidth(); // déclaration de la largeur
+        int h = getHeight(); // déclaration de la hauteur
+        int a = w / 2 - 90;//position initiale
+        int b = h / 2 - 20;
+        int lmax = h / 2;
+
+        public Draw3() {
+            addCommand(cmdBackStat);
+            setCommandListener(this);
+        }
+
+        protected void paint(Graphics g) {
+
+            g.setColor(220, 220, 220);
+            g.fillRect(0, 0, w, h);
+
+
+
+
+            for (int i = 0; i < 40; i++) {
+                g.setColor(100, 100, 100);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 220, 1);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i - 80, 1, 80);
+                g.setColor(0, 0, 0);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 1, 1);
+            }
+
+
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a, b + 60, 62, 22, 0, 360);
+            g.setColor(255, 0, 0);
+            g.fillArc(a + 1, b + 61, 60, 20, 0, 360);
+
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a + 70, b + 60, 62, 22, 0, 360);
+            g.setColor(0, 255, 0);
+            g.fillArc(a + 71, b + 61, 60, 20, 0, 360);
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a + 140, b + 60, 62, 22, 0, 360);
+            g.setColor(0, 0, 255);
+            g.fillArc(a + 141, b + 61, 60, 20, 0, 360);
+
+
+
+            //3D autrement:
+            for (int i = 2; i < (x * h / (2 * (x + y + z))); i++) {
+
+                g.setColor(0, 0, 0);
+                g.fillArc(a, b + 60 - i, 62, 22, 0, 230);
+                g.setColor(255, 0, 0);
+                g.fillArc(a + 1, b + 61 - i, 60, 20, 0, 360);
+            }
+            for (int i = 2; i < (y * h / (2 * (x + y + z))); i++) {
+
+                g.setColor(0, 0, 0);
+                g.fillArc(a + 70, b + 60 - i, 62, 22, 0, 230);
+                g.setColor(0, 255, 0);
+                g.fillArc(a + 71, b + 61 - i, 60, 20, 0, 360);
+            }
+            for (int i = 2; i < (z * h / (2 * (x + y + z))); i++) {
+
+                g.setColor(0, 0, 0);
+                g.fillArc(a + 140, b + 60 - i, 62, 22, 0, 230);
+                g.setColor(0, 0, 255);
+                g.fillArc(a + 141, b + 61 - i, 60, 20, 0, 360);
+            }
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a, b + 60 - (x * h / (2 * (x + y + z))), 62, 22, 0, 360);
+            g.setColor(255, 0, 0);
+            g.fillArc(a + 1, b + 61 - (x * h / (2 * (x + y + z))), 60, 20, 0, 360);
+
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a + 70, b + 60 - (y * h / (2 * (x + y + z))), 62, 22, 0, 360);
+            g.setColor(0, 255, 0);
+            g.fillArc(a + 71, b + 61 - (y * h / (2 * (x + y + z))), 60, 20, 0, 360);
+
+            g.setColor(0, 0, 0);
+            g.fillArc(a + 140, b + 60 - (z * h / (2 * (x + y + z))), 62, 22, 0, 360);
+            g.setColor(0, 0, 255);
+            g.fillArc(a + 141, b + 61 - (z * h / (2 * (x + y + z))), 60, 20, 0, 360);
+
+
+
+
+
+
+
+            //lgende
+             g.setColor(0, 0, 0);
+            g.fillRect(9, h - 23, 22, 22);
+            g.setColor(255, 0, 0);
+            g.fillRect(10, h - 22, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre d'offres ", 82, h - 10, Graphics.HCENTER | Graphics.BASELINE);
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 43, 22, 22);
+            g.setColor(0, 0, 255);
+            g.fillRect(10, h - 42, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de prestataires ", 95, h - 30, Graphics.HCENTER | Graphics.BASELINE);
+
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 63, 22, 22);
+            g.setColor(0, 255, 0);
+            g.fillRect(10, h - 62, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de clients ", 80, h - 50, Graphics.HCENTER | Graphics.BASELINE);
+        }
+
+        public void commandAction(Command c, Displayable d) {
+            if (c == cmdBackStat) {
+                disp.setCurrent(statForm);
+            }
+        }
+    }
+
+    /// draw statistiques batton
+    public class Draw2 extends Canvas implements CommandListener {
+
+        int x = gl.nbroff;
+        int y = gl.nbclient;
+        int z = gl.nbprest;
+
+        public Draw2() {
+            addCommand(cmdBackStat);
+            setCommandListener(this);
+
+        }
+        int w = getWidth(); // déclaration de la largeur
+        int h = getHeight(); // déclaration de la hauteur
+        int a = w / 2 - 90;//position initiale
+        int lmax = h / 2;
+
+        protected void paint(Graphics g) {
+
+            g.setColor(220, 220, 220);
+            g.fillRect(0, 0, w, h);
+            
+
+
+            for (int i = 0; i < 40; i++) {
+                g.setColor(100, 100, 100);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 180, 1);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i - 80, 1, 80);
+                g.setColor(0, 0, 0);
+                g.fillRect(i + 5, 3 * h / 4 - 2 * i, 1, 1);
+            }
+
+
+
+
+            g.setColor(0, 0, 0);
+            g.fillRect(a - 1, 49 + lmax - (x * h / (2 * (x + y + z))), 42, 2 + (x * h / (2 * (x + y + z))));
+            g.setColor(255, 0, 0);
+            g.fillRect(a, 50 + lmax - (x * h / (2 * (x + y + z))), 40, (x * h / (2 * (x + y + z))));
+
+            g.setColor(0, 0, 0);
+            g.fillRect(a + 49, 49 + lmax - (y * h / (2 * (x + y + z))), 42, 2 + (y * h / (2 * (x + y + z))));
+            g.setColor(0, 255, 0);
+            g.fillRect(a + 50, 50 + lmax - (y * h / (2 * (x + y + z))), 40, (y * h / (2 * (x + y + z))));
+
+            g.setColor(0, 0, 0);
+            g.fillRect(a + 99, 49 + lmax - (z * h / (2 * (x + y + z))), 42, 2 + (z * h / (2 * (x + y + z))));
+            g.setColor(0, 0, 255);
+            g.fillRect(a + 100, 50 + lmax - (z * h / (2 * (x + y + z))), 40, (z * h / (2 * (x + y + z))));
+//             
+         //3D autrement:
+            for (int i = 1; i < 9; i++) {
+                g.setColor(0, 0, 0);
+                g.fillRect(a - 1 - i, i + 50 + lmax - (x * h / (2 * (x + y + z))), 42, (x * h / (2 * (x + y + z))));
+                g.setColor(255, 0, 0);
+                g.fillRect(a - i, i + 50 + lmax - (x * h / (2 * (x + y + z))), 40, (x * h / (2 * (x + y + z))));
+
+
+                g.setColor(0, 0, 0);
+                g.fillRect(a + 49 - i, i + 50 + lmax - (y * h / (2 * (x + y + z))), 42, (y * h / (2 * (x + y + z))));
+                g.setColor(0, 255, 0);
+                g.fillRect(a + 50 - i, i + 50 + lmax - (y * h / (2 * (x + y + z))), 40, (y * h / (2 * (x + y + z))));
+//             
+
+                g.setColor(0, 0, 0);
+                g.fillRect(a + 99 - i, i + 50 + lmax - (z * h / (2 * (x + y + z))), 42, (z * h / (2 * (x + y + z))));
+                g.setColor(0, 0, 255);
+                g.fillRect(a + 100 - i, i + 50 + lmax - (z * h / (2 * (x + y + z))), 40, (z * h / (2 * (x + y + z))));
+//                 
+            }
+//             
+            g.setColor(0, 0, 0);
+            g.fillRect(a - 9, 59 + lmax - (x * h / (2 * (x + y + z))), 42, 2 + (x * h / (2 * (x + y + z))));
+            g.setColor(255, 0, 0);
+            g.fillRect(a - 8, 60 + lmax - (x * h / (2 * (x + y + z))), 40, (x * h / (2 * (x + y + z))));
+
+
+            g.setColor(0, 0, 0);
+            g.fillRect(a + 41, 59 + lmax - (y * h / (2 * (x + y + z))), 42, 2 + (y * h / (2 * (x + y + z))));
+            g.setColor(0, 255, 0);
+            g.fillRect(a + 42, 60 + lmax - (y * h / (2 * (x + y + z))), 40, (y * h / (2 * (x + y + z))));
+
+            g.setColor(0, 0, 0);
+            g.fillRect(a + 91, 59 + lmax - (z * h / (2 * (x + y + z))), 42, 2 + (z * h / (2 * (x + y + z))));
+            g.setColor(0, 0, 255);
+            g.fillRect(a + 92, 60 + lmax - (z * h / (2 * (x + y + z))), 40, (z * h / (2 * (x + y + z))));
+//             
+
+
+            //legende
+             g.setColor(0, 0, 0);
+            g.fillRect(9, h - 23, 22, 22);
+            g.setColor(255, 0, 0);
+            g.fillRect(10, h - 22, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre d'offres ", 82, h - 10, Graphics.HCENTER | Graphics.BASELINE);
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 43, 22, 22);
+            g.setColor(0, 0, 255);
+            g.fillRect(10, h - 42, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de prestataires ", 95, h - 30, Graphics.HCENTER | Graphics.BASELINE);
+
+
+            g.setColor(0, 0, 0);
+            g.fillRect(9, h - 63, 22, 22);
+            g.setColor(0, 255, 0);
+            g.fillRect(10, h - 62, 20, 20);
+            g.setColor(0, 0, 0);
+            g.drawString(":nombre de clients ", 80, h - 50, Graphics.HCENTER | Graphics.BASELINE);
+        }
+         public void commandAction(Command c, Displayable d) {
+            if (c == cmdBackStat) {
+                disp.setCurrent(statForm);
+            }
+        }
+    
+    
+}
+
 }
