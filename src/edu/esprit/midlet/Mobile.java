@@ -1,7 +1,7 @@
 package edu.esprit.midlet;
 
-import edu.esprit.entities.Offre;
-import edu.esprit.handlers.OffreHandler;
+import edu.esprit.entities.*;
+import edu.esprit.handlers.*;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.TimeZone;
@@ -40,6 +40,8 @@ public class Mobile extends MIDlet implements CommandListener
     Offre[] offres;
     List lst = new List("Offres", List.IMPLICIT);
     
+    //list des Commentaires
+    Commentaire[] commentaires;
     //Detail Offre
     Form f2 = new Form("Infos Offre");
     Command cmdRez = new Command("Reservation", Command.SCREEN, 1);
@@ -65,11 +67,17 @@ public class Mobile extends MIDlet implements CommandListener
     Form fCom=new Form("Liste des Commetaires");
     Command cmdAddComm = new Command("Ajouter Commenatire", Command.OK, 1);
 
+    //Recherche Offre
+    Form fRech = new Form("Recherche Offre");
+    Command cmdRech = new Command("Rechercher", Command.OK, 1);
+    TextField tfRech =new TextField("Libelle Offre : ", "", 500, TextField.ANY);
     //Other
     StringBuffer sb = new StringBuffer();
     Image img;
     Image imgAcceuil;
-    Image imgrez;    
+    Image imgrez;  
+    Image imgTemp;
+    Image imgTempRe;
     ImageItem im;
     
     String urlDOfImage="http://localhost/goldencage/images/defaul.jpg";
@@ -89,11 +97,11 @@ public class Mobile extends MIDlet implements CommandListener
     //blablabla
     String msgPrest="Vous avez un Client dépeche toi :D ";
     String numPrest="5550000";    
-    
+    String urlLImg="";
     String userLogin="Said";
     int indexOff=1;
-    int screenWidth=232;
-    int screenHeight=140;
+//    int screenWidth=232;
+//    int screenHeight=140;
         
     
     public void init() {
@@ -146,7 +154,19 @@ public class Mobile extends MIDlet implements CommandListener
         fRec.append(tfRecSujet);
         fRec.append(tfRecText);
         fRec.setCommandListener(this);
+        try {
+            //Some Blablabla
+            imgTemp=Image.createImage("/LogoV2.jpg");
+            imgTempRe=resizeImage(imgTemp, 40, 40);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         
+        //Initialisation Form Recherche offre
+        fRech.addCommand(cmdRech);
+        fRech.append(tfRech);
+        fRech.addCommand(cmdBack);
+        fRech.setCommandListener(this);
         
     }
     
@@ -210,6 +230,9 @@ public class Mobile extends MIDlet implements CommandListener
             threz.start();
              disp.setCurrent(altRez,lst);
         }
+       if(c==cmdRechOff && d==f1){
+           disp.setCurrent(fRech);
+       }
     }
     
     
@@ -230,7 +253,7 @@ public class Mobile extends MIDlet implements CommandListener
                         data=new byte[size];
                         dataInputStream.readFully(data);
                         img=Image.createImage(data, 0,size);
-                        imgrez=resizeImage(img);
+                        imgrez=resizeImage(img,232,140);
                         
                         f2.append(imgrez);
                         f2.append(showOffre(lst.getSelectedIndex()));            
@@ -279,8 +302,8 @@ public class Mobile extends MIDlet implements CommandListener
         sb = new StringBuffer("");
         return res;
     }
-   
-    public Image resizeImage(Image src) {
+  
+    public Image resizeImage(Image src,int screenWidth,int screenHeight) {
       int srcWidth = src.getWidth();
       int srcHeight = src.getHeight();
       Image tmp = Image.createImage(screenWidth, srcHeight);
@@ -319,10 +342,40 @@ public class Mobile extends MIDlet implements CommandListener
             parser.parse(dis, offresHandler);
 
             offres = offresHandler.getOffres();
-
+            
             if (offres.length > 0) {
                 for (int i = 0; i < offres.length; i++) {
-                    lst.append(offres[i].getLibelle_off(), null);  
+//                        if(offres[i].getUrlimg().equals("")){
+//                            urlLImg="/LogoV2.jpg";
+//                        }else{
+//                            urlLImg=offres[i].getUrlimg();
+//                        }
+//                        imgTemp=Image.createImage(urlLImg);
+                   
+                    lst.append(offres[i].getLibelle_off(),imgTempRe);  
+                }
+            }
+
+        } catch (Exception e) 
+        {
+            System.out.println("Exception:" + e.toString());
+        }
+    }
+    
+    public void listCommenatires(String id){
+        try 
+        {
+            CommentairesHandler commentairesHandler = new CommentairesHandler();
+            SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
+            HttpConnection hc = (HttpConnection) Connector.open("http://localhost/parsing/getXmlCom.php"+id);
+            DataInputStream dis = new DataInputStream(hc.openDataInputStream());
+            parser.parse(dis, commentairesHandler);
+
+            commentaires = commentairesHandler.getCommentaires();
+            
+            if (offres.length > 0) {
+                for (int i = 0; i < offres.length; i++) {
+                    fCom.append(offres[i].toString());  
                 }
             }
 
