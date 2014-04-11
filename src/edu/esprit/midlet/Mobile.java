@@ -34,7 +34,7 @@ public class Mobile extends MIDlet implements CommandListener
     Form f1 = new Form("Welcome ");
     Command cmdStat = new Command("Statistique", Command.SCREEN, 1);
     Command cmdParse = new Command("List des Offres", Command.SCREEN, 1);
-    Command cmdRechOff = new Command("Rechercher Offre", Command.SCREEN, 1);
+    
     
     //Liste des Offres
     Offre[] offres;
@@ -47,6 +47,7 @@ public class Mobile extends MIDlet implements CommandListener
     Command cmdRez = new Command("Reservation", Command.SCREEN, 1);
     Command cmdCom = new Command("Commentaires", Command.SCREEN, 1);
     Command cmdEval = new Command("Evaluer", Command.SCREEN, 1);
+    Command cmdRechOff = new Command("Rechercher Offre", Command.SCREEN, 1);
     Command cmdRec = new Command("Signaler", Command.SCREEN, 1);
     
     //Valider Reservation
@@ -78,6 +79,9 @@ public class Mobile extends MIDlet implements CommandListener
     Form fRech = new Form("Recherche Offre");
     Command cmdRech = new Command("Rechercher", Command.OK, 1);
     TextField tfRech =new TextField("Libelle Offre : ", "", 500, TextField.ANY);
+    Alert altERech = new Alert("Erreur", "Offre n'existe pas!", null, AlertType.INFO); 
+    
+    
     
     //Other
     StringBuffer sb = new StringBuffer();
@@ -87,7 +91,7 @@ public class Mobile extends MIDlet implements CommandListener
     Image imgTemp;
     Image imgTempRe;
     ImageItem im;
-    
+    int found;
     String urlDOfImage="http://localhost/goldencage/images/defaul.jpg";
     Alert alert;
     Alert splashAlert =new Alert("GoldenCage v0.1");
@@ -131,7 +135,6 @@ public class Mobile extends MIDlet implements CommandListener
         //Initialisation Form Acceuil Client 
         f1.addCommand(cmdExit);
         f1.addCommand(cmdParse);
-        f1.addCommand(cmdRechOff);
         f1.addCommand(cmdStat);
         f1.setCommandListener(this);
         
@@ -141,6 +144,7 @@ public class Mobile extends MIDlet implements CommandListener
         //Initialisation Form  Detail Offre
         f2.addCommand(cmdBack);
         f2.addCommand(cmdRez);
+        f2.addCommand(cmdRechOff);
         f2.addCommand(cmdRec);
         f2.addCommand(cmdCom);
         f2.setCommandListener(this);
@@ -250,7 +254,7 @@ public class Mobile extends MIDlet implements CommandListener
             threz.start();
              
         }
-       if(c==cmdRechOff && d==f1){
+       if(c==cmdRechOff && d==f2){
            
            disp.setCurrent(fRech);
        }
@@ -283,11 +287,19 @@ public class Mobile extends MIDlet implements CommandListener
            disp.setCurrent(fCom);
        }
        if(c==cmdRech){
-           int found=rechercherOffre(tfRech.getString());
-           if(found==-1){
-               
+           
+           found=rechercherOffre(tfRech.getString());
+           if(found!=-1){
+               f2.append("Informations Offre :"+offres[indexOff].getLibelle_off()+" \n");  
+                Thread th=new Thread(new Runnable() {
+                    public void run() {
+                        f2.deleteAll();
+                        detailOffre(found-1);   
+                    }
+                });
+                th.start();   
            }else{
-               
+               disp.setCurrent(altERech,lst);
            }               
        }
     }
@@ -419,6 +431,7 @@ public class Mobile extends MIDlet implements CommandListener
         }
     }
     
+    
     public void listCommenatires(String id){
         try 
         {
@@ -502,9 +515,10 @@ public class Mobile extends MIDlet implements CommandListener
                   }
 }
     
-    public int rechercherOffre(String labelle){
+    public int rechercherOffre(String libelle){   
+        
         for(int i=0;i<offres.length;i++){
-            if(offres[i].getLibelle_off().equals(labelle)){
+            if(offres[i].getLibelle_off().equals(libelle)){
                 return Integer.parseInt(offres[i].getId_Offre());
             }
         }       
