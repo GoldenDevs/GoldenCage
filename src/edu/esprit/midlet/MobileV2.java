@@ -254,6 +254,7 @@ public class MobileV2 extends MIDlet implements CommandListener
        if(c==cmdConf && d==frez){
             Thread threz=new Thread(new Runnable() {
                 public void run() {
+                    sendSMS(offres[indexOff].getTelephone(), "Vous Avez un nouveau Client dans l'offre"+offres[indexOff].getLibelle_off()+"\nBy GoldenCage Mobile Application!");
                     reservationOffre(userLogin,offres[indexOff].getId_Offre(), dfd.getDate().toString(), dff.getDate().toString());
                 }
             });
