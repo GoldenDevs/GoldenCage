@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package edu.esprit.midlet;
+package edu.esprit.entities;
 
 /**
  *

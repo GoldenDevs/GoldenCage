@@ -4,8 +4,9 @@
  * and open the template in the editor.
  */
 
-package edu.esprit.midlet;
+package edu.esprit.handlers;
 
+import edu.esprit.entities.Offre;
 import java.util.Vector;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

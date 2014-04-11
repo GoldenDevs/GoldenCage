@@ -1,5 +1,7 @@
 package edu.esprit.midlet;
 
+import edu.esprit.entities.Offre;
+import edu.esprit.handlers.OffreHandler;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.TimeZone;
@@ -15,7 +17,7 @@ import javax.xml.parsers.SAXParserFactory;
 /**
  * @author Elyes
  */
-public class ShowOffres extends MIDlet implements CommandListener
+public class Mobile extends MIDlet implements CommandListener
 {
     Display disp = Display.getDisplay(this);
     Command cmdExit = new Command("Exit", Command.EXIT, 1);
