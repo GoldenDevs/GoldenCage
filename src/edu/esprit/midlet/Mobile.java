@@ -34,7 +34,7 @@ public class Mobile extends MIDlet implements CommandListener
     Form f1 = new Form("Welcome ");
     Command cmdStat = new Command("Statistique", Command.SCREEN, 1);
     Command cmdParse = new Command("List des Offres", Command.SCREEN, 1);
-    Command cmdRechOff = new Command("Rechercher Offfre", Command.SCREEN, 1);
+    Command cmdRechOff = new Command("Rechercher Offre", Command.SCREEN, 1);
     
     //Liste des Offres
     Offre[] offres;
@@ -51,7 +51,7 @@ public class Mobile extends MIDlet implements CommandListener
     
     //Valider Reservation
     Form frez = new Form("Reservation Offre");   
-    Alert altERez = new Alert("altERez:Erreur lors de reservation");
+    Alert altERez = new Alert("Erreur lors de reservation");
     Alert altRez = new Alert("Reservation Effectuer avec Succes", "Merci pour votre confiance !", null, AlertType.INFO);
     Command cmdConf = new Command("Confirmer", Command.OK, 1);
     DateField dfd=new DateField("Date Debut : ", DateField.DATE_TIME,TimeZone.getTimeZone("GMT"));
@@ -68,10 +68,15 @@ public class Mobile extends MIDlet implements CommandListener
     Command cmdAddComm = new Command("Ajouter Commenatire", Command.OK, 1);
     List lstCom=new List("Commentaires", List.IMPLICIT);
     
+    //Add Commenataire
+    TextBox tb1=new TextBox("Ajout Commentaire", "", 255, TextField.ANY);
+    Command cmdVCom = new Command("Ajouter", Command.OK, 1);
+    
     //Recherche Offre
     Form fRech = new Form("Recherche Offre");
     Command cmdRech = new Command("Rechercher", Command.OK, 1);
     TextField tfRech =new TextField("Libelle Offre : ", "", 500, TextField.ANY);
+    
     //Other
     StringBuffer sb = new StringBuffer();
     Image img;
@@ -100,7 +105,7 @@ public class Mobile extends MIDlet implements CommandListener
     String numPrest="5550000";    
     String urlLImg="";
     String userLogin="Said";
-    int indexOff=1;
+    int indexOff;
 //    int screenWidth=232;
 //    int screenHeight=140;
         
@@ -172,7 +177,13 @@ public class Mobile extends MIDlet implements CommandListener
         
         //List des Commentaires
         lstCom.addCommand(cmdBack);
+        lstCom.addCommand(cmdAddComm);
         lstCom.setCommandListener(this);
+        //Ajouter Commentaire
+        tb1.addCommand(cmdVCom);
+        tb1.addCommand(cmdBack);
+        tb1.setCommandListener(this);
+        
     }
     
     public void startApp() 
@@ -205,8 +216,9 @@ public class Mobile extends MIDlet implements CommandListener
         //SMS
         
         //Detail Offre
-        if (c == List.SELECT_COMMAND) {            
-            f2.append("Informations Offre :"+offres[lst.getSelectedIndex()].getLibelle_off()+" \n");            
+        if (c == lst.SELECT_COMMAND && d==lst) {  
+            indexOff=lst.getSelectedIndex();
+            f2.append("Informations Offre :"+offres[indexOff].getLibelle_off()+" \n");  
             Thread th=new Thread(new Runnable() {
                 public void run() {
                     detailOffre();   
@@ -214,6 +226,7 @@ public class Mobile extends MIDlet implements CommandListener
             });
             th.start();   
             f2.deleteAll();
+            
         }
         
         if (c == cmdBack) {
@@ -223,17 +236,18 @@ public class Mobile extends MIDlet implements CommandListener
         
         if( c==cmdRez){
             frez.append(showOffre(indexOff));
-            disp.setCurrent(frez);   
+            disp.setCurrent(frez); 
+            
         }
         
        if(c==cmdConf && d==frez){
             Thread threz=new Thread(new Runnable() {
                 public void run() {
-                    reservationOffre(userLogin,offres[lst.getSelectedIndex()].getId_Offre(), dfd.getDate().toString(), dff.getDate().toString());
+                    reservationOffre(userLogin,offres[indexOff].getId_Offre(), dfd.getDate().toString(), dff.getDate().toString());
                 }
             });
             threz.start();
-             disp.setCurrent(altRez,lst);
+             
         }
        if(c==cmdRechOff && d==f1){
            disp.setCurrent(fRech);
@@ -247,6 +261,23 @@ public class Mobile extends MIDlet implements CommandListener
            });
            thCom.start();           
            disp.setCurrent(lstCom);
+           lstCom.deleteAll();
+       }
+       
+       if(c==cmdAddComm){
+           disp.setCurrent(tb1);
+       }
+       if(d==tb1&& c== cmdVCom){
+           Thread th=new Thread(new Runnable() {
+
+               public void run() {
+                   System.out.println(tb1.getString());
+                   addCommentaire(userLogin, indexOff, tb1.getString());
+               }
+           });
+           th.start();
+           tb1=null;
+           disp.setCurrent(fCom);
        }
     }
     
@@ -389,15 +420,39 @@ public class Mobile extends MIDlet implements CommandListener
             commentaires = commentairesHandler.getCommentaires();
             if (commentaires.length > 0) {
                 for (int i = 0; i < commentaires.length; i++) {
-//                    String tempString=commentaires[i].getDate_com()+" "+commentaires[i].getId_client()+"\n         "+
-//                            commentaires[i].getText();
-                    lstCom.append(commentaires[i].getText(),null);  
+                    String tempString=commentaires[i].getDate_com()+" "+commentaires[i].getId_client()+"\ndit : "+
+                            commentaires[i].getText();
+                    lstCom.append(tempString,null);  
                 }
+            }
+            if(commentaires.length == 0){
+                lstCom.append("Aucune Commentaire sur cet offre",null); 
             }
         } catch (Exception e) 
         {
             System.out.println("Exception:" + e.toString());
         }
+    }
+    
+    public void addCommentaire(String id_client,int id_offre,String text){
+        String url="http://localhost/parsing/addCom.php?text='"+text+"'&id_offre="+id_offre+"&id_client='"+id_client+"'";
+        sb=null;
+        try {
+            
+            httpConnection=(HttpConnection)Connector.open(url);//connexion
+            dataInputStream = new DataInputStream(httpConnection.openDataInputStream());
+                while ((ch = dataInputStream.read()) != -1) {
+                    sb.append((char)ch);
+                }
+                if ("successfully added".equalsIgnoreCase(sb.toString().trim())) {                    
+                    disp.setCurrent(lstCom);
+                }else{
+                    disp.setCurrent(altERez);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        
     }
     
     public void sendSMS(String toWhom,String message) {
@@ -440,8 +495,6 @@ public class Mobile extends MIDlet implements CommandListener
         String urlRez="http://localhost/parsing/reservationOffre.php?id_client='Said'&id_offre="+ido+"&date_debut='"+dd.replace(' ','+')+"'&date_fin='"+df.replace(' ','+')+"'";
         try {
             
-            System.out.println(dd);
-            System.out.println(df);
             httpConnection=(HttpConnection)Connector.open(urlRez);//connexion
             dataInputStream = new DataInputStream(httpConnection.openDataInputStream());
                 while ((ch = dataInputStream.read()) != -1) {

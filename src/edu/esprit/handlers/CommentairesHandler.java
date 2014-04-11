@@ -52,7 +52,7 @@ public class CommentairesHandler extends DefaultHandler{
     }
 
     public void endElement(String uri, String localName, String qName) throws SAXException {
-        if (qName.equals("offre")) {
+        if (qName.equals("commentaire")) {
             // we are no longer processing a <reg.../> tag
             commentaires.addElement(currentCommentaire);
             currentCommentaire = null;
