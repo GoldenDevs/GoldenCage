@@ -219,11 +219,10 @@ public class Mobile extends MIDlet implements CommandListener
         
         //Detail Offre
         if (c == lst.SELECT_COMMAND && d==lst) {  
-            indexOff=lst.getSelectedIndex()+1;
             f2.append("Informations Offre :"+offres[indexOff].getLibelle_off()+" \n");  
             Thread th=new Thread(new Runnable() {
                 public void run() {
-                    detailOffre();   
+                    detailOffre(indexOff);   
                 }
             });
             th.start();   
@@ -252,6 +251,7 @@ public class Mobile extends MIDlet implements CommandListener
              
         }
        if(c==cmdRechOff && d==f1){
+           
            disp.setCurrent(fRech);
        }
        
@@ -276,11 +276,19 @@ public class Mobile extends MIDlet implements CommandListener
 
                public void run() {
                    System.out.println("aegaegaeg : "+tb1.getString());
-                   addCommentaire(userLogin, indexOff, tb1.getString());
+                   addCommentaire(userLogin, offres[lst.getSelectedIndex()].getId_Offre(), tb1.getString());
                }
            });
            th.start();
            disp.setCurrent(fCom);
+       }
+       if(c==cmdRech){
+           int found=rechercherOffre(tfRech.getString());
+           if(found==-1){
+               
+           }else{
+               
+           }               
        }
     }
     
@@ -291,10 +299,10 @@ public class Mobile extends MIDlet implements CommandListener
         disp.setCurrent(lst);
     }
     
-    public void detailOffre(){
+    public void detailOffre(int i){
         try {
-                        if(offres[lst.getSelectedIndex()].getUrlimg()!=null){
-                            urlDOfImage=offres[lst.getSelectedIndex()].getUrlimg();
+                        if(offres[i].getUrlimg()!=null){
+                            urlDOfImage=offres[i].getUrlimg();
                         }
                         httpConnection=(HttpConnection)Connector.open(urlDOfImage);//connexion
                         dataInputStream=httpConnection.openDataInputStream();//recuperation
@@ -305,7 +313,7 @@ public class Mobile extends MIDlet implements CommandListener
                         imgrez=resizeImage(img,232,140);
                         
                         f2.append(imgrez);
-                        f2.append(showOffre(lst.getSelectedIndex()));            
+                        f2.append(showOffre(i));            
                         disp.setCurrent(f2);
                     } catch (IOException ex) {
                         ex.printStackTrace();
@@ -437,7 +445,7 @@ public class Mobile extends MIDlet implements CommandListener
         }
     }
     
-    public void addCommentaire(String id_client,int id_offre,String text){
+    public void addCommentaire(String id_client,String id_offre,String text){
         String url="http://localhost/parsing/addCom.php?text='"+text.replace(' ', '+')+"'&id_offre="+id_offre+"&id_client='"+id_client+"'";
         
         try {
@@ -493,7 +501,15 @@ public class Mobile extends MIDlet implements CommandListener
                         }
                   }
 }
-
+    
+    public int rechercherOffre(String labelle){
+        for(int i=0;i<offres.length;i++){
+            if(offres[i].getLibelle_off().equals(labelle)){
+                return Integer.parseInt(offres[i].getId_Offre());
+            }
+        }       
+        return -1;
+    }
     public void reservationOffre(String idc,String ido,String dd,String  df){
         String urlRez="http://localhost/parsing/reservationOffre.php?id_client='Said'&id_offre="+ido+"&date_debut='"+dd.replace(' ','+')+"'&date_fin='"+df.replace(' ','+')+"'";
         try {
