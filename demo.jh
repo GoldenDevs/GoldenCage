@@ -1,0 +1,19 @@
+
+entity Template {
+	userID String
+    createAt Instant
+    deleted Bool
+}
+
+entity Field {
+	name String required
+    type FieldType
+}
+enum FieldType {
+	FUND, COMPANY
+}
+// defining multiple OneToMany relationships with comments
+relationship OneToMany {
+	Template{template} to Field
+}
+
